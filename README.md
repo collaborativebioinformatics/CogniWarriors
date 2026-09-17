@@ -132,6 +132,7 @@ The project has evolved through several architecture designs, documented in the 
 - [NBBH\_attendance\_confirmation\_and\_group\_assignment](https://docs.google.com/spreadsheets/d/104H5TKJJpT7IsP2lMZRVPLlJf7pW9inCzA1hD_KDTWc/edit?gid=719203122#gid=719203122)  
 - [https://data.dpuk.ukserp.ac.uk/cohortdirectory/Item?fingerPrintID=GENFI](https://data.dpuk.ukserp.ac.uk/cohortdirectory/Item?fingerPrintID=GENFI)  
 - [https://atlaslongitudinaldatasets.ac.uk/datasets/ppmi-pd](https://atlaslongitudinaldatasets.ac.uk/datasets/ppmi-pd)
+- [https://openneuro.org/datasets/ds007116/versions/1.0.6](https://openneuro.org/datasets/ds007116/versions/1.0.6)
 
 **Data**: ~1.5 GB (223 T1w volumes + phenotype tables) — organized into 4 centers per `doc/architecture_design_record.md` entry 12:44.
 
