@@ -5,21 +5,33 @@
 ### Model Assumptions
 - **FLARE Framework**: Using Nvidia FLARE for federated learning coordination
 - **Center-Worker Pattern**: Central coordinator distributes tasks to multiple workers
-- **Structural MRI Input**: Pre-processed NIfTI (.nii.gz) images as primary data modality
+- **PENN LEAD Origin Dataset**: Primary data source with MRI and Cognitive components
 - **Data Shape**: 3D volumes with dimensions (H, W, D) typically 180x240x180mm FOV, variable voxel resolution
-- **Phenotypical Output**: Training progress metrics and model performance indicators
-- **Pre-trained Fine-tuning**: Starting with pre-trained model weights and fine-tuning on distributed data
 
-### Data Shapes
-- **Structural MRI**: 3D NIfTI volumes, typical shape (182, 218, 182) for MPRAGE, intensity range [0, 1] after normalization
-- **Phenotypical Data**: Tabular format with columns [age, sex, diagnosis, center_id, followup_time], variable number of phenotypes per patient
-- **Pre-trained Model**: weights shape (num_classes, channels, height, width) initialized on ImageNet, fine-tuned for MRI classification
+### Data Structure (PENN LEAD v1.0)
+- **1.0 Origin Dataset**: Contains two main components:
+  - **1.1 MRI Data**: Broken down as follows:
+    - **1.1.1 T1 MRI**: Structural imaging input
+    - **1.1.2 rs-fMRI**: Resting-state functional MRI
+    - **1.1.3 n-back**: Task-based fMRI
+    - **1.1.1.1 Sub-branches**: N-back prediction and Trail B prediction
+  - **1.2 Cognitive Data**: Broken down as:
+    - **1.2.1 N-back**: Working memory task performance
+    - **1.2.2 Trail B**: Trail Making Test Part B performance
+
+### Model Structure
+- **2.1 Input Modalities**:
+  - T1 MRI as input
+  - rs-fMRI as input
+  - DWI (Diffusion Weighted Imaging) as input
+- **2.2 Machine Learning Model**: Federated learning pipeline with center-worker coordination
+- **2.3 Output**: N-back score prediction
 
 ### Accepted
 - [x] Center-worker architecture for federated analysis
-- [x] Structural MRI as input modality
-- [x] Training progress visualization via output file
-- [x] Pre-trained model initialization with fine-tuning
+- [x] PENN LEAD v1.0 as origin dataset
+- [x] T1 MRI, rs-fMRI, DWI as input modalities
+- [x] N-back score as output prediction
 - [x] FLARE framework integration
 
 ### Rejected
@@ -36,7 +48,7 @@
 - [ ] Multi-center coordination and data governance protocols
 
 ### Arguments/Reasons for Changes
-- Center-worker pattern selected over peer-to-peer for clearer coordination and easier debugging
+- PENN LEAD v1.0 selected as origin dataset due to availability of multimodal MRI (T1, rs-fMRI, DWI) and cognitive scores (N-back, Trail B)
+- Center-worker pattern chosen over peer-to-peer for clearer coordination and easier debugging with multi-center data
 - FLARE chosen over other FL frameworks due to Nvidia ecosystem compatibility and documentation availability
-- Pre-trained fine-tuning approach selected to reduce data requirements and accelerate convergence
-- NIfTI format chosen over DICOM for easier processing in deep learning pipelines
+- N-back prediction as output aligns with primary clinical question of working memory assessment
