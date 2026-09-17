@@ -1,5 +1,5 @@
 # Longitudinal_imaging_to_multimodality
-:checkmark: madpro's opencode is now set up and running
+Name TBA, **Project Mind-blowing**
 
 ## Architecture Overview
 
