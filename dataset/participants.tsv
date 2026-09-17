@@ -1,0 +1,133 @@
+participant_id	study_group	sex	race	ethnicity	age_months	age	dx_none	dx_prodromal	dx_prodromal_remit	dx_psychosis	dx_moodnos	dx_mdd	dx_bp	dx_adhd	dx_ptsd	dx_ptsd_remit
+sub-19861	ADHD	M	White	Hispanic	183	15	0	0	0	0	1	0	1	1	0	0
+sub-20124	TD/NC	F	Black or African American	Non - Hispanic	141	11	0	0	0	0	0	0	0	0	0	0
+sub-20125	PRO/CHR	M	Black or African American	Non - Hispanic	163	13	0	1	0	0	0	0	0	0	0	0
+sub-20139	TD/NC	F	White	Non - Hispanic	170	14	0	0	0	0	0	0	0	0	0	0
+sub-20141	TD/NC	F	Black or African American	n/a	177	14	1	0	0	0	0	0	0	0	0	0
+sub-20149	TD/NC	M	Black or African American	Non - Hispanic	139	11	1	0	0	0	0	0	0	0	0	0
+sub-20188	ADHD	M	White	Non - Hispanic	158	13	0	0	0	0	0	0	0	1	0	0
+sub-20212	PRO/CHR	M	White	Non - Hispanic	112	9	0	1	0	0	0	0	0	1	0	0
+sub-20214	PRO/CHR	F	White	Non - Hispanic	170	14	0	1	0	0	0	0	0	1	0	0
+sub-20236	ADHD	M	Black or African American	Non - Hispanic	110	9	0	0	0	0	0	0	0	1	0	0
+sub-20238	PRO/CHR	F	Black or African American	Non - Hispanic	151	12	0	0	0	1	0	0	0	1	0	0
+sub-20252	TD/NC	M	Black or African American	Non - Hispanic	183	15	0	0	0	0	0	0	0	0	0	0
+sub-20253	TD/NC	F	Black or African American	Non - Hispanic	129	10	1	0	0	0	0	0	0	0	0	0
+sub-20258	PRO/CHR	M	Black or African American	Non - Hispanic	183	15	0	1	0	0	0	0	0	0	0	0
+sub-20259	TD/NC	M	White	Non - Hispanic	103	8	1	0	0	0	0	0	0	0	0	0
+sub-20302	TD/NC	M	White	Non - Hispanic	144	12	1	0	0	0	0	0	0	0	0	0
+sub-20303	TD/NC	M	White	Non - Hispanic	190	15	0	0	0	0	0	0	0	0	0	0
+sub-20305	PRO/CHR	F	Black or African American	Non - Hispanic	191	15	0	1	0	0	0	0	0	0	0	0
+sub-20310	ADHD	F	Black or African American	Non - Hispanic	104	8	0	0	0	0	0	0	0	1	1	0
+sub-20328	PRO/CHR	F	Asian	Non - Hispanic	162	13	0	1	0	0	0	0	0	0	0	0
+sub-20333	PRO/CHR	F	Black or African American	Non - Hispanic	181	15	0	1	0	0	0	0	0	1	0	0
+sub-20335	ADHD	F	Black or African American	Non - Hispanic	117	9	0	0	0	0	0	0	0	1	0	0
+sub-20336	PRO/CHR	F	Black or African American	Non - Hispanic	142	11	0	1	0	0	0	0	0	1	0	0
+sub-20347	ADHD	F	Black or African American	Non - Hispanic	148	12	0	0	0	0	0	0	0	1	0	0
+sub-20350	PRO/CHR	M	Black or African American	Non - Hispanic	173	14	0	1	0	0	0	1	0	1	0	1
+sub-20352	TD/NC	F	White	Non - Hispanic	105	8	1	0	0	0	0	0	0	0	0	0
+sub-20399	PRO/CHR	M	White	Non - Hispanic	119	9	0	1	0	0	0	0	0	1	0	0
+sub-20402	ADHD	M	Black or African American	Non - Hispanic	157	13	0	0	0	0	0	0	0	1	0	0
+sub-20403	TD/NC	M	Black or African American	Non - Hispanic	144	12	1	0	0	0	0	0	0	0	0	0
+sub-20410	PRO/CHR	M	Black or African American	Non - Hispanic	128	10	0	1	0	0	0	0	0	1	0	0
+sub-20427	PRO/CHR	M	White	Non - Hispanic	187	15	0	1	0	0	0	1	0	0	1	0
+sub-20448	PRO/CHR	M	Black or African American	Non - Hispanic	130	10	0	1	0	0	1	0	0	1	0	0
+sub-20463	TD/NC	M	Asian	Non - Hispanic	157	13	1	0	0	0	0	0	0	0	0	0
+sub-20494	ADHD	M	Black or African American	Non - Hispanic	121	10	0	0	0	0	0	0	0	1	0	0
+sub-20533	PRO/CHR	M	Black or African American	Non - Hispanic	141	11	0	1	0	0	0	0	0	1	0	0
+sub-20572	ADHD	F	Black or African American	Non - Hispanic	141	11	0	0	0	0	0	0	0	1	0	0
+sub-20612	PRO/CHR	M	Black or African American	Non - Hispanic	147	12	0	1	0	0	0	0	0	1	1	0
+sub-20626	PRO/CHR	M	Black or African American	Non - Hispanic	177	14	0	1	0	0	0	1	0	0	0	0
+sub-20691	ADHD	M	Black or African American	Non - Hispanic	152	12	0	0	0	0	0	0	0	1	0	0
+sub-20712	PRO/CHR	F	Black or African American	Non - Hispanic	160	13	0	1	0	0	0	0	0	1	0	0
+sub-20721	PRO/CHR	F	More than one race	Non - Hispanic	135	11	0	1	0	0	0	1	0	1	0	0
+sub-20724	PRO/CHR	M	Black or African American	Non - Hispanic	151	12	0	1	0	0	0	0	0	1	0	0
+sub-20794	PRO/CHR	F	Black or African American	Non - Hispanic	167	13	0	1	0	0	0	0	0	1	0	0
+sub-20812	TD/NC	F	Black or African American	Non - Hispanic	140	11	1	0	0	0	0	0	0	0	0	0
+sub-20818	PRO/CHR	M	Unknown or not reported	Hispanic	165	13	0	1	0	0	0	0	0	1	0	0
+sub-20823	TD/NC	F	Black or African American	Non - Hispanic	119	9	1	0	0	0	0	0	0	0	0	0
+sub-20836	TD/NC	M	Black or African American	Non - Hispanic	146	12	1	0	0	0	0	0	0	0	0	0
+sub-20842	PRO/CHR	M	Black or African American	Non - Hispanic	119	9	0	1	0	0	0	1	0	1	0	0
+sub-20846	PRO/CHR	M	Black or African American	Non - Hispanic	137	11	0	1	0	0	0	0	0	0	0	0
+sub-20849	TD/NC	F	Black or African American	Non - Hispanic	124	10	1	0	0	0	0	0	0	0	0	0
+sub-20855	TD/NC	M	Black or African American	Non - Hispanic	190	15	1	0	0	0	0	0	0	0	0	0
+sub-20860	PRO/CHR	F	Black or African American	Non - Hispanic	174	14	0	0	0	1	1	0	1	1	0	0
+sub-20865	PRO/CHR	F	Black or African American	Non - Hispanic	185	15	0	0	0	1	1	0	0	1	1	0
+sub-20866	PRO/CHR	M	Black or African American	Non - Hispanic	186	15	0	1	0	0	0	0	0	1	0	0
+sub-20902	PRO/CHR	M	Black or African American	Non - Hispanic	181	15	0	1	0	0	0	0	0	1	0	0
+sub-20916	PRO/CHR	M	Black or African American	Non - Hispanic	119	9	0	1	0	0	0	1	1	1	0	0
+sub-20918	ADHD	F	White	Non - Hispanic	119	9	0	0	0	0	0	0	0	1	0	0
+sub-20919	ADHD	F	White	Non - Hispanic	119	9	0	0	0	0	0	0	0	1	0	0
+sub-20923	ADHD	M	Black or African American	Non - Hispanic	111	9	0	0	0	0	0	0	0	1	0	0
+sub-20934	ADHD	M	Black or African American	Non - Hispanic	116	9	0	0	0	0	0	0	0	1	0	0
+sub-20936	ADHD	M	White	Hispanic	119	9	0	0	0	0	0	0	0	1	0	0
+sub-20953	TD/NC	M	Black or African American	Non - Hispanic	132	11	1	0	0	0	0	0	0	0	0	0
+sub-20961	PRO/CHR	M	Black or African American	Non - Hispanic	157	13	0	0	0	1	0	0	0	0	0	0
+sub-20964	PRO/CHR	M	White	Non - Hispanic	138	11	0	1	0	0	0	0	0	1	0	0
+sub-20966	ADHD	F	Black or African American	Non - Hispanic	160	13	0	0	0	0	0	0	0	1	0	0
+sub-20968	ADHD	F	Black or African American	Non - Hispanic	159	13	0	0	0	0	0	0	0	1	0	0
+sub-20976	PRO/CHR	M	White	Non - Hispanic	149	12	0	0	0	1	1	0	0	1	0	0
+sub-20983	PRO/CHR	M	White	Non - Hispanic	117	9	0	1	0	0	0	0	0	1	0	0
+sub-21023	PRO/CHR	M	White	Non - Hispanic	161	13	0	1	0	0	1	0	0	0	0	0
+sub-21035	PRO/CHR	M	Black or African American	Non - Hispanic	164	13	0	1	0	0	0	0	0	1	0	0
+sub-21038	PRO/CHR	M	Black or African American	Non - Hispanic	166	13	0	1	0	0	0	0	0	0	0	0
+sub-21050	PRO/CHR	M	Black or African American	Non - Hispanic	134	11	0	1	0	0	0	0	0	0	0	0
+sub-21088	ADHD	M	Black or African American	Non - Hispanic	127	10	0	0	0	0	0	0	0	1	0	0
+sub-21095	ADHD	M	Black or African American	Non - Hispanic	131	10	0	0	1	0	1	0	0	1	0	0
+sub-21104	PRO/CHR	F	Black or African American	Non - Hispanic	191	15	0	0	0	1	0	1	0	1	0	0
+sub-21112	PRO/CHR	M	Black or African American	Non - Hispanic	147	12	0	1	0	0	0	0	0	0	0	0
+sub-21116	PRO/CHR	F	Black or African American	Non - Hispanic	164	13	0	1	0	0	1	0	0	0	0	0
+sub-21118	PRO/CHR	F	White	Non - Hispanic	129	10	0	1	0	0	0	0	0	1	0	0
+sub-21124	PRO/CHR	M	Black or African American	Non - Hispanic	165	13	0	1	0	0	0	0	0	1	0	0
+sub-21131	ADHD	M	Black or African American	Non - Hispanic	129	10	0	0	0	0	0	0	0	1	0	0
+sub-21139	PRO/CHR	M	Black or African American	Non - Hispanic	139	11	0	1	0	0	0	0	0	1	0	0
+sub-21141	PRO/CHR	M	Black or African American	Hispanic	128	10	0	0	0	1	0	0	0	1	1	0
+sub-21146	PRO/CHR	M	Black or African American	Non - Hispanic	135	11	0	1	0	0	0	0	0	0	0	0
+sub-21150	PRO/CHR	F	More than one race	Non - Hispanic	181	15	0	1	0	0	0	0	0	0	0	0
+sub-21154	ADHD	F	White	Hispanic	130	10	0	0	0	0	0	0	0	1	0	0
+sub-21161	PRO/CHR	F	Black or African American	Non - Hispanic	127	10	0	1	0	0	0	0	0	1	0	0
+sub-21193	ADHD	F	White	Hispanic	120	10	0	0	0	0	0	0	0	1	0	0
+sub-21197	PRO/CHR	M	More than one race	Hispanic	118	9	0	1	0	0	0	0	0	0	0	0
+sub-21224	PRO/CHR	M	White	Non - Hispanic	176	14	0	1	0	0	0	0	0	0	0	0
+sub-21325	PRO/CHR	M	White	Hispanic	127	10	0	1	0	0	0	1	0	1	0	0
+sub-21345	PRO/CHR	F	Black or African American	Non - Hispanic	191	15	0	1	0	0	0	0	0	0	0	0
+sub-21432	PRO/CHR	M	Black or African American	Hispanic	192	16	0	1	0	0	0	0	0	1	0	0
+sub-21493	ADHD	F	Black or African American	Non - Hispanic	173	14	0	0	0	0	0	0	0	1	0	0
+sub-21514	PRO/CHR	F	Black or African American	Non - Hispanic	156	13	0	1	0	0	0	0	0	0	0	0
+sub-21516	PRO/CHR	F	Black or African American	Non - Hispanic	139	11	0	1	0	0	0	1	0	0	0	0
+sub-21539	TD/NC	F	Asian	Non - Hispanic	120	10	1	0	0	0	0	0	0	0	0	0
+sub-21553	PRO/CHR	M	White	Non - Hispanic	119	9	0	1	0	0	1	0	0	1	0	0
+sub-21554	TD/NC	F	White	Non - Hispanic	103	8	1	0	0	0	0	0	0	0	0	0
+sub-21560	PRO/CHR	F	Black or African American	Non - Hispanic	172	14	0	1	0	0	1	0	0	0	0	0
+sub-21567	TD/NC	F	Asian	Non - Hispanic	142	11	1	0	0	0	0	0	0	0	0	0
+sub-21568	PRO/CHR	F	White	Non - Hispanic	152	12	0	1	0	0	0	0	0	0	0	0
+sub-21580	ADHD	M	Black or African American	Hispanic	128	10	0	0	0	0	0	0	0	1	0	0
+sub-21623	TD/NC	F	Asian	Non - Hispanic	154	12	1	0	0	0	0	0	0	0	0	0
+sub-21712	PRO/CHR	F	White	Non - Hispanic	132	11	0	1	0	0	0	0	0	0	0	0
+sub-21713	TD/NC	F	White	Non - Hispanic	107	8	1	0	0	0	0	0	0	0	0	0
+sub-21738	PRO/CHR	F	White	Non - Hispanic	164	13	0	1	0	0	0	1	0	0	0	0
+sub-21797	TD/NC	M	White	Non - Hispanic	163	13	1	0	0	0	0	0	0	0	0	0
+sub-21827	PRO/CHR	F	More than one race	Non - Hispanic	182	15	0	1	0	0	0	1	0	0	0	0
+sub-21855	TD/NC	F	More than one race	Non - Hispanic	153	12	1	0	0	0	0	0	0	0	0	0
+sub-21856	PRO/CHR	M	More than one race	Non - Hispanic	153	12	0	1	0	0	0	1	0	1	0	0
+sub-22045	TD/NC	F	White	Non - Hispanic	115	9	1	0	0	0	0	0	0	0	0	0
+sub-22064	PRO/CHR	F	Black or African American	Non - Hispanic	166	13	0	1	0	0	0	0	0	1	0	0
+sub-22169	TD/NC	F	Black or African American	Non - Hispanic	164	13	1	0	0	0	0	0	0	0	0	0
+sub-22473	TD/NC	M	White	Non - Hispanic	179	14	1	0	0	0	0	0	0	0	0	0
+sub-22510	TD/NC	F	White	Hispanic	174	14	1	0	0	0	0	0	0	0	0	0
+sub-22520	PRO/CHR	F	Black or African American	Non - Hispanic	169	14	0	1	0	0	0	0	0	1	0	0
+sub-22617	TD/NC	M	Asian	Non - Hispanic	166	13	1	0	0	0	0	0	0	0	0	0
+sub-22618	TD/NC	M	Asian	Non - Hispanic	139	11	1	0	0	0	0	0	0	0	0	0
+sub-22653	TD/NC	F	White	Hispanic	120	10	1	0	0	0	0	0	0	0	0	0
+sub-22654	PRO/CHR	F	White	Hispanic	176	14	0	1	0	0	0	0	0	0	0	0
+sub-22670	ADHD	F	Black or African American	Non - Hispanic	157	13	0	0	0	0	0	0	0	1	0	0
+sub-22744	PRO/CHR	F	Asian	Non - Hispanic	179	14	0	1	0	0	0	1	0	0	0	0
+sub-22745	TD/NC	F	Asian	Non - Hispanic	125	10	1	0	0	0	0	0	0	0	0	0
+sub-22797	TD/NC	F	Asian	Non - Hispanic	149	12	1	0	0	0	0	0	0	0	0	0
+sub-22798	TD/NC	F	Asian	Non - Hispanic	115	9	1	0	0	0	0	0	0	0	0	0
+sub-22870	PRO/CHR	M	Black or African American	Non - Hispanic	135	11	0	1	0	0	0	0	0	0	0	0
+sub-23113	TD/NC	F	Black or African American	Non - Hispanic	103	8	1	0	0	0	0	0	0	0	0	0
+sub-23303	PRO/CHR	F	Black or African American	Non - Hispanic	182	15	0	1	0	0	0	0	0	1	0	0
+sub-23582	ADHD	M	White	Non - Hispanic	132	11	0	0	0	0	0	0	0	1	0	0
+sub-23676	PRO/CHR	F	White	Non - Hispanic	198	16	0	1	0	0	0	1	0	1	0	0
+sub-23698	ADHD	F	White	Hispanic	191	15	0	0	0	0	0	0	0	1	0	0
+sub-138950	PRO/CHR	M	White	Non - Hispanic	193	16	0	0	0	1	0	1	0	1	0	0
