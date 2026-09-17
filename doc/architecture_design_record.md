@@ -1,5 +1,40 @@
 # Architecture Design Record
 
+## Record Entry: 2026-09-17 17:52
+
+- EF scores: here the original plan was to have the outcome be a composite score 'Executive Function'.
+- But now, I thin you are leaning on splitting the outcome into 5: Nback, PLEY, AIM, CPT, TRAILMAKING
+- Late-fusion is really cool to combine pre-trained models.
+
+## Record Entry: 2026-09-17b (Worker Structure Design)
+
+### Worker CLI/Client Architecture
+- **Interface**: CLI-based (can later upgrade to UI), designed as a command-line tool for data scientists and site administrators
+- **Installation**: Assumed pre-installed (NVFLARE, PyTorch, dependencies); placeholder for future install steps/wizard
+- **Data Input**: User specifies local file path via CLI (NOT S3/cloud storage for privacy compliance)
+  ```
+  # Placeholder for future install wizard
+  # Assume NVFLARE and dependencies are already installed
+  ```
+- **Data Preprocessing**: Load local data file, validate schema, preprocess to match model input requirements (feature extraction, normalization, etc.)
+- **Network Test**: Verify connection to hub server before training begins
+- **Training**: Execute `worker.run()` routines for local model training
+- **Local Evaluation**: Log evaluation metrics every few epochs during training (in tandem with training logs)
+- **Result Reporting**: Generate and save result report file upon successful completion
+
+### Worker Workflow
+1. **Initialization**: CLI parses arguments (hub address, data path, worker ID)
+2. **Data Loading**: Read local data file, validate and preprocess to model schema
+3. **Network Check**: Test connection to hub server
+4. **Training Loop**: Execute local training via `worker.run()`
+5. **Evaluation**: Log metrics every N epochs during training
+6. **Reporting**: Save result report file with training metrics, model performance, and convergence status
+
+### Notes
+- All data stays local (no cloud/S3 upload) for privacy compliance
+- Worker can run independently once connected to hub
+- Future UI upgrade path preserved in design
+
 ## Record Entry: 2026-09-17b (Phenotype pipeline: EF composite + embedder)
 
 ### Model Assumptions
@@ -84,10 +119,43 @@
   small for deep learning; the MLP's win here is a real (if modest) signal,
   not a foregone conclusion, and worth re-checking as more data arrives.
 
+## Record Entry: 2026-09-17 14:00
+
+## Inputs
+
+1) Phenotype MLP ──────> Embedding Vector
+   └──> Different Phenotypes
+
+2) Image Analysis feature Vector
+   └──> Contains Aseg + Aparc stats
+
+## Output
+
+EF Score ──────> Nback, PCET, AIM, CPT, TRAILMAKING B
+
+---
+
+1) Prepare data
+   ├──> Image Vector
+   │     → Create FS stats
+   │     → Make Vector
+   │     → Check
+   │         EF vs Image Vector
+   │     → Finalize Vector
+   └──> Phenotype Vector
+
+2) Finalize Arch
+
+3) Train Single Device
+
+4) Wrap it in FL
+
+5) Prepare Analysis
+
 ## Record Entry: 2026-09-17 12:44
 
 - The dataset has been organized and split into 4 centers
- - i.e. workers, we do not mean you create 4 'center' scripts. In fact, MAYBe we should rename center to 'Hub' or 'Pool', or something similar to avoid confusion. 
+ - i.e. workers, we do not mean you create 4 'center' scripts. In fact, MAYBe we should rename center to 'Hub' or 'Pool', or something similar to avoid confusion.
 -  ~1.5 GB (223 T1w volumes + phenotype tables). 
 - DATA_DESCRIPTION.md in the folder that covers everything like layout, columns, and the gotchas to watch for.
 
@@ -99,7 +167,7 @@
 - Presence/Classification -> Value for Biobanks
 - Biobanks -> Clinic, Virtuous Cycle!
 - Very powerful showcase, because 2027 might have a Clinical Hackathon in the summer!
-- Assume: Geographic separation! So how do we build an app to connect different countries! That's what the center and worker scripts should aim to achieve. Clinics, health centers etc. across the nordics, EU etc.
+- Assume: Geographic separation! So how do we build an app to connect different countries! That's what the hub and worker scripts should aim to achieve. Clinics, health centers etc. across the nordics, EU etc.
   - secondary: we adopt for discrepancies between the different participants.
 - Features matter! Skip over the genomics focus on patient features, phenotypes.
 
@@ -189,7 +257,7 @@ Prediction targets: still TBD between EF composite and N-back score (2-back minu
 
 ### Model Assumptions
 - **FLARE Framework**: Using Nvidia FLARE for federated learning coordination
-- **Center-Worker Pattern**: Central coordinator distributes tasks to multiple workers
+- **Hub-Worker Pattern**: Central coordinator distributes tasks to multiple workers
 - **PENN LEAD Origin Dataset**: Primary data source with MRI and Cognitive components
 - **Data Shape**: 3D volumes with dimensions (H, W, D) typically 180x240x180mm FOV, variable voxel resolution
 - **T1 hippocampal volume + age regression**: T1 MRI analysis for hippocampal volume measurement and age-related regression modeling
@@ -211,11 +279,11 @@ Prediction targets: still TBD between EF composite and N-back score (2-back minu
   - T1 MRI as input
   - rs-fMRI as input
   - DWI (Diffusion Weighted Imaging) as input
-- **2.2 Machine Learning Model**: Federated learning pipeline with center-worker coordination
+- **2.2 Machine Learning Model**: Federated learning pipeline with hub-worker coordination
 - **2.3 Output**: N-back score prediction
 
 ### Accepted
-- [x] Center-worker architecture for federated analysis
+- [x] Hub-worker architecture for federated analysis
 - [x] PENN LEAD v1.0 as origin dataset
 - [x] T1 MRI, rs-fMRI, DWI as input modalities
 - [x] N-back score as output prediction
@@ -236,6 +304,6 @@ Prediction targets: still TBD between EF composite and N-back score (2-back minu
 
 ### Arguments/Reasons for Changes
 - PENN LEAD v1.0 selected as origin dataset due to availability of multimodal MRI (T1, rs-fMRI, DWI) and cognitive scores (N-back, Trail B)
-- Center-worker pattern chosen over peer-to-peer for clearer coordination and easier debugging with multi-center data
+- Hub-worker pattern chosen over peer-to-peer for clearer coordination and easier debugging with multi-center data
 - FLARE chosen over other FL frameworks due to Nvidia ecosystem compatibility and documentation availability
 - N-back prediction as output aligns with primary clinical question of working memory assessment
