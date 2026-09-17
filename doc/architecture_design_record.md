@@ -1,6 +1,18 @@
 # Architecture Design Record
 
-## Record Entry: 2026-09-17 11:10 (Latest)
+## Record Entry: 2026-09-17 11:49
+
+- Review w/ Henrique & Ben
+- Clinic -> Images
+- Images -> Presence/Classification
+- Presence/Classification -> Value for Biobanks
+- Biobanks -> Clinic, Virtuous Cycle!
+- Very powerful showcase, because 2027 might have a Clinical Hackathon in the summer!
+- Assume: Geographic separation! So how do we build an app to connect different countries! That's what the center and worker scripts should aim to achieve. Clinics, health centers etc. across the nordics, EU etc.
+  - secondary: we adopt for discrepancies between the different participants.
+- Features matter! Skip over the genomics focus on patient features, phenotypes.
+
+## Record Entry: 2026-09-17 11:10
 
 Architecture: Federated Learning for N-back Score Prediction (Multi-Site)
 
@@ -35,7 +47,7 @@ Key Architectural Principle
 
 Raw data (volumes, phenotype data) stays local to each site. Only model updates, not patient data, are shared with the central server — this is the core privacy-preserving mechanism of federated learning.
 
-## Record Entry: 2026-09-17 11:06 (Previous)
+## Record Entry: 2026-09-17 11:06
 
 Architecture: Federated Multimodal Model for Executive Function Prediction
 
@@ -75,14 +87,14 @@ Imaging features: currently using ROI thickness (68 DK regions) as an active byp
 Phenotype features: exact feature set still TBD (candidates: age, sex, group, self-report, non-target CNB domains)
 Prediction targets: still TBD between EF composite and N-back score (2-back minus 0-back)
 
-## Record Entry: 2026-09-17 10:33 (Latest)
+## Record Entry: 2026-09-17 10:33
 
 ### Additional Design Notes
 - **1) 100-150 images t1 mri**: T1 MRI dataset size range for federated learning experiments
 - **2) hippocampus segmentation**: Using Hippodeep PyTorch model - https://github.com/bthyreau/hippodeep_pytorch for automated hippocampal segmentation
 - **3) cognitive test**: Cognitive assessment integration for N-back and Trail B test scores
 
-## Record Entry: 2026-09-17 10:25 (Previous)
+## Record Entry: 2026-09-17 10:25
 
 ### Model Assumptions
 - **FLARE Framework**: Using Nvidia FLARE for federated learning coordination

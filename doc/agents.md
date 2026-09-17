@@ -39,9 +39,12 @@ This document specifies which agents should handle specific tasks related to the
 
 ### Archive Procedure
 1. Create timestamped backup: `cp doc/architecture_design_record.md doc/architecture_design_record_archive/architecture_design_record_YYYYMMDD.md`
-2. Clear outstanding items that have been resolved or marked as deferred
+2. **DO NOT REMOVE previous record entries** - all timestamps must be preserved for the record to make sense
 3. Update `architecture_design_record.md` with new entry timestamp
 4. Commit changes with message: "Archive architecture design record YYYY-MM-DD"
+
+### Critical Rule
+**ALL previous record entries MUST be preserved**. The architecture design record relies on the complete chronological history to make sense of design decisions, trade-offs, and evolution. Removing any entry breaks the audit trail and invalidates the retention policy. Any attempt to remove or restructure earlier entries must be approved by the architecture agent lead.
 
 ## Commands
 
