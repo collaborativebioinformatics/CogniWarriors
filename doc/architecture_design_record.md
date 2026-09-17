@@ -84,26 +84,141 @@
   small for deep learning; the MLP's win here is a real (if modest) signal,
   not a foregone conclusion, and worth re-checking as more data arrives.
 
-## Record Entry: 2026-09-17 (Latest)
+## Record Entry: 2026-09-17 12:44
+
+- The dataset has been organized and split into 4 centers
+ - i.e. workers, we do not mean you create 4 'center' scripts. In fact, MAYBe we should rename center to 'Hub' or 'Pool', or something similar to avoid confusion. 
+-  ~1.5 GB (223 T1w volumes + phenotype tables). 
+- DATA_DESCRIPTION.md in the folder that covers everything like layout, columns, and the gotchas to watch for.
+
+## Record Entry: 2026-09-17 11:49
+
+- Review w/ Henrique & Ben
+- Clinic -> Images
+- Images -> Presence/Classification
+- Presence/Classification -> Value for Biobanks
+- Biobanks -> Clinic, Virtuous Cycle!
+- Very powerful showcase, because 2027 might have a Clinical Hackathon in the summer!
+- Assume: Geographic separation! So how do we build an app to connect different countries! That's what the center and worker scripts should aim to achieve. Clinics, health centers etc. across the nordics, EU etc.
+  - secondary: we adopt for discrepancies between the different participants.
+- Features matter! Skip over the genomics focus on patient features, phenotypes.
+
+## Record Entry: 2026-09-17 11:10
+
+Architecture: Federated Learning for N-back Score Prediction (Multi-Site)
+
+A conceptual/high-level diagram showing federated learning across two example sites, each with their own MRI-derived structural and phenotype data, aggregated into a global model that predicts N-back scores via regression.
+
+
+Sites
+Site A — Dataset 1 (e.g., ADNI)
+sMRI (structural MRI scan)
+→ Extract hippocampus and other structures (segmentation step)
+→ produces two data streams:
+Volumes (e.g., hippocampus, other structures)
+Phenotype data (e.g., age, sex, education)
+Site B — Dataset 2 (e.g., OASIS)
+
+
+Mirrors Site A's pipeline:
+
+
+sMRI
+→ Extract hippocampus and other structures
+→ produces:
+Volumes (e.g., hippocampus, other structures)
+Phenotype data (e.g., age, sex, education)
+Federated Learning Flow
+Each site performs local model training on its own data (Site A trains on Site A data only; Site B trains on Site B data only — data never leaves the site)
+Both sites send model updates to a central Federated Learning Server, which aggregates model updates (depicted with a database/aggregation icon)
+The server produces a Global Model — a neural network that predicts N-back score
+The Global Model outputs the final N-back score (Regression)
+Key Architectural Principle
+
+
+Raw data (volumes, phenotype data) stays local to each site. Only model updates, not patient data, are shared with the central server — this is the core privacy-preserving mechanism of federated learning.
+
+## Record Entry: 2026-09-17 11:06
+
+Architecture: Federated Multimodal Model for Executive Function Prediction
+
+This pipeline combines imaging and phenotype data through separate feature extractors and embedding models, fuses them via late fusion, and trains the joint model using federated learning (NVIDIA FLARE) across sites.
+
+
+Data Sources
+Imaging data — Penn LEAD MRI derivatives
+Phenotype data — CNB tasks, self-report, demographics
+Pipeline Components
+1. Image Feature Extractor
+ROI thickness, 68 DK regions (ACTIVE — currently a bypass placeholder) → feeds into Model 1
+Other imaging features (IN PROGRESS — vertex-wise / functional connectivity / raw volumes) → planned swap-in to replace the ROI thickness placeholder
+2. Phenotype Feature Extractor
+X features (TBD) (IN PROGRESS) — age, sex, group, self-report, non-target CNB domains → feeds into Model 2
+3. Embedding Models
+Model 1: Image embedder — consumes imaging features
+Model 2: Phenotype embedder — consumes phenotype features
+4. Late Fusion
+Concatenate embeddings — combines Model 1 + Model 2 outputs
+Model 3: Prediction head — consumes the concatenated embedding to produce predictions
+5. Targets (y — TBD)
+EF composite (placeholder)
+N-back score — 2-back minus 0-back (placeholder)
+Federated Training Loop
+
+
+All three models (Image embedder, Phenotype embedder, Prediction head) are trained jointly at each site:
+
+
+Local training per site — all 3 models updated jointly using local data
+FLARE server — aggregates via FedAvg
+Global model — updated image embedder + phenotype embedder + prediction head
+Global model is redistributed to sites → next round → repeat
+Status Notes / Open Items
+Imaging features: currently using ROI thickness (68 DK regions) as an active bypass; planned swap to vertex-wise, functional connectivity, or raw volume features once ready
+Phenotype features: exact feature set still TBD (candidates: age, sex, group, self-report, non-target CNB domains)
+Prediction targets: still TBD between EF composite and N-back score (2-back minus 0-back)
+
+## Record Entry: 2026-09-17 10:33
+
+### Additional Design Notes
+- **1) 100-150 images t1 mri**: T1 MRI dataset size range for federated learning experiments
+- **2) hippocampus segmentation**: Using Hippodeep PyTorch model - https://github.com/bthyreau/hippodeep_pytorch for automated hippocampal segmentation
+- **3) cognitive test**: Cognitive assessment integration for N-back and Trail B test scores
+
+## Record Entry: 2026-09-17 10:25
 
 ### Model Assumptions
 - **FLARE Framework**: Using Nvidia FLARE for federated learning coordination
 - **Center-Worker Pattern**: Central coordinator distributes tasks to multiple workers
-- **Structural MRI Input**: Pre-processed NIfTI (.nii.gz) images as primary data modality
+- **PENN LEAD Origin Dataset**: Primary data source with MRI and Cognitive components
 - **Data Shape**: 3D volumes with dimensions (H, W, D) typically 180x240x180mm FOV, variable voxel resolution
-- **Phenotypical Output**: Training progress metrics and model performance indicators
-- **Pre-trained Fine-tuning**: Starting with pre-trained model weights and fine-tuning on distributed data
+- **T1 hippocampal volume + age regression**: T1 MRI analysis for hippocampal volume measurement and age-related regression modeling
+- **N back score**: Working memory task performance score as primary output prediction
 
-### Data Shapes
-- **Structural MRI**: 3D NIfTI volumes, typical shape (182, 218, 182) for MPRAGE, intensity range [0, 1] after normalization
-- **Phenotypical Data**: Tabular format with columns [age, sex, diagnosis, center_id, followup_time], variable number of phenotypes per patient
-- **Pre-trained Model**: weights shape (num_classes, channels, height, width) initialized on ImageNet, fine-tuned for MRI classification
+### Data Structure (PENN LEAD v1.0)
+- **1.0 Origin Dataset**: Contains two main components:
+  - **1.1 MRI Data**: Broken down as follows:
+    - **1.1.1 T1 MRI**: Structural imaging input
+    - **1.1.2 rs-fMRI**: Resting-state functional MRI
+    - **1.1.3 n-back**: Task-based fMRI
+    - **1.1.1.1 Sub-branches**: N-back prediction and Trail B prediction
+  - **1.2 Cognitive Data**: Broken down as:
+    - **1.2.1 N-back**: Working memory task performance
+    - **1.2.2 Trail B**: Trail Making Test Part B performance
+
+### Model Structure
+- **2.1 Input Modalities**:
+  - T1 MRI as input
+  - rs-fMRI as input
+  - DWI (Diffusion Weighted Imaging) as input
+- **2.2 Machine Learning Model**: Federated learning pipeline with center-worker coordination
+- **2.3 Output**: N-back score prediction
 
 ### Accepted
 - [x] Center-worker architecture for federated analysis
-- [x] Structural MRI as input modality
-- [x] Training progress visualization via output file
-- [x] Pre-trained model initialization with fine-tuning
+- [x] PENN LEAD v1.0 as origin dataset
+- [x] T1 MRI, rs-fMRI, DWI as input modalities
+- [x] N-back score as output prediction
 - [x] FLARE framework integration
 
 ### Rejected
@@ -120,7 +235,7 @@
 - [ ] Multi-center coordination and data governance protocols
 
 ### Arguments/Reasons for Changes
-- Center-worker pattern selected over peer-to-peer for clearer coordination and easier debugging
+- PENN LEAD v1.0 selected as origin dataset due to availability of multimodal MRI (T1, rs-fMRI, DWI) and cognitive scores (N-back, Trail B)
+- Center-worker pattern chosen over peer-to-peer for clearer coordination and easier debugging with multi-center data
 - FLARE chosen over other FL frameworks due to Nvidia ecosystem compatibility and documentation availability
-- Pre-trained fine-tuning approach selected to reduce data requirements and accelerate convergence
-- NIfTI format chosen over DICOM for easier processing in deep learning pipelines
+- N-back prediction as output aligns with primary clinical question of working memory assessment
