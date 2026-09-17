@@ -1,12 +1,14 @@
 # Architecture Design Record
 
-## Record Entry: 2026-09-17 10:12 (Latest)
+## Record Entry: 2026-09-17 10:25 (Latest)
 
 ### Model Assumptions
 - **FLARE Framework**: Using Nvidia FLARE for federated learning coordination
 - **Center-Worker Pattern**: Central coordinator distributes tasks to multiple workers
 - **PENN LEAD Origin Dataset**: Primary data source with MRI and Cognitive components
 - **Data Shape**: 3D volumes with dimensions (H, W, D) typically 180x240x180mm FOV, variable voxel resolution
+- **T1 hippocampal volume + age regression**: T1 MRI analysis for hippocampal volume measurement and age-related regression modeling
+- **N back score**: Working memory task performance score as primary output prediction
 
 ### Data Structure (PENN LEAD v1.0)
 - **1.0 Origin Dataset**: Contains two main components:
