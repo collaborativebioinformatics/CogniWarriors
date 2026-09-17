@@ -1,4 +1,5 @@
 # Longitudinal_imaging_to_multimodality
+:checkmark: madpro's opencode is now set up and running
 
 
 1. **Distributed Multi-Center Data Governance & Access**: Establish a privacy-preserving infrastructure (such as DataSHIELD or federated learning protocols) to securely connect and query data across multiple hospital centers and disparate sources without centralizing raw sensitive patient data.  

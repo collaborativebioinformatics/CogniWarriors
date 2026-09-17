@@ -1,0 +1,11 @@
+# Input file for structural MRI images
+# Format: path/to/mri/file.nii.gz
+# Example: /data/center01/sub-01_T1w.nii.gz
+
+# Structural MRI file paths (one per line)
+/data/center01/sub-01_T1w.nii.gz
+/data/center02/sub-01_T1w.nii.gz
+/data/center03/sub-01_T1w.nii.gz
+
+# Optional: MRI processing software
+# niftk, ants, or other
