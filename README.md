@@ -1,6 +1,67 @@
 # Longitudinal_imaging_to_multimodality
 :checkmark: madpro's opencode is now set up and running
 
+## Workflow
+
+```mermaid
+flowchart TD
+    IMGDATA["Imaging data<br/>Penn LEAD MRI derivatives"]
+    PHENODATA["Phenotype data<br/>CNB tasks, self-report, demographics"]
+
+    subgraph IMGEXT["Image feature extractor"]
+        direction TB
+        ROI["ROI thickness, 68 DK regions<br/>ACTIVE: bypass placeholder"]
+        OTHER["Other imaging features<br/>IN PROGRESS: vertex-wise / FC / raw volumes"]
+        IMGMODEL["MODEL 1: Image embedder"]
+        ROI --> IMGMODEL
+        OTHER -. planned swap .-> IMGMODEL
+    end
+
+    subgraph PHENOEXT["Phenotype feature extractor"]
+        direction TB
+        XPICK["X features: TBD<br/>age, sex, group, self-report,<br/>non-target CNB domains"]
+        PHENOMODEL["MODEL 2: Phenotype embedder"]
+        XPICK --> PHENOMODEL
+    end
+
+    subgraph FUSION["Late fusion"]
+        direction TB
+        CONCAT["Concatenate embeddings"]
+        HEADMODEL["MODEL 3: Prediction head"]
+        CONCAT --> HEADMODEL
+    end
+
+    subgraph TARGET["y: TBD"]
+        direction TB
+        EF["EF composite"]
+        NBACK["N-back score<br/>2-back minus 0-back"]
+    end
+
+    IMGDATA --> ROI
+    IMGDATA --> OTHER
+    PHENODATA --> XPICK
+    IMGMODEL --> CONCAT
+    PHENOMODEL --> CONCAT
+    HEADMODEL --> EF
+    HEADMODEL --> NBACK
+
+    subgraph FL["Federated training loop"]
+        direction TB
+        LOCAL["Local training per site<br/>all 3 models updated jointly"]
+        SERVER["FLARE server: FedAvg"]
+        GLOBAL["Global model<br/>image embedder + pheno embedder + head"]
+        LOCAL --> SERVER --> GLOBAL -->|next round| LOCAL
+    end
+
+    IMGMODEL -.-> LOCAL
+    PHENOMODEL -.-> LOCAL
+    HEADMODEL -.-> LOCAL
+
+    classDef todo stroke-dasharray: 5 5;
+    class XPICK,EF,NBACK,OTHER todo;
+    classDef model fill:#EEEDFE,stroke:#534AB7;
+    class IMGMODEL,PHENOMODEL,HEADMODEL model;
+```
 ## How to Use
 
 ### 1. Start the Center
@@ -83,6 +144,5 @@ Resources:
 - [https://data.dpuk.ukserp.ac.uk/cohortdirectory/Item?fingerPrintID=GENFI](https://data.dpuk.ukserp.ac.uk/cohortdirectory/Item?fingerPrintID=GENFI)  
 - [https://atlaslongitudinaldatasets.ac.uk/datasets/ppmi-pd]
 
-![Workflow](workflow.png)
 
 -ahmet's commits fixed I hope???
