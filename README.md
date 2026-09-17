@@ -49,20 +49,22 @@ Place structural MRI `.nii.gz` files in the specified directories and update `mr
 ## Project Directory Structure
 
 ```
-/Users/ahmet/Desktop/Longitudinal_imaging_to_multimodality/
-├── .git/
-├── LICENSE
-├── README.md              # Updated with how-to guide and checklist
-├── center.py              # FLARE center script
-├── doc/
-│   ├── dataset_description.md
-│   ├── method.md
-│   ├── problem.md
-│   └── results.md
-├── mri_input.txt          # Structural MRI input file
-├── progress_output.txt    # Training progress visualization
-├── workflow.png           # Project workflow diagram
-└── worker.py              # FLARE worker script
+ /Users/ahmet/Desktop/Longitudinal_imaging_to_multimodality/
+ ├── .git/
+ ├── LICENSE
+ ├── README.md              # Updated with how-to guide and checklist
+ ├── center.py              # FLARE center script
+ ├── doc/
+ │   ├── agents.md          # Agents administration guide
+ │   ├── architecture_design_record.md  # Architecture design and decisions
+ │   ├── dataset_description.md
+ │   ├── method.md
+ │   ├── problem.md
+ │   └── results.md
+ ├── mri_input.txt          # Structural MRI input file
+ ├── progress_output.txt    # Training progress visualization
+ ├── workflow.png           # Project workflow diagram
+ └── worker.py              # FLARE worker script
 ```
 
 Requirements:
