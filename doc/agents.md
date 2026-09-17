@@ -30,6 +30,19 @@ This document specifies which agents should handle specific tasks related to the
 4. Document any arguments/reasons for changes
 5. Notify team of architecture updates
 
+## Retention Policy
+- **Record Duration**: Archive `architecture_design_record.md` entries after 12 months of inactivity
+- **Review Frequency**: Quarterly review of outstanding items and design decisions
+- **Backup**: Commit all changes to git with descriptive messages
+- **Access Control**: Maintain read access for team members, write access for designated architecture agents
+- **Migration**: When archiving, export current state to `doc/architecture_design_record_archive/` directory
+
+### Archive Procedure
+1. Create timestamped backup: `cp doc/architecture_design_record.md doc/architecture_design_record_archive/architecture_design_record_YYYYMMDD.md`
+2. Clear outstanding items that have been resolved or marked as deferred
+3. Update `architecture_design_record.md` with new entry timestamp
+4. Commit changes with message: "Archive architecture design record YYYY-MM-DD"
+
 ## Commands
 
 ### Update Architecture Record
