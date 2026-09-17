@@ -6,8 +6,14 @@
 - **FLARE Framework**: Using Nvidia FLARE for federated learning coordination
 - **Center-Worker Pattern**: Central coordinator distributes tasks to multiple workers
 - **Structural MRI Input**: Pre-processed NIfTI (.nii.gz) images as primary data modality
+- **Data Shape**: 3D volumes with dimensions (H, W, D) typically 180x240x180mm FOV, variable voxel resolution
 - **Phenotypical Output**: Training progress metrics and model performance indicators
 - **Pre-trained Fine-tuning**: Starting with pre-trained model weights and fine-tuning on distributed data
+
+### Data Shapes
+- **Structural MRI**: 3D NIfTI volumes, typical shape (182, 218, 182) for MPRAGE, intensity range [0, 1] after normalization
+- **Phenotypical Data**: Tabular format with columns [age, sex, diagnosis, center_id, followup_time], variable number of phenotypes per patient
+- **Pre-trained Model**: weights shape (num_classes, channels, height, width) initialized on ImageNet, fine-tuned for MRI classification
 
 ### Accepted
 - [x] Center-worker architecture for federated analysis
