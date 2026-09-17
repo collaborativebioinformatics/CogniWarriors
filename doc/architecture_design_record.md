@@ -1,6 +1,13 @@
 # Architecture Design Record
 
-## Record Entry: 2026-09-17 10:25 (Latest)
+## Record Entry: 2026-09-17 10:33 (Latest)
+
+### Additional Design Notes
+- **1) 100-150 images t1 mri**: T1 MRI dataset size range for federated learning experiments
+- **2) hippocampus segmentation**: Using Hippodeep PyTorch model - https://github.com/bthyreau/hippodeep_pytorch for automated hippocampal segmentation
+- **3) cognitive test**: Cognitive assessment integration for N-back and Trail B test scores
+
+## Record Entry: 2026-09-17 10:25 (Previous)
 
 ### Model Assumptions
 - **FLARE Framework**: Using Nvidia FLARE for federated learning coordination
