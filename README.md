@@ -1,84 +1,65 @@
 # Longitudinal_imaging_to_multimodality
 :checkmark: madpro's opencode is now set up and running
 
-## Workflow
+## Architecture Overview
 
-```mermaid
-flowchart TD
-    IMGDATA["Imaging data<br/>Penn LEAD MRI derivatives"]
-    PHENODATA["Phenotype data<br/>CNB tasks, self-report, demographics"]
+The project follows a federated learning architecture for N-back score prediction across multiple sites, as documented in `doc/architecture_design_record.md`.
 
-    subgraph IMGEXT["Image feature extractor"]
-        direction TB
-        ROI["ROI thickness, 68 DK regions<br/>ACTIVE: bypass placeholder"]
-        OTHER["Other imaging features<br/>IN PROGRESS: vertex-wise / FC / raw volumes"]
-        IMGMODEL["MODEL 1: Image embedder"]
-        ROI --> IMGMODEL
-        OTHER -. planned swap .-> IMGMODEL
-    end
+### Latest Architecture (11:10 Entry: 2026-09-17)
+**Federated Learning for N-back Score Prediction (Multi-Site)**
 
-    subgraph PHENOEXT["Phenotype feature extractor"]
-        direction TB
-        XPICK["X features: TBD<br/>age, sex, group, self-report,<br/>non-target CNB domains"]
-        PHENOMODEL["MODEL 2: Phenotype embedder"]
-        XPICK --> PHENOMODEL
-    end
+This pipeline combines imaging and phenotype data across sites, aggregated into a global model that predicts N-back scores via regression.
 
-    subgraph FUSION["Late fusion"]
-        direction TB
-        CONCAT["Concatenate embeddings"]
-        HEADMODEL["MODEL 3: Prediction head"]
-        CONCAT --> HEADMODEL
-    end
+**Sites:**
+- **Site A** — Dataset 1 (e.g., ADNI): sMRI → hippocampus/structure segmentation → Volumes (hippocampus, other structures) + Phenotype data (age, sex, education)
+- **Site B** — Dataset 2 (e.g., OASIS): Mirrors Site A's pipeline
 
-    subgraph TARGET["y: TBD"]
-        direction TB
-        EF["EF composite"]
-        NBACK["N-back score<br/>2-back minus 0-back"]
-    end
+**Federated Learning Flow:**
+- Each site performs local model training on its own data (data never leaves the site)
+- Both sites send model updates to a central FLARE server, which aggregates via FedAvg
+- The server produces a Global Model — a neural network that predicts N-back score
+- The Global Model outputs the final N-back score (Regression)
 
-    IMGDATA --> ROI
-    IMGDATA --> OTHER
-    PHENODATA --> XPICK
-    IMGMODEL --> CONCAT
-    PHENOMODEL --> CONCAT
-    HEADMODEL --> EF
-    HEADMODEL --> NBACK
+**Key Architectural Principle:**
+Raw data (volumes, phenotype data) stays local to each site. Only model updates, not patient data, are shared with the central server — this is the core privacy-preserving mechanism of federated learning.
 
-    subgraph FL["Federated training loop"]
-        direction TB
-        LOCAL["Local training per site<br/>all 3 models updated jointly"]
-        SERVER["FLARE server: FedAvg"]
-        GLOBAL["Global model<br/>image embedder + pheno embedder + head"]
-        LOCAL --> SERVER --> GLOBAL -->|next round| LOCAL
-    end
+### Data Sources
+- **Imaging data**: Penn LEAD MRI derivatives (structural MRI scans)
+- **Phenotype data**: CNB tasks, self-report, demographics (age, sex, education)
 
-    IMGMODEL -.-> LOCAL
-    PHENOMODEL -.-> LOCAL
-    HEADMODEL -.-> LOCAL
+**Pipeline Components:**
+1. **Image Feature Extractor**: ROI thickness, 68 DK regions (ACTIVE: bypass placeholder) → feeds into Model 1
+   - Other imaging features (IN PROGRESS: vertex-wise / functional connectivity / raw volumes) → planned swap-in
+2. **Phenotype Feature Extractor**: X features (TBD) — age, sex, group, self-report, non-target CNB domains → feeds into Model 2
+3. **Embedding Models**: 
+   - Model 1: Image embedder — consumes imaging features
+   - Model 2: Phenotype embedder — consumes phenotype features
+4. **Late Fusion**: Concatenate embeddings — combines Model 1 + Model 2 outputs
+5. **Model 3: Prediction head**: Consumes the concatenated embedding to produce predictions
+6. **Targets (y — TBD)**: EF composite (placeholder), N-back score — 2-back minus 0-back (placeholder)
 
-    classDef todo stroke-dasharray: 5 5;
-    class XPICK,EF,NBACK,OTHER todo;
-    classDef model fill:#EEEDFE,stroke:#534AB7;
-    class IMGMODEL,PHENOMODEL,HEADMODEL model;
-```
-## How to Use
+**Status Notes / Open Items:**
+- Imaging features: currently using ROI thickness (68 DK regions) as an active bypass; planned swap to vertex-wise, functional connectivity, or raw volume features once ready
+- Phenotype features: exact feature set still TBD (candidates: age, sex, group, self-report, non-target CNB domains)
+- Prediction targets: still TBD between EF composite and N-back score (2-back minus 0-back)
 
-### 1. Start the Center
+### How to Use
+
+#### 1. Start the Center
 ```bash
 python center.py --config flare_config.yaml --port 8080
 ```
 
-### 2. Start Workers
+#### 2. Start Workers
 ```bash
 python worker.py --center localhost:8080 --worker-id worker_01 --data-dir /data/center01
 python worker.py --center localhost:8080 --worker-id worker_02 --data-dir /data/center02
 ```
 
-### 3. Monitor Training Progress
-Check `progress_output.txt` for training metrics (loss, accuracy, learning rate per step).
+#### 3. Monitor Training Progress
+Check `progress_output.txt` for training metrics.
 
-### 4. Input MRI Files
+#### 4. Input MRI Files
 Place structural MRI `.nii.gz` files in the specified directories and update `mri_input.txt` with paths.
 
 ---
@@ -91,6 +72,8 @@ Place structural MRI `.nii.gz` files in the specified directories and update `mr
 - [x] MRI input file (`mri_input.txt`) - structural MRI image paths
 - [x] Progress output file (`progress_output.txt`) - training metrics visualization
 - [x] README updated with setup confirmation
+- [x] FLARE framework integration
+- [x] Center-worker architecture for federated analysis
 
 ### Outstanding 📋
 - [ ] FLARE configuration file (`flare_config.yaml`) - detailed FL setup
@@ -98,12 +81,14 @@ Place structural MRI `.nii.gz` files in the specified directories and update `mr
 - [ ] Structural MRI loading and preprocessing pipeline
 - [ ] Phenotypical data integration with training progress
 - [ ] Visualization dashboard for training progress
-- [ ] Multi-center coordination and data governance protocols Establish a privacy-preserving infrastructure (such as DataSHIELD or federated learning protocols) to securely connect and query data across multiple hospital centers and disparate sources without centralizing raw sensitive patient data.  
-2. **Exploratory Multi-Modal Data Profiling**: Perform exploratory data analysis across heterogeneous data types (imaging, omics, phenotypes, time-series) to map out structural variations, missingness patterns, and shape disparities between different clinical centers.  
-3. **Flexible Schema & Generalized Feature Representation**: Design a robust, extensible schema and embedding strategy that accommodates evolving data shapes, varying feature dimensions, and asynchronous time points as new data and centers are incorporated.  
-4. **Active-Learning & Uncertainty-Driven Sampling**: Implement an active learning loop where the model queries domain experts or prioritizes informative/uncertain samples (e.g., novel imaging phenotypes or discordant clinical outcomes) for annotation and refinement.  
-5. **Generalized Multi-Modal Learning & Domain Adaptation**: Train robust multi-modal architectures equipped with domain adaptation or regularized ensemble techniques to generalize across shifting data distributions and center-specific biases.  
-6. **Interpretability & Iterative Validation**: Integrate explainable AI techniques (such as uncertainty estimates and feature attribution) to evaluate model performance iteratively across centers, ensuring clinical trustworthiness and seamless deployment.
+- [ ] Multi-center coordination and data governance protocols
+
+### Archived Design History (from `doc/architecture_design_record.md`)
+The project has evolved through several architecture designs, documented in the architecture design record with timestamps from 10:25 to 11:10. Key evolutions include:
+- Transition from center-worker pattern to federated multi-site architecture
+- Addition of PENN LEAD v1.0 as origin dataset with multimodal MRI (T1, rs-fMRI, DWI)
+- Refinement of N-back score as primary output prediction
+- Implementation of privacy-preserving data governance (raw data stays local)
 
 ---
 
@@ -117,7 +102,7 @@ Place structural MRI `.nii.gz` files in the specified directories and update `mr
  ├── center.py              # FLARE center script
  ├── doc/
  │   ├── agents.md          # Agents administration guide
- │   ├── architecture_design_record.md  # Architecture design and decisions
+ │   ├── architecture_design_record.md  # Architecture design and decisions with full timestamp history
  │   ├── dataset_description.md
  │   ├── method.md
  │   ├── problem.md
@@ -128,22 +113,26 @@ Place structural MRI `.nii.gz` files in the specified directories and update `mr
  └── worker.py              # FLARE worker script
 ```
 
-Requirements:
+---
+
+## Requirements
 
 * Team 9: Integrating longitudinal imaging data (from different data sources) with phenotype and genotype analysis  
 * Imaging Data  
 * Time Data  
-* Omics Data
+* Omics Data  
 
-Resources:
+---
 
-- Data... - https://drive.google.com/drive/folders/1E5lCBob2yBMks_MUaQ-jethRxRTkHVH5?usp=sharing
+## Resources
+
 - [https://github.com/IBM/comical/tree/main](https://github.com/IBM/comical/tree/main) (IBM, 2024\)  
 - ADNI  
 - [https://github.com/collaborativebioinformatics/Longitudinal\_imaging\_to\_multimodality](https://github.com/collaborativebioinformatics/Longitudinal_imaging_to_multimodality)  
 - [NBBH\_attendance\_confirmation\_and\_group\_assignment](https://docs.google.com/spreadsheets/d/104H5TKJJpT7IsP2lMZRVPLlJf7pW9inCzA1hD_KDTWc/edit?gid=719203122#gid=719203122)  
 - [https://data.dpuk.ukserp.ac.uk/cohortdirectory/Item?fingerPrintID=GENFI](https://data.dpuk.ukserp.ac.uk/cohortdirectory/Item?fingerPrintID=GENFI)  
-- [https://atlaslongitudinaldatasets.ac.uk/datasets/ppmi-pd]
+- [https://atlaslongitudinaldatasets.ac.uk/datasets/ppmi-pd](https://atlaslongitudinaldatasets.ac.uk/datasets/ppmi-pd)
 
+**Data**: ~1.5 GB (223 T1w volumes + phenotype tables) — organized into 4 centers per `doc/architecture_design_record.md` entry 12:44.
 
--ahmet's commits fixed I hope???
+![Workflow](workflow.png)
