@@ -1,53 +1,41 @@
 # Architecture Design Record
 
-## Record Entry: 2026-09-17 11:06 (Latest)
+## Record Entry: 2026-09-17 11:10 (Latest)
 
-Architecture: Federated Multimodal Model for Executive Function Prediction
+Architecture: Federated Learning for N-back Score Prediction (Multi-Site)
 
-This pipeline combines imaging and phenotype data through separate feature extractors and embedding models, fuses them via late fusion, and trains the joint model using federated learning (NVIDIA FLARE) across sites.
-
-
-Data Sources
-Imaging data — Penn LEAD MRI derivatives
-Phenotype data — CNB tasks, self-report, demographics
-Pipeline Components
-1. Image Feature Extractor
-ROI thickness, 68 DK regions (ACTIVE — currently a bypass placeholder) → feeds into Model 1
-Other imaging features (IN PROGRESS — vertex-wise / functional connectivity / raw volumes) → planned swap-in to replace the ROI thickness placeholder
-2. Phenotype Feature Extractor
-X features (TBD) (IN PROGRESS) — age, sex, group, self-report, non-target CNB domains → feeds into Model 2
-3. Embedding Models
-Model 1: Image embedder — consumes imaging features
-Model 2: Phenotype embedder — consumes phenotype features
-4. Late Fusion
-Concatenate embeddings — combines Model 1 + Model 2 outputs
-Model 3: Prediction head — consumes the concatenated embedding to produce predictions
-5. Targets (y — TBD)
-EF composite (placeholder)
-N-back score — 2-back minus 0-back (placeholder)
-Federated Training Loop
+A conceptual/high-level diagram showing federated learning across two example sites, each with their own MRI-derived structural and phenotype data, aggregated into a global model that predicts N-back scores via regression.
 
 
-All three models (Image embedder, Phenotype embedder, Prediction head) are trained jointly at each site:
+Sites
+Site A — Dataset 1 (e.g., ADNI)
+sMRI (structural MRI scan)
+→ Extract hippocampus and other structures (segmentation step)
+→ produces two data streams:
+Volumes (e.g., hippocampus, other structures)
+Phenotype data (e.g., age, sex, education)
+Site B — Dataset 2 (e.g., OASIS)
 
 
-Local training per site — all 3 models updated jointly using local data
-FLARE server — aggregates via FedAvg
-Global model — updated image embedder + phenotype embedder + prediction head
-Global model is redistributed to sites → next round → repeat
-Status Notes / Open Items
-Imaging features: currently using ROI thickness (68 DK regions) as an active bypass; planned swap to vertex-wise, functional connectivity, or raw volume features once ready
-Phenotype features: exact feature set still TBD (candidates: age, sex, group, self-report, non-target CNB domains)
-Prediction targets: still TBD between EF composite and N-back score (2-back minus 0-back)
+Mirrors Site A's pipeline:
 
-## Record Entry: 2026-09-17 10:33 (Latest)
 
-### Additional Design Notes
-- **1) 100-150 images t1 mri**: T1 MRI dataset size range for federated learning experiments
-- **2) hippocampus segmentation**: Using Hippodeep PyTorch model - https://github.com/bthyreau/hippodeep_pytorch for automated hippocampal segmentation
-- **3) cognitive test**: Cognitive assessment integration for N-back and Trail B test scores
+sMRI
+→ Extract hippocampus and other structures
+→ produces:
+Volumes (e.g., hippocampus, other structures)
+Phenotype data (e.g., age, sex, education)
+Federated Learning Flow
+Each site performs local model training on its own data (Site A trains on Site A data only; Site B trains on Site B data only — data never leaves the site)
+Both sites send model updates to a central Federated Learning Server, which aggregates model updates (depicted with a database/aggregation icon)
+The server produces a Global Model — a neural network that predicts N-back score
+The Global Model outputs the final N-back score (Regression)
+Key Architectural Principle
 
-## Record Entry: 2026-09-17 10:25 (Previous)
+
+Raw data (volumes, phenotype data) stays local to each site. Only model updates, not patient data, are shared with the central server — this is the core privacy-preserving mechanism of federated learning.
+
+## Record Entry: 2026-09-17 11:06 (Previous)
 
 ### Model Assumptions
 - **FLARE Framework**: Using Nvidia FLARE for federated learning coordination
