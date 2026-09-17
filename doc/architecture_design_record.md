@@ -1,5 +1,12 @@
 # Architecture Design Record
 
+## Record Entry: 2026-09-17 12:44
+
+- The dataset has been organized and split into 4 centers
+ - i.e. workers, we do not mean you create 4 'center' scripts. In fact, MAYBe we should rename center to 'Hub' or 'Pool', or something similar to avoid confusion. 
+-  ~1.5 GB (223 T1w volumes + phenotype tables). 
+- DATA_DESCRIPTION.md in the folder that covers everything like layout, columns, and the gotchas to watch for.
+
 ## Record Entry: 2026-09-17 11:49
 
 - Review w/ Henrique & Ben
