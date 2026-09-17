@@ -44,6 +44,27 @@ Place structural MRI `.nii.gz` files in the specified directories and update `mr
 5. **Generalized Multi-Modal Learning & Domain Adaptation**: Train robust multi-modal architectures equipped with domain adaptation or regularized ensemble techniques to generalize across shifting data distributions and center-specific biases.  
 6. **Interpretability & Iterative Validation**: Integrate explainable AI techniques (such as uncertainty estimates and feature attribution) to evaluate model performance iteratively across centers, ensuring clinical trustworthiness and seamless deployment.
 
+---
+
+## Project Directory Structure
+
+```
+/Users/ahmet/Desktop/Longitudinal_imaging_to_multimodality/
+├── .git/
+├── LICENSE
+├── README.md              # Updated with how-to guide and checklist
+├── center.py              # FLARE center script
+├── doc/
+│   ├── dataset_description.md
+│   ├── method.md
+│   ├── problem.md
+│   └── results.md
+├── mri_input.txt          # Structural MRI input file
+├── progress_output.txt    # Training progress visualization
+├── workflow.png           # Project workflow diagram
+└── worker.py              # FLARE worker script
+```
+
 Requirements:
 
 * Team 9: Integrating longitudinal imaging data (from different data sources) with phenotype and genotype analysis  
@@ -58,6 +79,6 @@ Resources:
 - [https://github.com/collaborativebioinformatics/Longitudinal\_imaging\_to\_multimodality](https://github.com/collaborativebioinformatics/Longitudinal_imaging_to_multimodality)  
 - [NBBH\_attendance\_confirmation\_and\_group\_assignment](https://docs.google.com/spreadsheets/d/104H5TKJJpT7IsP2lMZRVPLlJf7pW9inCzA1hD_KDTWc/edit?gid=719203122#gid=719203122)  
 - [https://data.dpuk.ukserp.ac.uk/cohortdirectory/Item?fingerPrintID=GENFI](https://data.dpuk.ukserp.ac.uk/cohortdirectory/Item?fingerPrintID=GENFI)  
-- [https://atlaslongitudinaldatasets.ac.uk/datasets/ppmi-pd](https://atlaslongitudinaldatasets.ac.uk/datasets/ppmi-pd)
+- [https://atlaslongitudinaldatasets.ac.uk/datasets/ppmi-pd]
 
 ![Workflow](workflow.png)
