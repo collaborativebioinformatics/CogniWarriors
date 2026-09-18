@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="780" viewBox="0 0 1440 780" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arm-blue" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#1d4ed8"/>
+    </marker>
+    <marker id="arm-green" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#047857"/>
+    </marker>
+    <marker id="arm-gray" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#94a3b8"/>
+    </marker>
+    <marker id="arm-amber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#b45309"/>
+    </marker>
+    <marker id="arm-violet" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#7c3aed"/>
+    </marker>
+    <filter id="shadow" x="-5%" y="-5%" width="112%" height="112%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#00000022"/>
+    </filter>
+  </defs>
+
+  <!-- Title block -->
+  <text x="720" y="42" text-anchor="middle" font-size="26" font-weight="bold" fill="#0f172a">Cogni warriors — Federated Learning Architecture</text>
+  <text x="720" y="70" text-anchor="middle" font-size="14" fill="#64748b">Late fusion of structural-MRI + phenotype to predict cognitive progression · NVIDIA FLARE 2.9 (FedAvg)</text>
+
+  <!-- ============ FLARE SERVER ============ -->
+  <g filter="url(#shadow)">
+    <rect x="540" y="110" width="340" height="430" rx="14" fill="#eff6ff" stroke="#1d4ed8" stroke-width="2"/>
+    <path d="M540,124 Q540,110 554,110 L866,110 Q880,110 880,124 L880,150 L540,150 Z" fill="#1d4ed8"/>
+    <text x="710" y="138" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">FLARE Server · Controller</text>
+
+    <!-- 1 · global scaling -->
+    <rect x="556" y="160" width="308" height="96" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="568" y="182" font-size="13" font-weight="bold" fill="#1d4ed8">1 · Global feature scaling — once</text>
+    <text x="568" y="203" font-size="12" fill="#334155">server asks every site for per-column</text>
+    <text x="568" y="221" font-size="12" fill="#334155">sums, sums-of-squares and row counts,</text>
+    <text x="568" y="239" font-size="12" fill="#334155">combines them into one global mean/std</text>
+
+    <!-- 2 · FedAvg rounds -->
+    <rect x="556" y="266" width="308" height="130" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="568" y="288" font-size="13" font-weight="bold" fill="#1d4ed8">2 · FedAvg rounds</text>
+    <text x="568" y="309" font-size="12" fill="#334155">server sends the global model to all sites</text>
+    <text x="568" y="327" font-size="12" fill="#334155">each site scores it on local validation,</text>
+    <text x="568" y="345" font-size="12" fill="#334155">trains locally, sends back its weights</text>
+    <text x="568" y="363" font-size="12" fill="#334155">averaged weighted by each site&#39;s</text>
+    <text x="568" y="381" font-size="12" fill="#334155">training-session count</text>
+
+    <!-- 3 · best model -->
+    <rect x="556" y="406" width="308" height="72" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="568" y="428" font-size="13" font-weight="bold" fill="#1d4ed8">3 · Best model + early stopping</text>
+    <text x="568" y="449" font-size="12" fill="#334155">tracks weighted validation MSE (val_mse)</text>
+    <text x="568" y="467" font-size="12" fill="#334155">stops after --patience rounds without gain</text>
+
+    <!-- global model chip -->
+    <rect x="556" y="488" width="308" height="42" rx="8" fill="#dbeafe" stroke="#1d4ed8" stroke-dasharray="4 3"/>
+    <text x="710" y="506" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">Global model: FedFusionModel</text>
+    <text x="710" y="522" text-anchor="middle" font-size="11" fill="#334155">FusionRegressor · scaling buffers · LMMNN</text>
+  </g>
+
+  <!-- ============ SITE 1 ============ -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="130" width="320" height="366" rx="14" fill="#ecfdf5" stroke="#047857" stroke-width="2"/>
+    <path d="M40,144 Q40,130 54,130 L346,130 Q360,130 360,144 L360,170 L40,170 Z" fill="#047857"/>
+    <text x="200" y="158" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">Site 1 · Center (Client)</text>
+
+    <rect x="52" y="182" width="296" height="100" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="64" y="202" font-size="13" font-weight="bold" fill="#047857">Local data — stays private</text>
+    <text x="64" y="222" font-size="12" fill="#334155">• 97-col phenotype matrix (ds007116)</text>
+    <text x="64" y="240" font-size="12" fill="#334155">• 80-dim image embeddings (ds007089)</text>
+    <text x="64" y="258" font-size="12" fill="#334155">• covariates: age · session_index</text>
+
+    <rect x="52" y="294" width="296" height="74" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="64" y="314" font-size="13" font-weight="bold" fill="#047857">Local validation</text>
+    <text x="64" y="335" font-size="12" fill="#334155">scores the received global model</text>
+    <text x="64" y="353" font-size="12" fill="#334155">on the site&#39;s own validation set</text>
+
+    <rect x="52" y="380" width="296" height="100" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="64" y="400" font-size="13" font-weight="bold" fill="#047857">Local training — client.py</text>
+    <text x="64" y="420" font-size="12" fill="#334155">a few local epochs on site data</text>
+    <text x="64" y="438" font-size="12" fill="#334155">sends back: local weights · metrics</text>
+    <text x="64" y="456" font-size="12" fill="#334155">· training-session count</text>
+  </g>
+
+  <!-- ============ SITE N ============ -->
+  <g filter="url(#shadow)">
+    <rect x="1080" y="130" width="320" height="366" rx="14" fill="#ecfdf5" stroke="#047857" stroke-width="2" stroke-dasharray="8 5"/>
+    <path d="M1080,144 Q1080,130 1094,130 L1386,130 Q1400,130 1400,144 L1400,170 L1080,170 Z" fill="#047857"/>
+    <text x="1240" y="158" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">Site N · Center (Client)</text>
+
+    <rect x="1092" y="182" width="296" height="100" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="1104" y="202" font-size="13" font-weight="bold" fill="#047857">Local data — stays private</text>
+    <text x="1104" y="222" font-size="12" fill="#334155">• 97-col phenotype matrix (ds007116)</text>
+    <text x="1104" y="240" font-size="12" fill="#334155">• 80-dim image embeddings (ds007089)</text>
+    <text x="1104" y="258" font-size="12" fill="#334155">• covariates: age · session_index</text>
+
+    <rect x="1092" y="294" width="296" height="74" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="1104" y="314" font-size="13" font-weight="bold" fill="#047857">Local validation</text>
+    <text x="1104" y="335" font-size="12" fill="#334155">scores the received global model</text>
+    <text x="1104" y="353" font-size="12" fill="#334155">on the site&#39;s own validation set</text>
+
+    <rect x="1092" y="380" width="296" height="100" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="1104" y="400" font-size="13" font-weight="bold" fill="#047857">Local training — client.py</text>
+    <text x="1104" y="420" font-size="12" fill="#334155">a few local epochs on site data</text>
+    <text x="1104" y="438" font-size="12" fill="#334155">sends back: local weights · metrics</text>
+    <text x="1104" y="456" font-size="12" fill="#334155">· training-session count</text>
+  </g>
+
+  <!-- ============ PRIVACY BOUNDARIES ============ -->
+  <rect x="18" y="112" width="364" height="402" rx="16" fill="none" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="28" y="128" font-size="10" font-weight="bold" fill="#dc2626">PRIVACY BOUNDARY</text>
+  <text x="28" y="142" font-size="10" fill="#dc2626">Raw data never leaves this center</text>
+
+  <rect x="1058" y="112" width="364" height="402" rx="16" fill="none" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="1068" y="128" font-size="10" font-weight="bold" fill="#dc2626">PRIVACY BOUNDARY</text>
+  <text x="1068" y="142" font-size="10" fill="#dc2626">Raw data never leaves this center</text>
+
+  <!-- ============ FLOW ARROWS: server <-> sites ============ -->
+  <!-- server -> sites: global weights -->
+  <line x1="540" y1="250" x2="362" y2="250" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arm-blue)"/>
+  <text x="451" y="240" text-anchor="middle" font-size="11" fill="#475569">global model weights</text>
+  <line x1="880" y1="250" x2="1078" y2="250" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arm-blue)"/>
+  <text x="979" y="240" text-anchor="middle" font-size="11" fill="#475569">global model weights</text>
+
+  <!-- sites -> server: local weights / metrics / counts -->
+  <line x1="360" y1="306" x2="538" y2="306" stroke="#047857" stroke-width="2" marker-end="url(#arm-green)"/>
+  <text x="450" y="296" text-anchor="middle" font-size="11" fill="#475569">weights · metrics · counts</text>
+  <line x1="1080" y1="306" x2="902" y2="306" stroke="#047857" stroke-width="2" marker-end="url(#arm-green)"/>
+  <text x="990" y="296" text-anchor="middle" font-size="11" fill="#475569">weights · metrics · counts</text>
+
+  <!-- sites -> server: aggregate sums (once) -->
+  <line x1="360" y1="358" x2="538" y2="358" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arm-gray)"/>
+  <text x="450" y="348" text-anchor="middle" font-size="11" fill="#94a3b8">column sums / counts — once</text>
+  <line x1="1080" y1="358" x2="902" y2="358" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arm-gray)"/>
+  <text x="990" y="348" text-anchor="middle" font-size="11" fill="#94a3b8">column sums / counts — once</text>
+
+  <!-- ============ DATA SOURCES (center) ============ -->
+  <g filter="url(#shadow)">
+    <rect x="540" y="560" width="340" height="110" rx="12" fill="#fffbeb" stroke="#b45309" stroke-width="2"/>
+    <path d="M540,574 Q540,560 554,560 L866,560 Q880,560 880,574 L880,596 L540,596 Z" fill="#b45309"/>
+    <text x="710" y="585" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">Data sources — OpenNeuro (public)</text>
+    <text x="710" y="610" text-anchor="middle" font-size="12" fill="#78350f">ds007089 FreeSurfer MRI → 80-dim embeddings</text>
+    <text x="710" y="628" text-anchor="middle" font-size="12" fill="#78350f">(T1w derivatives · 4 centers · ~1.5 GB)</text>
+    <text x="710" y="646" text-anchor="middle" font-size="12" fill="#78350f">ds007116 phenotypes → 97-col matrix +</text>
+    <text x="710" y="663" text-anchor="middle" font-size="12" fill="#78350f">covariates (age · session_index)</text>
+  </g>
+
+  <!-- ============ PER-SITE FOLDERS ============ -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="560" width="320" height="110" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+    <path d="M40,574 Q40,560 54,560 L346,560 Q360,560 360,574 L360,596 L40,596 Z" fill="#7c3aed"/>
+    <text x="200" y="585" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">Site 1 folder</text>
+    <text x="200" y="610" text-anchor="middle" font-size="12" fill="#4c1d95">prepare_site_data.py splits by participant</text>
+    <text x="200" y="628" text-anchor="middle" font-size="12" fill="#4c1d95">→ train.csv · val.csv · columns.json</text>
+    <text x="200" y="646" text-anchor="middle" font-size="12" fill="#4c1d95">all sessions of a participant stay</text>
+    <text x="200" y="663" text-anchor="middle" font-size="12" fill="#4c1d95">at their own site</text>
+
+    <rect x="1080" y="560" width="320" height="110" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+    <path d="M1080,574 Q1080,560 1094,560 L1386,560 Q1400,560 1400,574 L1400,596 L1080,596 Z" fill="#7c3aed"/>
+    <text x="1240" y="585" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">Site N folder</text>
+    <text x="1240" y="610" text-anchor="middle" font-size="12" fill="#4c1d95">prepare_site_data.py splits by participant</text>
+    <text x="1240" y="628" text-anchor="middle" font-size="12" fill="#4c1d95">→ train.csv · val.csv · columns.json</text>
+    <text x="1240" y="646" text-anchor="middle" font-size="12" fill="#4c1d95">all sessions of a participant stay</text>
+    <text x="1240" y="663" text-anchor="middle" font-size="12" fill="#4c1d95">at their own site</text>
+  </g>
+
+  <!-- ============ DATA -> FOLDER -> SITES ARROWS ============ -->
+  <line x1="540" y1="615" x2="362" y2="615" stroke="#b45309" stroke-width="2" marker-end="url(#arm-amber)"/>
+  <text x="450" y="607" text-anchor="middle" font-size="10" fill="#b45309">preprocessed features</text>
+  <line x1="880" y1="615" x2="1078" y2="615" stroke="#b45309" stroke-width="2" marker-end="url(#arm-amber)"/>
+  <text x="980" y="607" text-anchor="middle" font-size="10" fill="#b45309">preprocessed features</text>
+
+  <line x1="200" y1="560" x2="200" y2="498" stroke="#7c3aed" stroke-width="2" marker-end="url(#arm-violet)"/>
+  <line x1="1240" y1="560" x2="1240" y2="498" stroke="#7c3aed" stroke-width="2" marker-end="url(#arm-violet)"/>
+
+  <!-- ============ LEGEND ============ -->
+  <text x="40" y="724" font-size="12" font-weight="bold" fill="#0f172a">Legend</text>
+  <line x1="110" y1="719" x2="158" y2="719" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arm-blue)"/>
+  <text x="166" y="724" font-size="11" fill="#475569">server → sites: global weights</text>
+  <line x1="350" y1="719" x2="398" y2="719" stroke="#047857" stroke-width="2" marker-end="url(#arm-green)"/>
+  <text x="406" y="724" font-size="11" fill="#475569">sites → server: weights · metrics · counts</text>
+  <line x1="640" y1="719" x2="688" y2="719" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arm-gray)"/>
+  <text x="696" y="724" font-size="11" fill="#475569">once: aggregate column sums / counts</text>
+  <line x1="940" y1="719" x2="988" y2="719" stroke="#b45309" stroke-width="2" marker-end="url(#arm-amber)"/>
+  <text x="996" y="724" font-size="11" fill="#475569">data sources → preprocessing</text>
+  <line x1="1240" y1="719" x2="1288" y2="719" stroke="#7c3aed" stroke-width="2" marker-end="url(#arm-violet)"/>
+  <text x="1296" y="724" font-size="11" fill="#475569">per-site split</text>
+
+  <text x="720" y="758" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">Result — FedAvg R² = 0.265 ± 0.042 vs centralized 0.273 ± 0.055 vs single site 0.116 ± 0.032: federation recovers ~all pooled-data performance while no record leaves a site.</text>
+</svg>

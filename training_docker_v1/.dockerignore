@@ -5,6 +5,11 @@ __pycache__/
 
 data/
 checkpoints/
+federation_outputs/
+flare_outputs/
+federated/flare/data/
+jobs/
+provision_workspace/
 results/
 
 .git/
