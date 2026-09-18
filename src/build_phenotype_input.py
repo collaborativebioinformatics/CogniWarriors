@@ -124,7 +124,7 @@ def main():
         ["age"]
         + [col for spec in config.NON_EF_COGNITION_TASKS.values() for col in spec["columns"]]
         + [col for cols in config.SELF_REPORT_SCALES.values() for col in cols]
-        + ["tanner_mean_stage", "tanner_complete"]
+        + ["tanner_mean_stage"]  # tanner_complete: p=0.138 vs ef_composite, cut
         + dx_columns
     )
     categorical_candidate_columns = [c for c in config.CATEGORICAL_COLUMNS if c in result.columns]

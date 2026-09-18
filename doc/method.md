@@ -71,7 +71,12 @@ as invalid would have discarded almost all data for those three tasks.
 
 ## 3. Phenotype feature matrix
 
-One row per session (225 rows), 161 embedder-input columns, built from:
+One row per session (225 rows). Built in two passes: first a broad
+candidate matrix (161 embedder-input columns), then a feature-selection
+pass that pruned it to the final **97** columns actually used. Both are
+described below; `doc/results.md` has the full before/after numbers.
+
+### 3.1 Candidate construction (initial 161-column matrix)
 
 - `participants.tsv`: `study_group`, `sex`, `race`, `ethnicity` (one-hot
   encoded — see rationale below), 10 `dx_*` diagnostic flags (kept as
@@ -80,8 +85,10 @@ One row per session (225 rows), 161 embedder-input columns, built from:
   baseline-only age, which is invalid for later sessions) and a derived
   `session_index` (1/2/3) — both kept as explicit covariates concatenated
   in at the regression head, **not** fed through the embedder itself.
-- 14 non-EF CNB cognition tasks + Trail Making A + Digit Symbol: one
-  accuracy + one RT column each, same QC gating as the EF composite.
+- 16 non-EF CNB cognition tasks (including Trail Making A and Digit
+  Symbol, both EF-adjacent but excluded from the composite itself — see
+  `EF_ADJACENT_EXCLUDED_FROM_COMPOSITE`): one accuracy + one RT column
+  each, same QC gating as the EF composite.
 - 17 self-report scales (PANAS, STAI pre/post, BIS/BAS, ALS-18, ALES, BDI,
   PPA, ARI, ASRM, RPAS, RSAS, MAP-SR, Wolf IM/EM, E-SWAN ADHD/DMDD, PRIME):
   summary/subscale totals only — item-level responses are excluded to
@@ -100,6 +107,68 @@ These are nominal categories with no natural order — a single numeric
 column (e.g. `study_group = 0/1/2`) would force the model to treat the
 categories as evenly spaced on an invented scale. One-hot avoids that at
 the cost of a few extra columns, which is cheap at this N.
+
+### 3.2 Feature selection pass (161 → 97 columns)
+
+161 columns for ≈217 usable sessions (132 unique subjects; GroupKFold
+folds are only ≈40 samples) is wide relative to N — `phenotype_model.py`
+already compensates on the model side (small embedder, dropout, weight
+decay), but nothing had trimmed the input side to match, and the initial
+matrix was built by a "not part of the EF composite → include it" rule
+rather than a chosen feature set. `src/analyze_phenotype_features.py`
+computes three things against the 161-column matrix to fix that:
+
+1. **Univariate association** — Pearson + Spearman r of every column vs.
+   `ef_composite` (217 sessions with a valid composite).
+2. **Redundancy** — pairwise Pearson correlation across all columns
+   (225 sessions), flagged at \|r\| ≥ 0.85, split into substantive pairs
+   vs. `_was_missing`-indicator pairs (the latter mostly reflect whole
+   CNB/self-report batteries being skipped together in a session, not a
+   feature-value duplication).
+3. **VIF** — variance inflation factor per substantive continuous/binary
+   column (one-hot dummies and `_was_missing` indicators excluded, since
+   both are collinear by construction and would just re-report #2 as a
+   wall of `inf`), via closed-form OLS regression of each column on the
+   rest (no `statsmodels` dependency).
+
+**Selection rule applied**: keep a column unconditionally if it's
+demographic/diagnostic/structural (`study_group`, `sex`, `race`,
+`ethnicity`, `dx_*`, the two covariates) — these are cheap, theoretically
+load-bearing, and not the source of the width problem. Otherwise keep it
+only if it shows p<0.05 (uncorrected) univariate association with
+`ef_composite`. Two exceptions applied regardless of p-value:
+`difference_of_im_em_averages` was dropped because it's an exact linear
+combination of `im_average`/`em_average` already in the set (VIF 25–41,
+the worst in the table), and `cnb_trails_cr` was dropped because it's
+constant (25.0) across all 225 sessions post-imputation — zero variance,
+zero information.
+
+**Result**: 8 self-report instruments dropped entirely (PANAS, STAI
+pre/post, ALS-18, ALES, BDI, PPA, RSAS, E-SWAN DMDD — none had a
+significant column, and this removed most of the worst missingness
+offenders too), several more trimmed to their surviving subscale(s)
+(BIS/BAS → `bas_rr` only; MAP-SR → social+recvoc; Wolf IM/EM →
+im/em averages only; E-SWAN ADHD → inattention only; PRIME → total score
+only; Tanner → mean stage only), and a handful of CNB RT/total columns
+dropped where only the paired accuracy/RT column was significant (VOLT,
+Matrix Reasoning, Line Orientation, effort/risk discounting). CNB task
+columns survived almost intact (26/32) — the bloat was concentrated in
+self-report, not cognition. Full before/after tables in
+`doc/results.md`.
+
+**One deliberate non-cut, flagged rather than silently trusted**: Digit
+Symbol (both columns) and Trail Making A's RT survive the rule with the
+*strongest* univariate signal in the whole table (\|r\| up to 0.67) — but
+they're the same EF-adjacent tasks kept out of the composite for
+resembling it too closely. Kept as phenotype input, but the embedder may
+be partly re-deriving "processing speed ≈ EF" rather than adding
+independent signal; worth stating explicitly if these numbers go in a
+write-up.
+
+**Not yet done**: the `_was_missing` indicators were not collapsed from
+one-per-column to one-per-administered-block, so 106 near-duplicate
+indicator pairs still remain post-pruning (down from 163, only because
+there are fewer columns overall) — see Section 5.
 
 ### Missing-value handling
 
@@ -146,6 +215,12 @@ produces useful embeddings — see `doc/results.md` for the numbers.
 - The NVFLARE federated training loop across simulated institutes.
 - Re-introducing structural-MRI QC (Euler number) as a covariate once the
   image side lands (it was explicitly dropped from this pipeline's scope).
+- Collapsing the `_was_missing` indicators to one flag per administered
+  battery/form instead of one per column (see Section 3.2).
+- Deciding where `age`/`session_index` concatenate in the eventual fusion
+  model — currently bolted onto the phenotype-only sanity-check head,
+  but they're session-level, not phenotype-specific, so they may belong
+  at Model 3's head instead once the image side exists.
 
 ## Reference: pipeline scripts
 
@@ -154,6 +229,7 @@ produces useful embeddings — see `doc/results.md` for the numbers.
 | `src/config.py` | Single source of truth for EF task list, QC codes, feature-column selections, thresholds |
 | `src/download_openneuro.py` | Downloads `participants.tsv` + `sessions.tsv` from the public OpenNeuro S3 bucket |
 | `src/build_ef_composite.py` | Computes `ef_composite` per session |
-| `src/build_phenotype_input.py` | Builds the 225×161 phenotype feature matrix + manifest |
+| `src/build_phenotype_input.py` | Builds the 225×97 phenotype feature matrix + manifest |
+| `src/analyze_phenotype_features.py` | Per-feature target association, redundancy, and VIF — drives the Section 3.2 selection rule |
 | `src/phenotype_model.py` | `PhenotypeEmbedder` + `PhenotypeRegressor` (PyTorch) |
 | `src/train_phenotype_sanity.py` | GroupKFold sanity check: MLP vs. Ridge vs. mean-baseline |

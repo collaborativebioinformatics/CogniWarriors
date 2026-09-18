@@ -94,21 +94,25 @@ CATEGORICAL_COLUMNS = ["study_group", "sex", "race", "ethnicity"]
 NON_EF_COGNITION_TASKS = {
     "penn_face_memory_test": {"columns": ["cnb_cpf_cr", "cnb_cpf_rtcr"], "valid_code_column": "cnb_cpf_valid_code"},
     "penn_word_memory_test": {"columns": ["cnb_cpw_cr", "cnb_cpw_rtcr"], "valid_code_column": "cnb_cpw_valid_code"},
-    "visual_object_learning_test": {"columns": ["cnb_volt_cr", "cnb_volt_rtcr"], "valid_code_column": "cnb_volt_valid_code"},
+    "visual_object_learning_test": {"columns": ["cnb_volt_cr"], "valid_code_column": "cnb_volt_valid_code"},  # rtcr: p=0.198 vs ef_composite, cut
     "penn_emotion_recognition_task": {"columns": ["cnb_er40_cr", "cnb_er40_rtcr"], "valid_code_column": "cnb_er40_valid_code"},
     "measured_emotion_differentiation_test": {"columns": ["cnb_medf_cr", "cnb_medf_rtcr"], "valid_code_column": "cnb_medf_valid_code"},
     "age_differentiation_test": {"columns": ["cnb_adt_cr", "cnb_adt_rtcr"], "valid_code_column": "cnb_adt_valid_code"},
-    "penn_matrix_reasoning_test": {"columns": ["cnb_pmat_cr", "cnb_pmat_rtcr"], "valid_code_column": "cnb_pmat_valid_code"},
+    "penn_matrix_reasoning_test": {"columns": ["cnb_pmat_cr"], "valid_code_column": "cnb_pmat_valid_code"},  # rtcr: p=0.054, cut
     "penn_verbal_reasoning_test": {"columns": ["cnb_pvrt_cr", "cnb_pvrt_rtcr"], "valid_code_column": "cnb_pvrt_valid_code"},
-    "variable_short_penn_line_orientation_test": {"columns": ["cnb_plot_cr", "cnb_plot_rtcr"], "valid_code_column": "cnb_plot_valid_code"},
+    "variable_short_penn_line_orientation_test": {"columns": ["cnb_plot_cr"], "valid_code_column": "cnb_plot_valid_code"},  # rtcr: p=0.051, cut
     "motor_praxis": {"columns": ["cnb_mpract_mp2", "cnb_mpract_mp2rtcr"], "valid_code_column": "cnb_mpract_valid_code"},
     "short_computerized_finger_tapping_task": {"columns": ["cnb_ctap_dom", "cnb_ctap_non"], "valid_code_column": "cnb_ctap_valid_code"},
     "delay_discounting_task": {"columns": ["cnb_ddisc_tot", "cnb_ddisc_rt"], "valid_code_column": "cnb_ddisc_valid_code"},
-    "effort_discounting_task": {"columns": ["cnb_edisc_tot", "cnb_edisc_rt"], "valid_code_column": "cnb_edisc_valid_code"},
-    "risk_discounting_task": {"columns": ["cnb_rdisc_tot", "cnb_rdisc_rt"], "valid_code_column": "cnb_rdisc_valid_code"},
+    "effort_discounting_task": {"columns": ["cnb_edisc_rt"], "valid_code_column": "cnb_edisc_valid_code"},  # tot: p=0.214, cut
+    "risk_discounting_task": {"columns": ["cnb_rdisc_rt"], "valid_code_column": "cnb_rdisc_valid_code"},  # tot: p=0.575, cut
     # EF-adjacent tasks deliberately excluded from the EF composite (see
-    # EF_ADJACENT_EXCLUDED_FROM_COMPOSITE) but still valid phenotype input:
-    "trailmaking_test_a": {"columns": ["cnb_trails_cr", "cnb_trails_rtcr"], "valid_code_column": "cnb_trails_valid_code"},
+    # EF_ADJACENT_EXCLUDED_FROM_COMPOSITE) but still valid phenotype input.
+    # cr dropped: constant (25.0) across all 225 sessions post-imputation --
+    # zero variance, zero information. rtcr kept despite being the single
+    # strongest univariate predictor in the whole table (|r|=0.66) -- flagged
+    # in doc/results.md as a near-EF-tautology risk, not silently trusted.
+    "trailmaking_test_a": {"columns": ["cnb_trails_rtcr"], "valid_code_column": "cnb_trails_valid_code"},
     "digit_symbol": {"columns": ["cnb_digsym_dscor", "cnb_digsym_dscorrt"], "valid_code_column": "cnb_digsym_valid_code"},
 }
 
@@ -118,24 +122,24 @@ NON_EF_COGNITION_TASKS = {
 # als_avg_score, which is a constant multiple of it). No valid_code column
 # exists for these (REDCap-style forms use a "_complete" flag instead, which
 # the underlying summary-score columns already reflect via their own NaNs).
+#
+# Pruned to columns with p<0.05 (uncorrected) univariate association with
+# ef_composite, via src/analyze_phenotype_features.py -- see
+# doc/results.md for the full ranked table and rationale. Instruments cut
+# entirely (no surviving column): PANAS, pre/post-scan STAI, ALS-18, ALES,
+# BDI, PPA, RSAS, E-SWAN DMDD -- this also removed most of the worst
+# missingness offenders (PANAS ~45%, RSAS 36%, ALES 33%, ALS 31%).
+# difference_of_im_em_averages dropped separately: it's an exact linear
+# combination of im_average/em_average (VIF 25-41), not new information.
 SELF_REPORT_SCALES = {
-    "panas": ["panas_sum_pos", "panas_sum_neg"],
-    "pre_scan_stai": ["pre_scan_STAI_state_total_score", "pre_scan_STAI_trait_total_score"],
-    "post_scan_stai_state": ["post_scan_STAI_state_total_score"],
-    "bisbas_child": ["bissc_total", "bas_drive", "bas_fs", "bas_rr"],
-    "als-18": ["als_total_score"],
-    "ales": ["ales_frequency", "ales_severity_mean", "ales_good_count", "ales_bad_count"],
-    "bdi_1a_ms_child": ["bdi_1a_ms_child_total_score"],
-    "ppa": ["ppa_total_score"],
+    "bisbas_child": ["bas_rr"],
     "ari": ["ari_total_score"],
     "asrm": ["asrm_total_score"],
     "rpas": ["rpas_total_score"],
-    "rsas": ["rsas_total_score"],
-    "mapssr": ["mapssr_social_total", "mapssr_recvoc_total", "mapssr_motrelation_total", "mapssr_engage_total"],
-    "wolf_im_em": ["im_average", "em_average", "difference_of_im_em_averages", "validity_never_sleepy"],
-    "eswan_adhd": ["eswan_adhd_inattention_total", "eswan_adhd_hyperactivity_impulsivity_total"],
-    "eswan_dmdd": ["eswan_dmdd_home_total", "eswan_dmdd_friends_total", "eswan_dmdd_school_total"],
-    "prime": ["prime_total_score", "clinically_significant_psychosis_spectrum_symptoms"],
+    "mapssr": ["mapssr_social_total", "mapssr_recvoc_total"],
+    "wolf_im_em": ["im_average", "em_average"],
+    "eswan_adhd": ["eswan_adhd_inattention_total"],
+    "prime": ["prime_total_score"],
 }
 
 # substance.tsv has no summary score (sparse multi-select checkbox items,
