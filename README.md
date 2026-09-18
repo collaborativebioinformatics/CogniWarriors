@@ -23,9 +23,26 @@ This pipeline combines imaging and phenotype data across sites, aggregated into 
 **Key Architectural Principle:**
 Raw data (volumes, phenotype data) stays local to each site. Only model updates, not patient data, are shared with the central server — this is the core privacy-preserving mechanism of federated learning.
 
+### Mixed-Effects Model Implementation
+
+The system implements a **PyTorch mixed-effects model** for federated learning:
+
+- **Fixed Effects**: Global parameters learned at hub level (shared across all workers)
+- **Random Effects**: Local parameters learned at worker level (site-specific)
+- **FedAvg Aggregation**: Averages random effects from all workers
+
+**Model Architecture:**
+```
+MixedEffectsModel(
+  (fixed_weights): Linear(in_features=10, out_features=1, bias=False)
+  (random_weights): Linear(in_features=5, out_features=1, bias=False)
+)
+```
+
 ### Data Sources
 - **Imaging data**: Penn LEAD MRI derivatives (structural MRI scans)
 - **Phenotype data**: CNB tasks, self-report, demographics (age, sex, education)
+- **Dataset**: https://openneuro.org/datasets/ds007089/versions/1.0.1
 
 **Pipeline Components:**
 1. **Image Feature Extractor**: ROI thickness, 68 DK regions (ACTIVE: bypass placeholder) → feeds into Model 1
@@ -42,46 +59,73 @@ Raw data (volumes, phenotype data) stays local to each site. Only model updates,
 - Imaging features: currently using ROI thickness (68 DK regions) as an active bypass; planned swap to vertex-wise, functional connectivity, or raw volume features once ready
 - Phenotype features: finalized at 97 columns (pruned from 161 by univariate significance + redundancy/VIF analysis, see `doc/results.md`); sanity-check numbers there are re-run against this final set
 - Prediction targets: still TBD between EF composite and N-back score (2-back minus 0-back)
+- Pre-trained model initialization: REJECTED (no pre-training anymore)
+- Visualization dashboard: WIP, starting with CLI/Pythonic approaches
 
 ### How to Use
 
-#### 1. Start the Center
+#### Option 1: Docker (Recommended)
 ```bash
-python center.py --config flare_config.yaml --port 8080
+# Run with Docker Compose
+./run_docker.sh
+
+# Or manually
+docker-compose up --build
 ```
 
-#### 2. Start Workers
+#### Option 2: Local Testing
 ```bash
-python worker.py --center localhost:8080 --worker-id worker_01 --data-dir /data/center01
-python worker.py --center localhost:8080 --worker-id worker_02 --data-dir /data/center02
+# Run local test
+./run_test.sh
 ```
 
-#### 3. Monitor Training Progress
-Check `progress_output.txt` for training metrics.
+#### Option 3: Manual Setup
 
-#### 4. Input MRI Files
-Place structural MRI `.nii.gz` files in the specified directories and update `mri_input.txt` with paths.
+**Start the Hub:**
+```bash
+python3 center.py --port 8080 --n-workers 2 --n-rounds 3 --n-local-epochs 5
+```
+
+**Start Workers (in separate terminals):**
+```bash
+# Worker 1
+python3 worker.py --hub-address localhost:8080 --worker-id worker_01 --data-dir ./data/center01 --n-local-epochs 5 --n-rounds 3
+
+# Worker 2
+python3 worker.py --hub-address localhost:8080 --worker-id worker_02 --data-dir ./data/center02 --n-local-epochs 5 --n-rounds 3
+```
+
+#### Monitor Training Progress
+- Check `hub_metrics.json` for round-by-round metrics
+- Check `worker_01_report.json` and `worker_02_report.json` for worker-specific reports
+- View container logs: `docker-compose logs -f`
 
 ---
 
 ## Checklist
 
 ### Implemented ✅
-- [x] Center script (`center.py`) - distributes workers and coordinates FL process
-- [x] Worker script (`worker.py`) - connects to center, performs distributed training
-- [x] MRI input file (`mri_input.txt`) - structural MRI image paths
-- [x] Progress output file (`progress_output.txt`) - training metrics visualization
-- [x] README updated with setup confirmation
-- [x] FLARE framework integration
-- [x] Center-worker architecture for federated analysis
+- [x] Hub script (`center.py`) - distributes workers and coordinates FL process
+- [x] Worker script (`worker.py`) - connects to hub, performs distributed training
+- [x] Mixed-effects model with fixed and random effects
+- [x] FedAvg aggregation for random effects
+- [x] Round management for multi-round training
+- [x] Weight distribution to workers
+- [x] Docker support with docker-compose
+- [x] Network endpoints for container networking
+- [x] Training metrics logging
+- [x] Model checkpoint saving
+- [x] Worker report generation
 
 ### Outstanding 📋
+- [ ] Integrate with real MRI/phenotype data
 - [ ] FLARE configuration file (`flare_config.yaml`) - detailed FL setup
-- [ ] Pre-trained model initialization and fine-tuning pipeline
 - [ ] Structural MRI loading and preprocessing pipeline
 - [ ] Phenotypical data integration with training progress
 - [ ] Visualization dashboard for training progress
 - [ ] Multi-center coordination and data governance protocols
+- [ ] Model validation and cross-validation
+- [ ] Authentication and security for worker-hub communication
 
 ### Archived Design History (from `doc/architecture_design_record.md`)
 The project has evolved through several architecture designs, documented in the architecture design record with timestamps from 10:25 to 11:10. Key evolutions include:
@@ -89,28 +133,69 @@ The project has evolved through several architecture designs, documented in the 
 - Addition of PENN LEAD v1.0 as origin dataset with multimodal MRI (T1, rs-fMRI, DWI)
 - Refinement of N-back score as primary output prediction
 - Implementation of privacy-preserving data governance (raw data stays local)
+- Mixed-effects model with random effects at worker level, fixed effects at hub level
 
 ---
 
 ## Project Directory Structure
 
 ```
- /Users/ahmet/Desktop/Longitudinal_imaging_to_multimodality/
- ├── .git/
- ├── LICENSE
- ├── README.md              # Updated with how-to guide and checklist
- ├── center.py              # FLARE center script
- ├── doc/
- │   ├── agents.md          # Agents administration guide
- │   ├── architecture_design_record.md  # Architecture design and decisions with full timestamp history
- │   ├── dataset_description.md
- │   ├── method.md
- │   ├── problem.md
- │   └── results.md
- ├── mri_input.txt          # Structural MRI input file
- ├── progress_output.txt    # Training progress visualization
- ├── workflow.png           # Project workflow diagram
- └── worker.py              # FLARE worker script
+longitudinal_imaging_to_multimodality/
+├── center.py                  # Hub script with Global Model, FedAvg, Round Management
+├── worker.py                  # Worker script with local training
+├── docker-compose.yml         # Docker orchestration
+├── Dockerfile.hub             # Docker image for hub
+├── Dockerfile.worker          # Docker image for workers
+├── requirements.txt           # Python dependencies
+├── run_docker.sh              # Docker run script
+├── run_test.sh                # Local test script
+├── doc/
+│   ├── agents.md              # Agents administration guide
+│   ├── architecture_design_record.md  # Architecture decisions
+│   ├── dataset_description.md
+│   ├── method.md
+│   ├── problem.md
+│   └── results.md
+├── src/
+│   ├── config.py              # Configuration and constants
+│   ├── phenotype_model.py     # Phenotype embedder model
+│   ├── train_phenotype_sanity.py  # Training script
+│   └── ...
+├── data/
+│   ├── processed/             # Processed data
+│   └── ...
+├── hub_model.pt               # Saved global model (after training)
+├── hub_metrics.json           # Training metrics (after training)
+├── worker_01_report.json      # Worker 01 report (after training)
+└── worker_02_report.json      # Worker 02 report (after training)
+```
+
+---
+
+## Docker Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    Docker Network                       │
+│  ┌─────────────────────────────────────────────────┐   │
+│  │              Hub Container                      │   │
+│  │  - Global Model (Fixed Effects)                 │   │
+│  │  - FedAvg Aggregator                            │   │
+│  │  - Round Manager                                │   │
+│  │  - Weight Distributor                           │   │
+│  │  - Port: 8080                                   │   │
+│  └─────────────────────────────────────────────────┘   │
+│                         │                               │
+│         ┌───────────────┼───────────────┐               │
+│         │               │               │               │
+│  ┌──────▼──────┐ ┌──────▼──────┐ ┌──────▼──────┐       │
+│  │ Worker 01   │ │ Worker 02   │ │ Worker N    │       │
+│  │ - Local     │ │ - Local     │ │ - Local     │       │
+│  │   Training  │ │   Training  │ │   Training  │       │
+│  │ - Random    │ │ - Random    │ │ - Random    │       │
+│  │   Effects   │ │   Effects   │ │   Effects   │       │
+│  └─────────────┘ └─────────────┘ └─────────────┘       │
+└─────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -121,6 +206,10 @@ The project has evolved through several architecture designs, documented in the 
 * Imaging Data  
 * Time Data  
 * Omics Data  
+
+**Python Dependencies:**
+- torch>=2.0.0
+- numpy>=1.24.0
 
 ---
 
@@ -133,7 +222,50 @@ The project has evolved through several architecture designs, documented in the 
 - [https://data.dpuk.ukserp.ac.uk/cohortdirectory/Item?fingerPrintID=GENFI](https://data.dpuk.ukserp.ac.uk/cohortdirectory/Item?fingerPrintID=GENFI)  
 - [https://atlaslongitudinaldatasets.ac.uk/datasets/ppmi-pd](https://atlaslongitudinaldatasets.ac.uk/datasets/ppmi-pd)
 - [https://openneuro.org/datasets/ds007116/versions/1.0.6](https://openneuro.org/datasets/ds007116/versions/1.0.6)
+- [https://openneuro.org/datasets/ds007089/versions/1.0.1](https://openneuro.org/datasets/ds007089/versions/1.0.1)
 
 **Data**: ~1.5 GB (223 T1w volumes + phenotype tables) — organized into 4 centers per `doc/architecture_design_record.md` entry 12:44.
+
+---
+
+## Quick Reference
+
+### Docker Commands
+```bash
+# Start all containers
+docker-compose up --build
+
+# Stop all containers
+docker-compose down
+
+# View logs
+docker-compose logs -f
+
+# Rebuild containers
+docker-compose down && docker-compose up --build
+```
+
+### Local Commands
+```bash
+# Start hub
+python3 center.py --port 8080 --n-workers 2 --n-rounds 3
+
+# Start worker
+python3 worker.py --hub-address localhost:8080 --worker-id worker_01 --data-dir ./data/center01
+
+# Run automated test
+./run_test.sh
+```
+
+### Configuration Options
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `--port` | 8080 | Hub port |
+| `--host` | 0.0.0.0 | Hub host (0.0.0.0 for Docker) |
+| `--n-workers` | 2 | Number of workers |
+| `--n-rounds` | 5 | Federated rounds |
+| `--n-local-epochs` | 10 | Local epochs per worker |
+| `--n-fixed-features` | 10 | Fixed effect features |
+| `--n-random-features` | 5 | Random effect features |
 
 ![Workflow](workflow.png)
