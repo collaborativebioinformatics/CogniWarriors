@@ -3,137 +3,124 @@ Name TBA, **Project Mind-blowing**
 
 ## Architecture Overview
 
-The project follows a federated learning architecture for N-back score prediction across multiple sites, as documented in `doc/architecture_design_record.md`.
+Federated learning system for N-back score prediction using a **Federation Head + Training Heads** architecture with mixed-effects models.
 
-### Latest Architecture (11:10 Entry: 2026-09-17)
-**Federated Learning for N-back Score Prediction (Multi-Site)**
-
-This pipeline combines imaging and phenotype data across sites, aggregated into a global model that predicts N-back scores via regression.
-
-**Sites:**
-- **Site A** — Dataset 1 (e.g., ADNI): sMRI → hippocampus/structure segmentation → Volumes (hippocampus, other structures) + Phenotype data (age, sex, education)
-- **Site B** — Dataset 2 (e.g., OASIS): Mirrors Site A's pipeline
-
-**Federated Learning Flow:**
-- Each site performs local model training on its own data (data never leaves the site)
-- Both sites send model updates to a central FLARE server, which aggregates via FedAvg
-- The server produces a Global Model — a neural network that predicts N-back score
-- The Global Model outputs the final N-back score (Regression)
-
-**Key Architectural Principle:**
-Raw data (volumes, phenotype data) stays local to each site. Only model updates, not patient data, are shared with the central server — this is the core privacy-preserving mechanism of federated learning.
-
-### Mixed-Effects Model Implementation
-
-The system implements a **PyTorch mixed-effects model** for federated learning:
-
-- **Fixed Effects**: Global parameters learned at hub level (shared across all workers)
-- **Random Effects**: Local parameters learned at worker level (site-specific)
-- **FedAvg Aggregation**: Averages random effects from all workers
-
-**Model Architecture:**
 ```
+Federation Head (center.py)              Training Heads (worker.py)
+┌─────────────────────────────┐         ┌─────────────────────────────┐
+│  Global Model (Fixed Eff.)  │  HTTP   │  Local Model (Random Eff.)  │
+│  FedAvg Aggregator          │◄───────►│  Local Training Only        │
+│  Round Manager              │  REST   │  Never exposes raw data     │
+└─────────────────────────────┘         └─────────────────────────────┘
+```
+
+**Privacy Principle:** Raw data stays local to each Training Head. Only model weights, sample counts, and metrics are shared via HTTP REST API.
+
+### Mixed-Effects Model
+
+- **Fixed Effects**: Global parameters shared across all Training Heads (federated)
+- **Random Effects**: Local parameters learned per Training Head (site-specific)
+- **FedAvg**: `W_global = (N1*W1 + N2*W2) / (N1 + N2)`
+
+```python
 MixedEffectsModel(
   (fixed_weights): Linear(in_features=10, out_features=1, bias=False)
   (random_weights): Linear(in_features=5, out_features=1, bias=False)
 )
 ```
 
+### REST API
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/health` | GET | Health check |
+| `/initialize` | POST | Load model weights |
+| `/train` | POST | Start local training (async) |
+| `/status` | GET | Poll training progress |
+| `/weights` | GET | Retrieve local weights + sample count |
+| `/evaluate` | POST | Evaluate model locally |
+
 ### Data Sources
-- **Imaging data**: Penn LEAD MRI derivatives (structural MRI scans)
-- **Phenotype data**: CNB tasks, self-report, demographics (age, sex, education)
 - **Dataset**: https://openneuro.org/datasets/ds007089/versions/1.0.1
+- **Imaging**: Penn LEAD MRI derivatives (structural MRI scans)
+- **Phenotype**: CNB tasks, self-report, demographics (age, sex, education)
 
-**Pipeline Components:**
-1. **Image Feature Extractor**: ROI thickness, 68 DK regions (ACTIVE: bypass placeholder) → feeds into Model 1
-   - Other imaging features (IN PROGRESS: vertex-wise / functional connectivity / raw volumes) → planned swap-in
-2. **Phenotype Feature Extractor**: 97 features (selected via `src/analyze_phenotype_features.py`, down from an initial 161-column candidate matrix — see `doc/method.md` §3.2) — age, sex, group, dx flags, non-target CNB domains, a trimmed set of self-report scales → feeds into Model 2
-3. **Embedding Models**: 
-   - Model 1: Image embedder — consumes imaging features
-   - Model 2: Phenotype embedder — consumes phenotype features
-4. **Late Fusion**: Concatenate embeddings — combines Model 1 + Model 2 outputs
-5. **Model 3: Prediction head**: Consumes the concatenated embedding to produce predictions
-6. **Targets (y — TBD)**: EF composite (placeholder), N-back score — 2-back minus 0-back (placeholder)
+---
 
-**Status Notes / Open Items:**
-- Imaging features: currently using ROI thickness (68 DK regions) as an active bypass; planned swap to vertex-wise, functional connectivity, or raw volume features once ready
-- Phenotype features: finalized at 97 columns (pruned from 161 by univariate significance + redundancy/VIF analysis, see `doc/results.md`); sanity-check numbers there are re-run against this final set
-- Prediction targets: still TBD between EF composite and N-back score (2-back minus 0-back)
-- Pre-trained model initialization: REJECTED (no pre-training anymore)
-- Visualization dashboard: WIP, starting with CLI/Pythonic approaches
+## How to Use
 
-### How to Use
-
-#### Option 1: Docker (Recommended)
+### Option 1: Docker (Recommended)
 ```bash
-# Run with Docker Compose
-./run_docker.sh
-
-# Or manually
-docker-compose up --build
+docker compose up --build
 ```
 
-#### Option 2: Local Testing
+### Option 2: Local Testing
 ```bash
-# Run local test
-./run_test.sh
+# Terminal 1 - Start Training Heads
+python3 worker.py --center-id center1 --data-dir ./data/center1 --port 8001 &
+python3 worker.py --center-id center2 --data-dir ./data/center2 --port 8002 &
+
+# Terminal 2 - Start Federation Head
+python3 center.py --training-heads http://localhost:8001 http://localhost:8002 --rounds 5 --epochs 10
 ```
 
-#### Option 3: Manual Setup
-
-**Start the Hub:**
+### Option 3: Manual Smoke Test
 ```bash
-python3 center.py --port 8080 --n-workers 2 --n-rounds 3 --n-local-epochs 5
+# Check health
+curl http://localhost:8001/health
+curl http://localhost:8002/health
+
+# Initialize
+curl -X POST http://localhost:8001/initialize \
+  -H "Content-Type: application/json" \
+  -d '{"round":1,"model_version":"v1","weights":null,"weights_format":"torch_state_dict_base64"}'
+
+curl -X POST http://localhost:8002/initialize \
+  -H "Content-Type: application/json" \
+  -d '{"round":1,"model_version":"v1","weights":null,"weights_format":"torch_state_dict_base64"}'
+
+# Start training
+curl -X POST http://localhost:8001/train \
+  -H "Content-Type: application/json" \
+  -d '{"round":1,"model_version":"v1","epochs":1}'
+
+curl -X POST http://localhost:8002/train \
+  -H "Content-Type: application/json" \
+  -d '{"round":1,"model_version":"v1","epochs":1}'
+
+# Poll status
+curl http://localhost:8001/status
+curl http://localhost:8002/status
+
+# Retrieve weights (after both complete)
+curl http://localhost:8001/weights
+curl http://localhost:8002/weights
 ```
-
-**Start Workers (in separate terminals):**
-```bash
-# Worker 1
-python3 worker.py --hub-address localhost:8080 --worker-id worker_01 --data-dir ./data/center01 --n-local-epochs 5 --n-rounds 3
-
-# Worker 2
-python3 worker.py --hub-address localhost:8080 --worker-id worker_02 --data-dir ./data/center02 --n-local-epochs 5 --n-rounds 3
-```
-
-#### Monitor Training Progress
-- Check `hub_metrics.json` for round-by-round metrics
-- Check `worker_01_report.json` and `worker_02_report.json` for worker-specific reports
-- View container logs: `docker-compose logs -f`
 
 ---
 
 ## Checklist
 
-### Implemented ✅
-- [x] Hub script (`center.py`) - distributes workers and coordinates FL process
-- [x] Worker script (`worker.py`) - connects to hub, performs distributed training
+### Implemented
+- [x] Federation Head (`center.py`) - orchestrates Training Heads, aggregates via FedAvg
+- [x] Training Head (`worker.py`) - Flask REST API, local training only
 - [x] Mixed-effects model with fixed and random effects
-- [x] FedAvg aggregation for random effects
+- [x] FedAvg aggregation with sample-weighted averaging
+- [x] Async training with polling
+- [x] Base64-encoded PyTorch state_dict serialization
 - [x] Round management for multi-round training
-- [x] Weight distribution to workers
-- [x] Docker support with docker-compose
-- [x] Network endpoints for container networking
 - [x] Training metrics logging
 - [x] Model checkpoint saving
-- [x] Worker report generation
 
-### Outstanding 📋
+### Outstanding
 - [ ] Integrate with real MRI/phenotype data
-- [ ] FLARE configuration file (`flare_config.yaml`) - detailed FL setup
 - [ ] Structural MRI loading and preprocessing pipeline
 - [ ] Phenotypical data integration with training progress
 - [ ] Visualization dashboard for training progress
-- [ ] Multi-center coordination and data governance protocols
+- [ ] Docker Compose for new architecture
+- [ ] Multi-center coordination and data governance
 - [ ] Model validation and cross-validation
-- [ ] Authentication and security for worker-hub communication
-
-### Archived Design History (from `doc/architecture_design_record.md`)
-The project has evolved through several architecture designs, documented in the architecture design record with timestamps from 10:25 to 11:10. Key evolutions include:
-- Transition from center-worker pattern to federated multi-site architecture
-- Addition of PENN LEAD v1.0 as origin dataset with multimodal MRI (T1, rs-fMRI, DWI)
-- Refinement of N-back score as primary output prediction
-- Implementation of privacy-preserving data governance (raw data stays local)
-- Mixed-effects model with random effects at worker level, fixed effects at hub level
+- [ ] Authentication and security for HTTP communication
 
 ---
 
@@ -141,131 +128,91 @@ The project has evolved through several architecture designs, documented in the 
 
 ```
 longitudinal_imaging_to_multimodality/
-├── center.py                  # Hub script with Global Model, FedAvg, Round Management
-├── worker.py                  # Worker script with local training
+├── center.py                  # Federation Head (HTTP orchestrator + FedAvg)
+├── worker.py                  # Training Head (Flask REST API + local training)
+├── requirements.txt           # torch, numpy, flask, requests
 ├── docker-compose.yml         # Docker orchestration
-├── Dockerfile.hub             # Docker image for hub
-├── Dockerfile.worker          # Docker image for workers
-├── requirements.txt           # Python dependencies
-├── run_docker.sh              # Docker run script
-├── run_test.sh                # Local test script
 ├── doc/
 │   ├── agents.md              # Agents administration guide
-│   ├── architecture_design_record.md  # Architecture decisions
-│   ├── dataset_description.md
-│   ├── method.md
-│   ├── problem.md
-│   └── results.md
+│   ├── architecture_design_record.md
+│   ├── 202609181219-FEDERATION_HEAD_HANDOFF.md  # API spec
+│   └── ...
 ├── src/
 │   ├── config.py              # Configuration and constants
 │   ├── phenotype_model.py     # Phenotype embedder model
-│   ├── train_phenotype_sanity.py  # Training script
 │   └── ...
 ├── data/
-│   ├── processed/             # Processed data
-│   └── ...
-├── hub_model.pt               # Saved global model (after training)
-├── hub_metrics.json           # Training metrics (after training)
-├── worker_01_report.json      # Worker 01 report (after training)
-└── worker_02_report.json      # Worker 02 report (after training)
+│   └── processed/             # Processed data
+├── federation_model.pt         # Saved global model (after training)
+└── federation_metrics.json     # Training metrics (after training)
 ```
 
 ---
 
-## Docker Architecture
+## Configuration
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Docker Network                       │
-│  ┌─────────────────────────────────────────────────┐   │
-│  │              Hub Container                      │   │
-│  │  - Global Model (Fixed Effects)                 │   │
-│  │  - FedAvg Aggregator                            │   │
-│  │  - Round Manager                                │   │
-│  │  - Weight Distributor                           │   │
-│  │  - Port: 8080                                   │   │
-│  └─────────────────────────────────────────────────┘   │
-│                         │                               │
-│         ┌───────────────┼───────────────┐               │
-│         │               │               │               │
-│  ┌──────▼──────┐ ┌──────▼──────┐ ┌──────▼──────┐       │
-│  │ Worker 01   │ │ Worker 02   │ │ Worker N    │       │
-│  │ - Local     │ │ - Local     │ │ - Local     │       │
-│  │   Training  │ │   Training  │ │   Training  │       │
-│  │ - Random    │ │ - Random    │ │ - Random    │       │
-│  │   Effects   │ │   Effects   │ │   Effects   │       │
-│  └─────────────┘ └─────────────┘ └─────────────┘       │
-└─────────────────────────────────────────────────────────┘
+### Federation Head (`center.py`)
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `--training-heads` | `http://localhost:8001 http://localhost:8002` | Training Head URLs |
+| `--rounds` | 5 | Number of federated rounds |
+| `--epochs` | 10 | Local epochs per round |
+| `--n-fixed-features` | 10 | Fixed effect features |
+| `--n-random-features` | 5 | Random effect features |
+| `--poll-interval` | 1.0 | Polling interval (seconds) |
+
+### Training Head (`worker.py`)
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `--center-id` | (required) | Center identifier |
+| `--data-dir` | (required) | Path to data directory |
+| `--port` | 8001 | Port to listen on |
+| `--host` | 0.0.0.0 | Host to bind to |
+| `--n-fixed-features` | 10 | Fixed effect features |
+| `--n-random-features` | 5 | Random effect features |
+
+---
+
+## Docker Commands
+```bash
+# Start all containers
+docker compose up --build
+
+# Stop all containers
+docker compose down
+
+# View logs
+docker compose logs -f
 ```
 
 ---
 
-## Requirements
+## Privacy Boundary
 
-* Team 9: Integrating longitudinal imaging data (from different data sources) with phenotype and genotype analysis  
-* Imaging Data  
-* Time Data  
-* Omics Data  
+The Federation Head must never read or mount Training Head data directories:
 
-**Python Dependencies:**
-- torch>=2.0.0
-- numpy>=1.24.0
+```text
+data/centers/center1    ← Training Head 1 only
+data/centers/center2    ← Training Head 2 only
+```
+
+Only these are shared via REST API:
+- Center ID
+- Round number
+- Model version
+- Sample count
+- Metrics (loss, MAE)
+- Model weights (base64-encoded state_dict)
 
 ---
 
 ## Resources
 
-- [https://github.com/IBM/comical/tree/main](https://github.com/IBM/comical/tree/main) (IBM, 2024\)  
-- ADNI  
-- [https://github.com/collaborativebioinformatics/Longitudinal\_imaging\_to\_multimodality](https://github.com/collaborativebioinformatics/Longitudinal_imaging_to_multimodality)  
-- [NBBH\_attendance\_confirmation\_and\_group\_assignment](https://docs.google.com/spreadsheets/d/104H5TKJJpT7IsP2lMZRVPLlJf7pW9inCzA1hD_KDTWc/edit?gid=719203122#gid=719203122)  
-- [https://data.dpuk.ukserp.ac.uk/cohortdirectory/Item?fingerPrintID=GENFI](https://data.dpuk.ukserp.ac.uk/cohortdirectory/Item?fingerPrintID=GENFI)  
-- [https://atlaslongitudinaldatasets.ac.uk/datasets/ppmi-pd](https://atlaslongitudinaldatasets.ac.uk/datasets/ppmi-pd)
-- [https://openneuro.org/datasets/ds007116/versions/1.0.6](https://openneuro.org/datasets/ds007116/versions/1.0.6)
-- [https://openneuro.org/datasets/ds007089/versions/1.0.1](https://openneuro.org/datasets/ds007089/versions/1.0.1)
-
-**Data**: ~1.5 GB (223 T1w volumes + phenotype tables) — organized into 4 centers per `doc/architecture_design_record.md` entry 12:44.
-
----
-
-## Quick Reference
-
-### Docker Commands
-```bash
-# Start all containers
-docker-compose up --build
-
-# Stop all containers
-docker-compose down
-
-# View logs
-docker-compose logs -f
-
-# Rebuild containers
-docker-compose down && docker-compose up --build
-```
-
-### Local Commands
-```bash
-# Start hub
-python3 center.py --port 8080 --n-workers 2 --n-rounds 3
-
-# Start worker
-python3 worker.py --hub-address localhost:8080 --worker-id worker_01 --data-dir ./data/center01
-
-# Run automated test
-./run_test.sh
-```
-
-### Configuration Options
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `--port` | 8080 | Hub port |
-| `--host` | 0.0.0.0 | Hub host (0.0.0.0 for Docker) |
-| `--n-workers` | 2 | Number of workers |
-| `--n-rounds` | 5 | Federated rounds |
-| `--n-local-epochs` | 10 | Local epochs per worker |
-| `--n-fixed-features` | 10 | Fixed effect features |
-| `--n-random-features` | 5 | Random effect features |
+- https://openneuro.org/datasets/ds007089/versions/1.0.1
+- https://openneuro.org/datasets/ds007116/versions/1.0.6
+- https://github.com/collaborativebioinformatics/Longitudinal_imaging_to_multimodality
+- https://github.com/IBM/comical/tree/main
 
 ![Workflow](workflow.png)

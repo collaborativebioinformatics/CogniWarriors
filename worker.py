@@ -1,254 +1,296 @@
 #!/usr/bin/env python3
-"""Worker script for Nvidia FLARE federated analysis with mixed-effects models.
+"""Training Head for federated learning with mixed-effects models.
 
-Connects to the hub and performs distributed training on local data.
-Implements mixed-effects model with:
-- Random effects at worker level (local)
-- Fixed effects at hub level (global, frozen during local training)
+Exposes REST API endpoints for Federation Head orchestration.
+Handles local training only, never exposes raw data.
 
-Docker-ready: Connects to hub via container networking
+Endpoints:
+- GET /health: Health check
+- POST /initialize: Initialize local model with weights
+- POST /train: Start local training (async)
+- GET /status: Get training status
+- GET /weights: Retrieve local weights
+- POST /evaluate: Evaluate model locally
 
 Usage:
-    python worker.py --hub-address hub:8080 --worker-id worker_01 --data-dir /data/center01
+    python worker.py --center-id center1 --data-dir ./data/center1 --port 8001
 """
 
 import argparse
+import base64
+import io
 import json
-import socket
+import os
+import threading
 import time
 from pathlib import Path
-from typing import Tuple
+from typing import Optional
 
+import numpy as np
 import torch
 import torch.nn as nn
-import numpy as np
+import torch.optim as optim
+from torch.utils.data import DataLoader, TensorDataset
+
+from flask import Flask, request, jsonify
 
 
 class MixedEffectsModel(nn.Module):
-    """Mixed-effects model with fixed effects (global) and random effects (local)."""
-    
     def __init__(self, n_fixed_features: int, n_random_features: int):
         super().__init__()
         self.fixed_weights = nn.Linear(n_fixed_features, 1, bias=False)
         self.random_weights = nn.Linear(n_random_features, 1, bias=False)
-        
+
     def forward(self, x_fixed: torch.Tensor, x_random: torch.Tensor) -> torch.Tensor:
         fixed_output = self.fixed_weights(x_fixed)
         random_output = self.random_weights(x_random)
         return (fixed_output + random_output).squeeze(-1)
-    
-    def get_random_weights(self) -> torch.Tensor:
-        """Get random effect weights."""
-        return self.random_weights.weight.data.clone()
 
 
-class Worker:
-    """Worker client for federated learning with mixed-effects models."""
-    
-    def __init__(self, 
-                 hub_address: Tuple[str, int], 
-                 worker_id: str, 
-                 data_dir: str,
-                 n_fixed_features: int = 10, 
-                 n_random_features: int = 5, 
-                 n_local_epochs: int = 10, 
-                 log_interval: int = 5,
-                 n_rounds: int = 3):
-        self.hub_address = hub_address
-        self.worker_id = worker_id
-        self.data_dir = Path(data_dir)
+def encode_state_dict(state_dict: dict) -> str:
+    buffer = io.BytesIO()
+    cpu_state = {k: v.detach().cpu() for k, v in state_dict.items()}
+    torch.save(cpu_state, buffer)
+    return base64.b64encode(buffer.getvalue()).decode("ascii")
+
+
+def decode_state_dict(payload: str) -> dict:
+    raw = base64.b64decode(payload.encode("ascii"), validate=True)
+    buffer = io.BytesIO(raw)
+    try:
+        return torch.load(buffer, map_location="cpu", weights_only=True)
+    except TypeError:
+        buffer.seek(0)
+        return torch.load(buffer, map_location="cpu")
+
+
+def generate_synthetic_data(n_samples, n_fixed_features, n_random_features):
+    X_fixed = torch.randn(n_samples, n_fixed_features)
+    X_random = torch.randn(n_samples, n_random_features)
+    y = torch.randn(n_samples)
+    return X_fixed, X_random, y
+
+
+class TrainingHead:
+    def __init__(self, center_id, data_dir, n_fixed_features=10, n_random_features=5):
+        self.center_id = center_id
+        self.data_dir = data_dir
         self.n_fixed_features = n_fixed_features
         self.n_random_features = n_random_features
-        self.n_local_epochs = n_local_epochs
-        self.log_interval = log_interval
-        self.n_rounds = n_rounds
-        
-        # Local model
-        self.model = MixedEffectsModel(n_fixed_features, n_random_features)
-        
-        # Training metrics
-        self.training_metrics = []
-        
-    def run(self):
-        """Run the worker training loop."""
-        print(f"[{self.worker_id}] Starting worker...")
-        print(f"[{self.worker_id}] Hub address: {self.hub_address}")
-        print(f"[{self.worker_id}] Data directory: {self.data_dir}")
-        
-        # Load local data
-        x_fixed, x_random, y_true = self.load_data()
-        print(f"[{self.worker_id}] Loaded data: {len(y_true)} samples")
-        
-        # Connect to hub
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect(self.hub_address)
-        print(f"[{self.worker_id}] Connected to hub at {self.hub_address}")
-        
-        # Send worker ID
-        client.send(self.worker_id.encode())
-        
-        # Receive global model from hub
-        model_data = client.recv(8192)
-        self.load_model_from_hub(model_data)
-        print(f"[{self.worker_id}] Received global model from hub")
-        
-        # Run federated training rounds
-        for round_num in range(self.n_rounds):
-            print(f"\n[{self.worker_id}] Round {round_num + 1}/{self.n_rounds}")
-            
-            # Local training
-            metrics = self.local_train(x_fixed, x_random, y_true)
-            self.training_metrics.append(metrics)
-            
-            # Send update to hub
-            self.send_update(client, metrics)
-            
-            try:
-                # Receive updated model from hub
-                model_data = client.recv(8192)
-                if model_data:
-                    self.load_model_from_hub(model_data)
-                    print(f"[{self.worker_id}] Received updated model from hub")
-            except (ConnectionResetError, ConnectionAbortedError):
-                print(f"[{self.worker_id}] Hub closed connection")
-                break
-        
-        # Save result report
-        self.save_report()
-        
-        # Close connection
+
+        self.model = None
+        self.current_round = 0
+        self.model_version = ""
+        self.status = "idle"
+        self.current_epoch = 0
+        self.total_epochs = 0
+        self.train_loss = 0.0
+        self.num_samples = 0
+        self.metrics = {}
+        self.checkpoint_path = None
+        self.error = None
+        self.training_thread = None
+
+        self.load_data()
+
+    def load_data(self):
+        self.num_samples = 82
+        self.X_fixed, self.X_random, self.y = generate_synthetic_data(
+            self.num_samples, self.n_fixed_features, self.n_random_features
+        )
+
+    def initialize(self, round_num, model_version, weights, weights_format):
+        self.current_round = round_num
+        self.model_version = model_version
+        self.status = "initializing"
+        self.error = None
+
         try:
-            client.close()
-        except:
-            pass
-        print(f"[{self.worker_id}] Training complete")
-        
-    def load_data(self) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-        """Load local data (random data for testing)."""
-        # Generate random data for testing
-        n_samples = 100
-        
-        x_fixed = torch.randn(n_samples, self.n_fixed_features)
-        x_random = torch.randn(n_samples, self.n_random_features)
-        y_true = torch.randn(n_samples)  # Random target
-        
-        return x_fixed, x_random, y_true
-        
-    def load_model_from_hub(self, model_data: bytes):
-        """Load model parameters from hub."""
-        params = json.loads(model_data.decode())
-        
-        # Update model weights
-        self.model.fixed_weights.weight.data = torch.tensor(params['fixed_weights'])
-        self.model.random_weights.weight.data = torch.tensor(params['random_weights'])
-        
-    def local_train(self, x_fixed: torch.Tensor, x_random: torch.Tensor, y_true: torch.Tensor) -> dict:
-        """Perform local training on worker data."""
-        # Freeze fixed effects (only train random effects)
-        for param in self.model.fixed_weights.parameters():
-            param.requires_grad = False
-            
-        # Enable gradients for random effects
-        for param in self.model.random_weights.parameters():
-            param.requires_grad = True
-            
-        # Optimizer for random effects only
-        optimizer = torch.optim.Adam(self.model.random_weights.parameters(), lr=0.001)
-        loss_fn = nn.MSELoss()
-        
-        # Training loop
-        for epoch in range(self.n_local_epochs):
-            self.model.train()
-            optimizer.zero_grad()
-            
-            # Forward pass
-            y_pred = self.model(x_fixed, x_random)
-            loss = loss_fn(y_pred, y_true)
-            
-            # Backward pass (only updates random effects)
-            loss.backward()
-            optimizer.step()
-            
-            # Log metrics
-            if (epoch + 1) % self.log_interval == 0:
-                print(f"[{self.worker_id}] Epoch {epoch + 1}/{self.n_local_epochs}: loss={loss.item():.4f}")
-                
-        # Return final metrics
+            self.model = MixedEffectsModel(self.n_fixed_features, self.n_random_features)
+            if weights is not None:
+                if weights_format != "torch_state_dict_base64":
+                    raise ValueError(f"Unsupported weights format: {weights_format}")
+                state_dict = decode_state_dict(weights)
+                self.model.load_state_dict(state_dict)
+            self.status = "idle"
+            return True
+        except Exception as e:
+            self.status = "failed"
+            self.error = str(e)
+            return False
+
+    def start_training(self, round_num, model_version, epochs):
+        if self.status == "training":
+            return False, "Training already in progress"
+        if round_num != self.current_round:
+            return False, f"Round mismatch: expected {self.current_round}, got {round_num}"
+
+        self.total_epochs = epochs
+        self.training_thread = threading.Thread(
+            target=self._train_loop, args=(round_num, model_version, epochs), daemon=True
+        )
+        self.training_thread.start()
+        return True, "training_started"
+
+    def _train_loop(self, round_num, model_version, epochs):
+        try:
+            self.status = "training"
+            self.current_epoch = 0
+
+            optimizer = optim.SGD(self.model.parameters(), lr=0.01)
+            criterion = nn.MSELoss()
+
+            dataset = TensorDataset(self.X_fixed, self.X_random, self.y)
+            dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
+
+            for epoch in range(epochs):
+                self.current_epoch = epoch + 1
+                epoch_loss = 0.0
+
+                for x_fixed, x_random, y in dataloader:
+                    optimizer.zero_grad()
+                    output = self.model(x_fixed, x_random)
+                    loss = criterion(output, y)
+                    loss.backward()
+                    for param in self.model.fixed_weights.parameters():
+                        param.grad = None
+                    optimizer.step()
+                    epoch_loss += loss.item()
+
+                self.train_loss = epoch_loss / max(len(dataloader), 1)
+                self.metrics = {
+                    "train_loss": self.train_loss,
+                    "loss": self.train_loss,
+                    "mae": float(np.sqrt(self.train_loss)),
+                }
+                time.sleep(0.05)
+
+            self.status = "completed"
+            self.checkpoint_path = f"/tmp/checkpoint_{self.center_id}_round{round_num}.pt"
+            torch.save(self.model.state_dict(), self.checkpoint_path)
+
+        except Exception as e:
+            self.status = "failed"
+            self.error = str(e)
+
+    def get_status(self):
         return {
-            'loss': loss.item(),
-            'random_weights': self.model.get_random_weights(),
-            'n_samples': len(y_true)
+            "center_id": self.center_id,
+            "round": self.current_round,
+            "model_version": self.model_version,
+            "status": self.status,
+            "epoch": self.current_epoch,
+            "total_epochs": self.total_epochs,
+            "train_loss": self.train_loss,
+            "validation_loss": 0.0,
+            "num_samples": self.num_samples,
+            "metrics": self.metrics,
+            "checkpoint_path": self.checkpoint_path,
+            "error": self.error,
         }
-        
-    def send_update(self, client: socket.socket, metrics: dict):
-        """Send model update to hub."""
-        update = {
-            'random_weights': metrics['random_weights'].tolist(),
-            'metrics': {'loss': metrics['loss']},
-            'worker_id': self.worker_id
+
+    def get_weights(self):
+        if self.status != "completed":
+            return None
+        return {
+            "center_id": self.center_id,
+            "round": self.current_round,
+            "num_samples": self.num_samples,
+            "weights": encode_state_dict(self.model.state_dict()),
+            "weights_format": "torch_state_dict_base64",
+            "metrics": self.metrics,
+            "model_version": self.model_version,
         }
-        
-        client.send(json.dumps(update).encode())
-        print(f"[{self.worker_id}] Sent update to hub")
-        
-    def save_report(self):
-        """Save training report to file."""
-        # Convert tensors to lists for JSON serialization
-        serializable_metrics = []
-        for metric in self.training_metrics:
-            serializable_metric = {
-                'loss': metric['loss'],
-                'random_weights': metric['random_weights'].tolist() if hasattr(metric['random_weights'], 'tolist') else metric['random_weights'],
-                'n_samples': metric['n_samples']
-            }
-            serializable_metrics.append(serializable_metric)
-        
-        report = {
-            'worker_id': self.worker_id,
-            'n_local_epochs': self.n_local_epochs,
-            'n_rounds': self.n_rounds,
-            'training_metrics': serializable_metrics,
-            'final_model_state': {
-                'fixed_weights': self.model.fixed_weights.weight.data.tolist(),
-                'random_weights': self.model.random_weights.weight.data.tolist()
-            }
-        }
-        
-        report_path = Path(f"{self.worker_id}_report.json")
-        with open(report_path, 'w') as f:
-            json.dump(report, f, indent=2)
-            
-        print(f"[{self.worker_id}] Report saved to {report_path}")
+
+    def evaluate(self, split="validation"):
+        if self.model is None:
+            return {"error": "Model not initialized"}
+
+        self.model.eval()
+        with torch.no_grad():
+            output = self.model(self.X_fixed, self.X_random)
+            loss = nn.MSELoss()(output, self.y).item()
+        return {"loss": loss, "mae": float(np.sqrt(loss))}
+
+
+def create_app(center_id, data_dir, n_fixed_features=10, n_random_features=5):
+    app = Flask(__name__)
+    head = TrainingHead(center_id, data_dir, n_fixed_features, n_random_features)
+
+    @app.route("/health", methods=["GET"])
+    def health():
+        return jsonify({
+            "status": "healthy",
+            "center_id": head.center_id,
+            "data_dir": head.data_dir,
+            "device": "cpu",
+        })
+
+    @app.route("/initialize", methods=["POST"])
+    def initialize():
+        data = request.get_json()
+        round_num = data.get("round")
+        model_version = data.get("model_version", "")
+        weights = data.get("weights")
+        weights_format = data.get("weights_format", "torch_state_dict_base64")
+
+        success = head.initialize(round_num, model_version, weights, weights_format)
+        if success:
+            return jsonify({"status": "initialized", "center_id": head.center_id, "round": round_num})
+        else:
+            return jsonify({"status": "failed", "center_id": head.center_id, "error": head.error}), 400
+
+    @app.route("/train", methods=["POST"])
+    def train_endpoint():
+        data = request.get_json()
+        round_num = data.get("round")
+        model_version = data.get("model_version", "")
+        epochs = data.get("epochs", 10)
+
+        success, message = head.start_training(round_num, model_version, epochs)
+        if success:
+            return jsonify({"status": "training_started", "center_id": head.center_id, "round": round_num})
+        else:
+            return jsonify({"status": "error", "center_id": head.center_id, "error": message}), 409
+
+    @app.route("/status", methods=["GET"])
+    def status_endpoint():
+        return jsonify(head.get_status())
+
+    @app.route("/weights", methods=["GET"])
+    def weights_endpoint():
+        data = head.get_weights()
+        if data is None:
+            return jsonify({"status": "error", "center_id": head.center_id, "error": "Training not complete"}), 409
+        return jsonify(data)
+
+    @app.route("/evaluate", methods=["POST"])
+    def evaluate_endpoint():
+        data = request.get_json() or {}
+        split = data.get("split", "validation")
+        result = head.evaluate(split)
+        return jsonify({
+            "center_id": head.center_id,
+            "round": head.current_round,
+            "metrics": result,
+        })
+
+    return app
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Nvidia FLARE Worker for mixed-effects models")
-    parser.add_argument("--hub-address", required=True, help="Hub address (host:port)")
-    parser.add_argument("--worker-id", required=True, help="Unique worker identifier")
-    parser.add_argument("--data-dir", required=True, help="Path to local data directory")
-    parser.add_argument("--n-local-epochs", type=int, default=10, help="Local training epochs")
-    parser.add_argument("--n-rounds", type=int, default=3, help="Number of federated rounds")
-    parser.add_argument("--log-interval", type=int, default=5, help="Metrics logging interval")
-    parser.add_argument("--n-fixed-features", type=int, default=10, help="Number of fixed effect features")
-    parser.add_argument("--n-random-features", type=int, default=5, help="Number of random effect features")
+    parser = argparse.ArgumentParser(description="Training Head for federated learning")
+    parser.add_argument("--center-id", required=True, help="Center identifier")
+    parser.add_argument("--data-dir", required=True, help="Path to data directory")
+    parser.add_argument("--port", type=int, default=8001, help="Port to listen on")
+    parser.add_argument("--host", default="0.0.0.0", help="Host to bind to")
+    parser.add_argument("--n-fixed-features", type=int, default=10)
+    parser.add_argument("--n-random-features", type=int, default=5)
     args = parser.parse_args()
-    
-    # Parse hub address
-    host, port = args.hub_address.split(':')
-    hub_address = (host, int(port))
-    
-    worker = Worker(
-        hub_address=hub_address,
-        worker_id=args.worker_id,
-        data_dir=args.data_dir,
-        n_fixed_features=args.n_fixed_features,
-        n_random_features=args.n_random_features,
-        n_local_epochs=args.n_local_epochs,
-        log_interval=args.log_interval,
-        n_rounds=args.n_rounds
-    )
-    
-    worker.run()
+
+    app = create_app(args.center_id, args.data_dir, args.n_fixed_features, args.n_random_features)
+    print(f"[Training Head {args.center_id}] Listening on {args.host}:{args.port}")
+    app.run(host=args.host, port=args.port, debug=False)
 
 
 if __name__ == "__main__":
