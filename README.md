@@ -1,100 +1,244 @@
-# Longitudinal_imaging_to_multimodality
-Name TBA, **Project Mind-blowing**
+# Cogni warriors 🧠⚔️
 
-## Architecture Overview
+*We will blow your mind.*
 
-Federated learning system for N-back score prediction using a **Federation Head + Training Heads** architecture with mixed-effects models.
-
-```
-Federation Head (center.py)              Training Heads (worker.py)
-┌─────────────────────────────┐         ┌─────────────────────────────┐
-│  Global Model (Fixed Eff.)  │  HTTP   │  Local Model (Random Eff.)  │
-│  FedAvg Aggregator          │◄───────►│  Local Training Only        │
-│  Round Manager              │  REST   │  Never exposes raw data     │
-└─────────────────────────────┘         └─────────────────────────────┘
-```
-
-**Privacy Principle:** Raw data stays local to each Training Head. Only model weights, sample counts, and metrics are shared via HTTP REST API.
-
-### Mixed-Effects Model
-
-- **Fixed Effects**: Global parameters shared across all Training Heads (federated)
-- **Random Effects**: Local parameters learned per Training Head (site-specific)
-- **FedAvg**: `W_global = (N1*W1 + N2*W2) / (N1 + N2)`
-
-```python
-MixedEffectsModel(
-  (fixed_weights): Linear(in_features=10, out_features=1, bias=False)
-  (random_weights): Linear(in_features=5, out_features=1, bias=False)
-)
-```
-
-### REST API
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/health` | GET | Health check |
-| `/initialize` | POST | Load model weights |
-| `/train` | POST | Start local training (async) |
-| `/status` | GET | Poll training progress |
-| `/weights` | GET | Retrieve local weights + sample count |
-| `/evaluate` | POST | Evaluate model locally |
-
-### Data Sources
-- **Dataset**: https://openneuro.org/datasets/ds007089/versions/1.0.1
-- **Imaging**: Penn LEAD MRI derivatives (structural MRI scans)
-- **Phenotype**: CNB tasks, self-report, demographics (age, sex, education)
+![Workflow](workflow.png)
 
 ---
 
-## How to Use
+## 1. Using phenotypes to predict cognitive progression
 
-### Option 1: Docker (Recommended)
-```bash
-docker compose up --build
+Our federated-learning proof of concept predicts **cognitive progression** — an
+executive-function (EF) composite measured at each imaging session — **structural-MRI** paired with **phenotypical** information.
+
+- **Data**: Penn LEAD — behavioral/phenotype source
+  [OpenNeuro `ds007116`](https://openneuro.org/datasets/ds007116/versions/1.0.6)
+  and structural-MRI source
+  [OpenNeuro `ds007089`](https://openneuro.org/datasets/ds007089/versions/1.0.1)
+  (~1.5 GB of FreeSurfer T1w derivatives, `sourcedata>freesurfer>any>mri>*.mgz`
+  — 223 volumes + phenotype tables, organized into 4 centers) —
+  **132 adolescents, 225 imaging sessions** (59 subjects with 1 session, 53 with
+  2, 20 with 3), 3 diagnostic groups (TD/NC, ADHD, PRO/CHR).
+  - **Structural-MRI embedding**: Processed with FreeSurfer
+    ([`ds007089`](https://openneuro.org/datasets/ds007089/versions/1.0.1)).
+  - **Phenotypes**: Cheap, low-burden measures (demographics, a non-target battery of
+computerized cognition tasks, self-report scales, and pubertal staging) plus a
+**structural-MRI embedding**, with no cognitive testing battery required to make
+a prediction.
+- **Modeling unit = each imaging session**, not each subject — every session has
+  its own EF composite and (eventually) its own structural features.
+- This gives a biobank a one-stop surface for *cognitive outcome prediction*,
+  tracked across repeated visits.
+
+## 2. Challenges: Very longitudinal, repeated observations, random-effects, proof of concept enabling data centers
+
+- **Very longitudinal**: up to 3 sessions per subject over ~1–1.5 years. A plain
+  regression wrongly treats these as independent rows — within-subject
+  correlation must be modeled explicitly, which leads directly to **random
+  effects**.
+- **Repeated observations → random-effects model**: the LMMNN loss replaces MSE
+  with the negative log-likelihood of a Gaussian whose covariance has a
+  **per-subject random intercept** plus i.i.d. error
+  (`V = σ²_subject · ZZᵀ + σ²_error · I`), optimized jointly with the network
+  weights — no EM, no alternating steps.
+- **Proof of concept enabling data centers**: data are naturally siloed (clinics,
+  health centers, biobanks, countries). Federated learning on **NVIDIA FLARE 2.9**
+  lets every center train only on its own data and share *weights, metrics,
+  session counts, and aggregate column sums* — never records. See §5.
+
+## 3. Method: Outcomes of interest
+
+One continuous target per session — the **EF composite** — the mean of 5 CNB
+(Penn Computerized Neurobehavioral Battery) task z-scores:
+
+| Task | Construct |
+|---|---|
+| N-back (`cnb_lnb_mcr`) | working memory |
+| PCET (`cnb_pcet_cr`) | abstraction / set-shifting |
+| AIM (`cnb_aim_aimtot`) | abstraction / inhibition / WM |
+| CPT (`cnb_cptnl_total_sen`) | sustained attention / inhibition |
+| Trail Making B (`cnb_trails_rtcr`, sign-flipped) | cognitive flexibility |
+
+- Z-scored across the sample; **higher ≡ better** for every task.
+- Requires ≥2 of 5 tasks passing QC (`valid_code ∈ {V, VC, F, 0}`) → **217/225
+  sessions** receive a composite; the 8 without are excluded.
+- The **5 per-task z-scores are also available** as an alternative target set —
+  flip `config.TARGET_COLUMNS` and the whole pipeline (model output size, loss,
+  batching) adapts.
+- Diagnosis is deliberately *not* the outcome: a continuous EF trait is
+  transdiagnostic and harmonizes across differently-instrumented biobanks.
+
+## 4. Method: Predictors
+
+**Phenotype inputs** (97 columns after selection from an initial 161, pruned by
+univariate association, redundancy, and VIF — see `doc/results.md`):
+
+- **Demographics + diagnosis flags** one-hot encoded: `study_group`, `sex`,
+  `race`, `ethnicity`, and 10 `dx_*` diagnostic flags.
+- **26 non-EF CNB cognition columns** (accuracy + RT), QC-gated identically to
+  the EF tasks.
+- **8 trimmed self-report scales** (BIS/BAS reward responsivity, ARI, ASRM,
+  RPAS, MAP-SR, Wolf IM/EM, E-SWAN ADHD inattention, PRIME).
+- **Tanner pubertal staging** (sex-coalesced mean stage).
+- Missing values: median/mode imputation, each paired with a
+  `<col>_was_missing` indicator so the missingness pattern itself is usable
+  signal (~10% of cells imputed, concentrated in self-report scales).
+- **Covariates**: per-session `age` and `session_index` (1/2/3), concatenated
+  at the head — not through the embedder.
+
+**Image inputs**: a precomputed **80-dim structural-MRI embedding** per session,
+projected by a small trainable `ImageEmbedder` (the repo has no raw-image
+pipeline — this plays the role a CNN encoder would). The embeddings are derived
+from FreeSurfer segmentations of the T1w volumes in
+[`ds007089`](https://openneuro.org/datasets/ds007089/versions/1.0.1). Image
+signal alone is weak (R²≈0.12); phenotype alone is strong (R²≈0.6+); the fused
+model is the point.
+
+## 5. Method: Multi-Modal Architecture and Federation
+
+**Architecture — late fusion of small, regularized MLPs** (~19.8k parameters):
+
+```
+ImageEmbedder:      Linear(80 → 64) → LayerNorm → ReLU → Dropout(0.4)
+                     → Linear(64 → 32) → ReLU → Dropout(0.3)
+PhenotypeEmbedder:   Linear(91 → 64) → LayerNorm → ReLU → Dropout(0.4)
+                     → Linear(64 → 32) → ReLU → Dropout(0.3)
+FusionRegressor:     concat(z_img[32], z_pheno[32], covariates[2]) = 66
+                     → Linear(66 → 64) → ReLU → Dropout(0.3)
+                     → Linear(64 → n_targets)
 ```
 
-### Option 2: Local Testing
-```bash
-# Terminal 1 - Start Training Heads
-python3 worker.py --center-id center1 --data-dir ./data/center1 --port 8001 &
-python3 worker.py --center-id center2 --data-dir ./data/center2 --port 8002 &
+- **LMMNN loss** replaces MSE: Gaussian NLL with per-subject random intercept,
+  minibatched with subject-grouped sampling (closed-form Sherman–Morrison — no
+  dense matrix inverses).
+- **Federation (NVFLARE 2.9 FedAvg)** — `federated/flare/`:
+  1. **Global scaling (once)**: the server combines per-site column
+     sums/sums-of-squares/counts into one global mean/std, stored *inside* the
+     model (`FedFusionModel` buffers) so every site scales identically and the
+     saved model takes raw features.
+  2. **FedAvg rounds**: server → sites → local training → weights back;
+     averaged weighted by each site's training-session count.
+  3. **Best model + early stopping** on weighted validation MSE (`--patience`).
+- Sites' training data is split **by participant** (`prepare_site_data.py`); the
+  held-out test set is the same 20% of participants used by the centralized pipeline.
+  In a real deployment, each of the 4 centers of the
+  [`ds007089`](https://openneuro.org/datasets/ds007089/versions/1.0.1) split acts
+  as one federated site.
+- `--loss mse` federates fixed effects only; `--loss lmmnn` additionally
+  federates the two random-effect variance terms.
+- `job.py` runs it as simulator (`sim`), POC processes (`poc`), an exported job
+  (`export`), or a provisioned real deployment (`prod`, `project.yml` + Docker).
 
-# Terminal 2 - Start Federation Head
-python3 center.py --training-heads http://localhost:8001 http://localhost:8002 --rounds 5 --epochs 10
+## 6. Results & Future Work
+
+**Results** (`ef_composite`, same 39-session held-out test as the centralized
+pipeline):
+
+| Setting | R² |
+|---|---|
+| NVFlare FedAvg, 4 sites (simulator) | 0.26 |
+| Offline FedAvg simulation, 5 seeds | 0.265 ± 0.042 |
+| Centralized (all data pooled), 5 seeds | 0.273 ± 0.055 |
+| Single site alone, 5 seeds | 0.116 ± 0.032 |
+
+**Federation recovers nearly all pooled-data performance without moving a single
+record.**
+
+- **Modularity** — every block is swappable: swap the image embedder for
+  vertex-wise/functional-connectivity/raw-volume features, swap the 1 target for
+  the 5 EF sub-scores, swap the loss, and the rest of the pipeline adapts.
+- **Late fusion** — a clean seam to bolt on further modalities (genotype,
+  omics, actigraphy…) as independent embedders feeding one head.
+- **Cooperative** — a working, multi-site federated blueprint: data silos
+  (hospitals, biobanks, countries) cooperate while keeping data private; the
+  global-scaling step proves harmonization is possible even when sites
+  instrument differently.
+- **Biobanks / longitudinal** — session-level rows + per-subject random effects
+  make repeated-observation modeling natural; the per-subject random effect is
+  the first step toward a *site/scanner* random effect for cross-center
+  heterogeneity.
+- **Blueprint / multimodality and enabling possibilities** — an open,
+  reproducible template for shipping a new data center or a new modality into
+  the federation, and for demonstrating that multi-institution cognitive
+  research is feasible (e.g. the planned 2027 Clinical Hackathon).
+
+---
+
+## Quick Start
+
+### 1. Install
+```bash
+pip install -r requirements.txt        # nvflare==2.9.0 is pinned on purpose
 ```
 
-### Option 3: Manual Smoke Test
+### 2. Prepare the site data
 ```bash
-# Check health
-curl http://localhost:8001/health
-curl http://localhost:8002/health
+python federated/flare/prepare_site_data.py --n-sites 4
+```
 
-# Initialize
-curl -X POST http://localhost:8001/initialize \
-  -H "Content-Type: application/json" \
-  -d '{"round":1,"model_version":"v1","weights":null,"weights_format":"torch_state_dict_base64"}'
+### 3. Train & evaluate (simulator)
+```bash
+python federated/flare/job.py --mode sim --n-sites 4 --rounds 100
+python federated/flare/evaluate_global.py \
+  --model /tmp/nvflare/cogniwarriors/cogniwarriors_fedavg/server/simulate_job/app_server/best_FL_global_model.pt
+```
 
-curl -X POST http://localhost:8002/initialize \
-  -H "Content-Type: application/json" \
-  -d '{"round":1,"model_version":"v1","weights":null,"weights_format":"torch_state_dict_base64"}'
+### Full options (`federated/flare/job.py`)
 
-# Start training
-curl -X POST http://localhost:8001/train \
-  -H "Content-Type: application/json" \
-  -d '{"round":1,"model_version":"v1","epochs":1}'
+| Flag | Default | Meaning |
+|---|---|---|
+| `--mode` | `sim` | `sim`, `poc`, `export`, or `prod` |
+| `--n-sites` | 4 | Sites that must join every round |
+| `--rounds` | 50 | Maximum number of rounds |
+| `--local-epochs` | 3 | Local epochs per round |
+| `--patience` | 20 | Stop after N rounds without val improvement |
+| `--loss` | `mse` | `mse` (fixed effects) or `lmmnn` (+ random-effect variances) |
+| `--mu` | 0 | FedProx strength (0 = plain FedAvg) |
+| `--data-root` | `federated/flare/data` | Folder of per-site data folders |
 
-curl -X POST http://localhost:8002/train \
-  -H "Content-Type: application/json" \
-  -d '{"round":1,"model_version":"v1","epochs":1}'
+Real deployment (separate machines): build the runtime image
+(`docker build -t cogniwarriors-flare:latest -f federated/flare/Dockerfile .`),
+provision with `nvflare provision -p federated/flare/project.yml -w provision_workspace`,
+ship each startup kit only to its owner, start server + sites with
+`./startup/start.sh` (or `docker.sh`), and submit the job with `--mode prod`.
+See `federated/README.md`.
 
-# Poll status
-curl http://localhost:8001/status
-curl http://localhost:8002/status
+---
 
-# Retrieve weights (after both complete)
-curl http://localhost:8001/weights
-curl http://localhost:8002/weights
+## Local (non-federated) pipeline
+
+```bash
+# Phenotype pipeline: EF composite → 97-column phenotype matrix
+python preprocessing/build_ef_composite.py
+python preprocessing/build_phenotype_input.py
+python training/train_phenotype_sanity.py        # GroupKFold sanity check
+
+# Fused image + phenotype model with LMMNN random-effects loss
+python training/train_fusion_lmmnn.py            # trains + saves results/
+```
+
+Run with `--loss lmmnn` to also federate the two LMMNN variance terms.
+
+---
+
+## Project Directory Structure
+
+```
+├── training/                    # Centralized pipeline + fusion model
+│   ├── config.py                # Targets, features, architecture, hyperparameters
+│   ├── fusion_model.py          # ImageEmbedder, FusionRegressor, SingleModalityRegressor
+│   ├── lmmnn_loss.py            # LMMNN random-effects loss
+│   ├── multimodal_data.py       # Data join + subject-grouped batch sampler
+│   ├── checkpoint.py            # Self-describing checkpoint + predict API
+│   ├── train_fusion_lmmnn.py    # Main training entrypoint
+│   └── train_phenotype_sanity.py
+├── preprocessing/               # EF composite + phenotype feature matrix builder
+├── scripts/                     # OpenNeuro download, architecture & model-family search
+├── federated/
+│   └── flare/                   # NVFLARE federation (client, controller, model, job)
+├── doc/                         # Method, results, fusion/LMMNN, architecture record
+├── data/                        # Raw + processed data (stays local to each center)
+└── README.md
 ```
 
 ---
@@ -102,117 +246,36 @@ curl http://localhost:8002/weights
 ## Checklist
 
 ### Implemented
-- [x] Federation Head (`center.py`) - orchestrates Training Heads, aggregates via FedAvg
-- [x] Training Head (`worker.py`) - Flask REST API, local training only
-- [x] Mixed-effects model with fixed and random effects
-- [x] FedAvg aggregation with sample-weighted averaging
-- [x] Async training with polling
-- [x] Base64-encoded PyTorch state_dict serialization
-- [x] Round management for multi-round training
-- [x] Training metrics logging
-- [x] Model checkpoint saving
+- [x] EF composite target (5 CNB tasks, QC'd, z-scored)
+- [x] 97-column phenotype feature matrix (+ covariates)
+- [x] MLP phenotype embedder (validated vs. Ridge: R² 0.44 vs. 0.39)
+- [x] Image + phenotype late-fusion model (~19.8k params)
+- [x] LMMNN random-effects loss (per-subject random intercept)
+- [x] NVIDIA FLARE 2.9 FedAvg with global feature scaling
+- [x] Best-model tracking + early stopping
+- [x] Architecture search + model-family comparison tools
+- [x] Self-describing checkpoints + inference API
 
 ### Outstanding
-- [ ] Integrate with real MRI/phenotype data
-- [ ] Structural MRI loading and preprocessing pipeline
-- [ ] Phenotypical data integration with training progress
+- [ ] Real multi-machine deployment (Windows hosts need WSL2)
+- [ ] Per-site test sets for real deployments (one shared held-out set today)
+- [ ] BLUP subject-specific correction at inference time
+- [ ] Site/scanner random effect (beyond the per-subject one)
+- [ ] Data-governance protocols / schema-checking scaffold
 - [ ] Visualization dashboard for training progress
-- [ ] Docker Compose for new architecture
-- [ ] Multi-center coordination and data governance
-- [ ] Model validation and cross-validation
-- [ ] Authentication and security for HTTP communication
-
----
-
-## Project Directory Structure
-
-```
-longitudinal_imaging_to_multimodality/
-├── center.py                  # Federation Head (HTTP orchestrator + FedAvg)
-├── worker.py                  # Training Head (Flask REST API + local training)
-├── requirements.txt           # torch, numpy, flask, requests
-├── docker-compose.yml         # Docker orchestration
-├── doc/
-│   ├── agents.md              # Agents administration guide
-│   ├── architecture_design_record.md
-│   ├── 202609181219-FEDERATION_HEAD_HANDOFF.md  # API spec
-│   └── ...
-├── src/
-│   ├── config.py              # Configuration and constants
-│   ├── phenotype_model.py     # Phenotype embedder model
-│   └── ...
-├── data/
-│   └── processed/             # Processed data
-├── federation_model.pt         # Saved global model (after training)
-└── federation_metrics.json     # Training metrics (after training)
-```
-
----
-
-## Configuration
-
-### Federation Head (`center.py`)
-
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `--training-heads` | `http://localhost:8001 http://localhost:8002` | Training Head URLs |
-| `--rounds` | 5 | Number of federated rounds |
-| `--epochs` | 10 | Local epochs per round |
-| `--n-fixed-features` | 10 | Fixed effect features |
-| `--n-random-features` | 5 | Random effect features |
-| `--poll-interval` | 1.0 | Polling interval (seconds) |
-
-### Training Head (`worker.py`)
-
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `--center-id` | (required) | Center identifier |
-| `--data-dir` | (required) | Path to data directory |
-| `--port` | 8001 | Port to listen on |
-| `--host` | 0.0.0.0 | Host to bind to |
-| `--n-fixed-features` | 10 | Fixed effect features |
-| `--n-random-features` | 5 | Random effect features |
-
----
-
-## Docker Commands
-```bash
-# Start all containers
-docker compose up --build
-
-# Stop all containers
-docker compose down
-
-# View logs
-docker compose logs -f
-```
 
 ---
 
 ## Privacy Boundary
 
-The Federation Head must never read or mount Training Head data directories:
-
-```text
-data/centers/center1    ← Training Head 1 only
-data/centers/center2    ← Training Head 2 only
-```
-
-Only these are shared via REST API:
-- Center ID
-- Round number
-- Model version
-- Sample count
-- Metrics (loss, MAE)
-- Model weights (base64-encoded state_dict)
-
----
+The NVFLARE server sees only model weights, metrics, session counts, and
+(once) per-column sums / sums-of-squares / counts for global feature scaling —
+aggregate information, never individual records. Each site's raw data folder
+(`data/`) is readable only by that site.
 
 ## Resources
 
-- https://openneuro.org/datasets/ds007089/versions/1.0.1
-- https://openneuro.org/datasets/ds007116/versions/1.0.6
+- https://openneuro.org/datasets/ds007116/versions/1.0.6 — Penn LEAD behavioral / phenotype data
+- https://openneuro.org/datasets/ds007089/versions/1.0.1 — Penn LEAD FreeSurfer structural-MRI data
 - https://github.com/collaborativebioinformatics/Longitudinal_imaging_to_multimodality
 - https://github.com/IBM/comical/tree/main
-
-![Workflow](workflow.png)
