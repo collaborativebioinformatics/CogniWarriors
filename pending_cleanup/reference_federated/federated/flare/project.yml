@@ -1,0 +1,45 @@
+# NVFlare provisioning file for a real (multi-machine) deployment.
+#   nvflare provision -p federated/flare/project.yml -w provision_workspace
+# creates one "startup kit" per participant (certificates + start scripts).
+# Give each kit ONLY to its owner: server1 -> the hub machine, site-N -> hospital N.
+api_version: 3
+name: cogniwarriors
+description: CogniWarriors federated executive-function prediction
+
+participants:
+  # Change to the server's real hostname (FQDN) that every site can reach.
+  - name: server1
+    type: server
+    org: cogniwarriors
+    fed_learn_port: 8002
+  # Site names must match the data folders (data/site-1, ...) and --n-sites.
+  - name: site-1
+    type: client
+    org: cogniwarriors
+  - name: site-2
+    type: client
+    org: cogniwarriors
+  - name: site-3
+    type: client
+    org: cogniwarriors
+  - name: site-4
+    type: client
+    org: cogniwarriors
+  # Person who submits jobs and watches progress.
+  - name: admin@cogniwarriors.org
+    type: admin
+    org: cogniwarriors
+    role: project_admin
+
+builders:
+  - path: nvflare.lighter.impl.workspace.WorkspaceBuilder
+    args:
+      template_file:
+        - master_template.yml
+  - path: nvflare.lighter.impl.static_file.StaticFileBuilder
+    args:
+      config_folder: config
+      # generates startup/docker.sh in every kit, using this image
+      docker_image: cogniwarriors-flare:latest
+  - path: nvflare.lighter.impl.cert.CertBuilder
+  - path: nvflare.lighter.impl.signature.SignatureBuilder

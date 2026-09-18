@@ -1,7 +1,14 @@
 __pycache__/
 *.pyc
+.DS_Store
 
 federated/flare/data/
 jobs/
 results/fedavg/
 provision_workspace/
+
+flare_outputs/
+training_docker_v1/flare_outputs/
+training_docker_v1/federated/flare/data/
+training_docker_v1/jobs/
+training_docker_v1/provision_workspace/
