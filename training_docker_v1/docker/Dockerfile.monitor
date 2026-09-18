@@ -1,0 +1,16 @@
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+
+WORKDIR /app
+
+COPY requirements-training-head.txt /app/requirements-training-head.txt
+COPY requirements-flare.txt /app/requirements-flare.txt
+RUN pip install --no-cache-dir -r /app/requirements-training-head.txt \
+ && pip install --no-cache-dir -r /app/requirements-flare.txt
+
+COPY . /app
+
+CMD ["uvicorn", "monitor_app.main:app", "--host", "0.0.0.0", "--port", "8080"]

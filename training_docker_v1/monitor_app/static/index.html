@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FLARE Monitor</title>
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">NVIDIA FLARE</p>
+        <h1>FLARE Monitor</h1>
+      </div>
+      <div class="topbar__meta">
+        <span id="poll-state" class="status-pill">Connecting</span>
+        <span id="clock"></span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="control-panel" aria-label="FLARE controls">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Federation node</p>
+            <h2>Run Controls</h2>
+          </div>
+          <span id="flare-status-pill" class="status-pill">Idle</span>
+        </div>
+
+        <form id="flare-form" class="control-grid">
+          <label>
+            Sites
+            <input id="sites-input" type="number" min="1" step="1" value="2" />
+          </label>
+          <label>
+            Rounds
+            <input id="rounds-input" type="number" min="1" step="1" value="2" />
+          </label>
+          <label>
+            Local epochs
+            <input id="epochs-input" type="number" min="1" step="1" value="1" />
+          </label>
+          <label>
+            Split
+            <select id="split-input">
+              <option value="iid">IID</option>
+              <option value="age">Age</option>
+            </select>
+          </label>
+          <label>
+            Loss
+            <select id="loss-input">
+              <option value="mse">MSE</option>
+              <option value="lmmnn">LMMNN</option>
+            </select>
+          </label>
+          <label>
+            FedProx μ
+            <input id="mu-input" type="number" min="0" step="0.01" value="0" />
+          </label>
+          <div class="actions">
+            <button id="start-flare-btn" class="primary" type="submit">Start FLARE Run</button>
+          </div>
+        </form>
+
+        <div class="metric-row">
+          <div class="metric metric--status"><span>Status</span><strong id="run-status">idle</strong></div>
+          <div class="metric metric--run"><span>Run</span><strong id="run-id">na</strong></div>
+          <div class="metric metric--r2"><span>Best R2</span><strong id="best-r2">na</strong></div>
+          <div class="metric metric--mse"><span>Test MSE</span><strong id="best-mse">na</strong></div>
+        </div>
+      </section>
+
+      <section class="chart-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Held-out test set</p>
+            <h2>Global Model Evaluation</h2>
+          </div>
+          <div class="legend" id="flare-legend"></div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="flare-chart" width="1200" height="360"></canvas>
+        </div>
+      </section>
+
+      <section class="chart-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Rounds and sites</p>
+            <h2>Losses by Round</h2>
+          </div>
+          <div class="legend" id="loss-legend"></div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="loss-chart" width="1200" height="360"></canvas>
+        </div>
+        <div class="table-wrap compact-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Round</th>
+                <th>Node</th>
+                <th>Train MSE</th>
+                <th>Objective</th>
+              </tr>
+            </thead>
+            <tbody id="node-loss-table"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="table-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Latest FLARE output</p>
+            <h2>Target Metrics</h2>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Target</th>
+                <th>MSE</th>
+                <th>MAE</th>
+                <th>R2</th>
+              </tr>
+            </thead>
+            <tbody id="target-table"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="lower-grid">
+        <div class="output-panel">
+          <div class="section-heading">
+            <h2>Events</h2>
+          </div>
+          <ol id="event-log" class="event-log"></ol>
+        </div>
+        <div class="output-panel">
+          <div class="section-heading">
+            <h2>Details</h2>
+          </div>
+          <pre id="result-output">Waiting for FLARE data.</pre>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
