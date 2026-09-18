@@ -277,29 +277,6 @@ LMMNN variance terms.
 
 ---
 
-## Checklist
-
-### Implemented
-- [x] EF composite target (5 CNB tasks, QC'd, z-scored)
-- [x] 97-column phenotype feature matrix (+ covariates)
-- [x] MLP phenotype embedder (validated vs. Ridge: R² 0.44 vs. 0.39)
-- [x] Image + phenotype late-fusion model (~19.8k params)
-- [x] LMMNN random-effects loss (per-subject random intercept)
-- [x] NVIDIA FLARE 2.9 FedAvg with global feature scaling
-- [x] Best-model tracking + early stopping
-- [x] Architecture search + model-family comparison tools
-- [x] Self-describing checkpoints + inference API
-
-### Outstanding
-- [ ] Real multi-machine deployment (Windows hosts need WSL2)
-- [ ] Per-site test sets for real deployments (one shared held-out set today)
-- [ ] BLUP subject-specific correction at inference time
-- [ ] Site/scanner random effect (beyond the per-subject one)
-- [ ] Data-governance protocols / schema-checking scaffold
-- [ ] Visualization dashboard for training progress
-
----
-
 ## Privacy Boundary
 
 The NVFLARE server sees only model weights, metrics, session counts, and
