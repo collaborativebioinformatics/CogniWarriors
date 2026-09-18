@@ -17,10 +17,9 @@
 Our federated-learning proof of concept predicts **cognitive progression** — an
 executive-function (EF) composite measured at each imaging session — **structural-MRI** paired with **phenotypical** information.
 
-- **Data**: Penn LEAD — behavioral/phenotype source
+- **Data**: Penn LEAD — behavioral/phenotype and structural-MRI
   [OpenNeuro `ds007116`](https://openneuro.org/datasets/ds007116/versions/1.0.6)
-  and structural-MRI source
-  [OpenNeuro `ds007089`](https://openneuro.org/datasets/ds007089/versions/1.0.1)
+   source
   (~1.5 GB of FreeSurfer T1w derivatives, `sourcedata>freesurfer>any>mri>*.mgz`
   — 223 volumes + phenotype tables, organized into 4 centers) —
   **132 adolescents, 225 imaging sessions** (59 subjects with 1 session, 53 with
