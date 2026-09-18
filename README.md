@@ -1,6 +1,8 @@
 # Longitudinal_imaging_to_multimodality
 Name TBA, **Project Mind-blowing**
 
+![Workflow](workflow.png)
+
 ## Architecture Overview
 
 Federated learning system for N-back score prediction using a **Federation Head + Training Heads** architecture with mixed-effects models.
@@ -132,6 +134,9 @@ longitudinal_imaging_to_multimodality/
 ├── worker.py                  # Training Head (Flask REST API + local training)
 ├── requirements.txt           # torch, numpy, flask, requests
 ├── docker-compose.yml         # Docker orchestration
+├── Dockerfile.federation-head # Docker image for Federation Head
+├── Dockerfile.training-head   # Docker image for Training Heads
+├── workflow.png               # Architecture diagram
 ├── doc/
 │   ├── agents.md              # Agents administration guide
 │   ├── architecture_design_record.md
@@ -214,5 +219,3 @@ Only these are shared via REST API:
 - https://openneuro.org/datasets/ds007116/versions/1.0.6
 - https://github.com/collaborativebioinformatics/Longitudinal_imaging_to_multimodality
 - https://github.com/IBM/comical/tree/main
-
-![Workflow](workflow.png)
