@@ -92,6 +92,7 @@ select {
 }
 
 .control-panel,
+.results-panel,
 .chart-panel,
 .table-panel,
 .output-panel {
@@ -272,9 +273,65 @@ button:disabled {
 }
 
 .chart-panel,
+.results-panel,
 .table-panel,
 .lower-grid {
   margin-top: 14px;
+}
+
+.results-summary {
+  display: grid;
+  grid-template-columns: minmax(330px, 0.86fr) minmax(360px, 1.14fr);
+  gap: 14px;
+  align-items: stretch;
+  margin-top: 12px;
+}
+
+.results-table {
+  margin-top: 0;
+}
+
+.results-table td:nth-child(2),
+.results-table th:nth-child(2) {
+  width: 150px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.result-figures {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.result-figure {
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #0d131b;
+  overflow: hidden;
+}
+
+.result-figure img {
+  display: block;
+  width: 100%;
+  height: 260px;
+  object-fit: contain;
+  padding: 12px;
+  background: #0b1118;
+}
+
+.result-figure--wide img {
+  height: 320px;
+}
+
+.result-figure figcaption {
+  border-top: 1px solid var(--border);
+  padding: 9px 11px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 760;
 }
 
 .chart-wrap {
@@ -412,6 +469,11 @@ pre {
   }
 
   .lower-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .results-summary,
+  .result-figures {
     grid-template-columns: 1fr;
   }
 
