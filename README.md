@@ -35,13 +35,12 @@ a prediction.
 - This gives a biobank a one-stop surface for *cognitive outcome prediction*,
   tracked across repeated visits.
 
-## 2. Challenges: Very longitudinal, repeated observations, random-effects, proof of concept enabling data centers
+## 2. Challenges: Very longitudinal, repeated observations, random-effects, and fighting data silos.
 
-- **Very longitudinal**: up to 3 sessions per subject over ~1–1.5 years. A plain
-  regression wrongly treats these as independent rows — within-subject
-  correlation must be modeled explicitly, which leads directly to **random
-  effects**.
-- **Repeated observations → random-effects model**: the LMMNN loss replaces MSE
+- **Very longitudinal**: MR data is typically recorded over a long time. The [OpenNeuro `ds007089`](https://openneuro.org/datasets/ds007089/versions/1.0.1) dataset has upto 3 sessions per subject recorded over ~1–1.5 years. 
+  - Consequence: A plain regression wrongly treats these as independent rows — within-subject correlation must be modeled explicitly, which leads directly to **random effects**.
+- **Repeated observations** → Solution we can use a random-effects model!
+  - the LMMNN loss replaces MSE
   with the negative log-likelihood of a Gaussian whose covariance has a
   **per-subject random intercept** plus i.i.d. error
   (`V = σ²_subject · ZZᵀ + σ²_error · I`), optimized jointly with the network
