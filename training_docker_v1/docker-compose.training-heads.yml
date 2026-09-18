@@ -1,0 +1,28 @@
+services:
+  training-head-1:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.training-head
+    image: nvidia-hackathon-training-head:center1
+    container_name: training-head-1
+    env_file:
+      - configs/center1.env
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./data/centers/center1:/data/center1:ro
+      - ./checkpoints/center1:/models/center1
+
+  training-head-2:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.training-head
+    image: nvidia-hackathon-training-head:center2
+    container_name: training-head-2
+    env_file:
+      - configs/center2.env
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./data/centers/center2:/data/center2:ro
+      - ./checkpoints/center2:/models/center2

@@ -1,0 +1,135 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "Revised Physical Anhedonia Scale (RPAS). Note that item-wise data is in the TSV file exactly as reponses were recorded, but items 1, 2, 3, 4, 7, 9, 11, 12, 13, 14, and 15 were reverse-scored when taken into account for the total and average scores.",
+        "Instructions": "For each of the following items, select either True or False.",
+        "TermURL": "https://doi.org/10.1037/0021-843X.85.4.374"
+    },
+    "participant_id": {
+        "Description": "Participant ID Number"
+    },
+    "session_id": {
+        "Description": "Session ID Number"
+    },
+    "phys_anhed_1": {
+        "Description": "I have often found walks to be relaxing and enjoyable.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "phys_anhed_2": {
+        "Description": "A brisk walk has sometimes made me feel good all over.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "phys_anhed_3": {
+        "Description": "The sound of the rain falling on the roof has made me feel snug and secure.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "phys_anhed_4": {
+        "Description": "After a busy day, a slow walk has often felt relaxing.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "phys_anhed_5": {
+        "Description": "The beauty of sunsets is greatly overrated.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "phys_anhed_6": {
+        "Description": "The sound of rustling leaves has never much pleased me.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "phys_anhed_7": {
+        "Description": "It has often felt good to massage my muscles when they are tired or sore.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "phys_anhed_8": {
+        "Description": "Flowers aren't as beautiful as many people claim.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "phys_anhed_9": {
+        "Description": "I like playing with and petting soft little kittens or puppies.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "phys_anhed_10": {
+        "Description": "I don't understand why people enjoy looking at the stars at night.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "phys_anhed_11": {
+        "Description": "When I'm feeling a little sad, singing has often made me feel happier.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "phys_anhed_12": {
+        "Description": "Beautiful scenery has been a great delight to me.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "phys_anhed_13": {
+        "Description": "The first winter snowfall has often looked pretty to me.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "phys_anhed_14": {
+        "Description": "A good soap lather when I'm bathing has sometimes soothed and refreshed me.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "phys_anhed_15": {
+        "Description": "Standing on a high place and looking out over the view is very exciting.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "revised_physical_anhedonia_scale_rpas_complete": {
+        "Description": "Complete?",
+        "Levels": {
+            "0": "Incomplete",
+            "2": "Complete"
+        }
+    },
+    "rpas_total_score": {
+        "LongName": "rpas_total_score",
+        "Description": "Global score comprised of the sum of all items. n/a if any individual item is n/a.",
+        "Derivative": true
+    },
+    "rpas_average_score": {
+        "LongName": "rpas_average_score",
+        "Description": "Global score comprised of the average of all items. n/a if any individual item is n/a.",
+        "Derivative": true
+    }
+}

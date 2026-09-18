@@ -1,0 +1,62 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+        "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+    },
+    "participant_id":{
+        "Description": "participant identifier"
+    },
+    "session_id": {
+        "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+    },
+    "cnb_adt_cr": {
+        "LongName": "ADT Total Correct Responses"
+    },
+    "cnb_adt_pc": {
+        "LongName": "ADT Percent Correct Responses"
+    },
+    "cnb_adt_rtcr": {
+        "LongName": "ADT Median Response Time for Correct Responses",
+        "Units": "ms"
+    },
+    "cnb_adt_er": {
+        "LongName": "ADT Total Incorrect Responses"
+    },
+    "cnb_adt_rter": {
+        "LongName": "ADT Median Response Time for Incorrect Responses",
+        "Units": "ms"
+    },
+    "cnb_adt_female_cr": {
+        "LongName": "ADT Correct Female Trial Responses"
+    },
+    "cnb_adt_female_rtcr": {
+        "LongName": "ADT Median Response Time for Correct Female Trial Responses",
+        "Units": "ms"
+    },
+    "cnb_adt_male_cr": {
+        "LongName": "ADT Correct Male Trial Responses"
+    },
+    "cnb_adt_male_rtcr": {
+        "LongName": "ADT Median Response Time for Correct Male Trial Responses",
+        "Units": "ms"
+    },
+    "cnb_adt_cnt_200": {
+        "LongName": "ADT Total Count of Responses Under 250 milliseconds",
+        "Units": "ms"
+    },
+    "cnb_adt_lrsr": {
+        "LongName": "ADT Longest Run of Same Responses"
+    },
+     "cnb_adt_valid_code": {
+        "LongName": "Validation Code for entire Age Differentiation Test",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+}

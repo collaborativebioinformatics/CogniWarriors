@@ -1,0 +1,106 @@
+{
+    "MeasurementToolMetadata": {
+      "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+      "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+    },
+    "participant_id":{
+      "Description": "participant identifier"
+    },
+    "session_id": {
+      "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+    },
+    "cnb_er40_cr": {
+      "LongName": "ER40 Total Correct Responses"
+    },
+    "cnb_er40_rtcr": {
+      "LongName": "ER40 Median Response Time for Correct Responses",
+      "Units": "ms"
+    },
+    "cnb_er40_rt": {
+      "LongName":"ER40 Median Response Time for All Responses",
+      "Units": "ms"
+    },
+    "cnb_er40_fc": {
+      "LongName": "ER40 Correct Female Trial Responses"
+    },
+    "cnb_er40_mc": {
+      "LongName": "ER40 Correct Male Trial Responses"
+    },
+    "cnb_er40_fcrt":{
+      "LongName": "ER40 Median Response Time for Correct Female Trial Responses",
+      "Units": "ms"
+    },
+    "cnb_er40_mcrt": {
+      "LongName": "ER40 Median Response Time for Correct Male Trial Responses",
+      "Units": "ms"
+    },
+    "cnb_er40_ang": {
+      "LongName": "ER40 Correct Anger Trial Responses"
+    },
+    "cnb_er40_fear": {
+      "LongName": "ER40 Correct Fear Trial Responses"
+    },
+    "cnb_er40_hap": {
+      "LongName": "ER40 Correct Happy Trial Responses"
+    },
+    "cnb_er40_noe": {
+      "LongName": "ER40 Correct No Emotion Trial Responses"
+    },
+    "cnb_er40_sad": {
+      "LongName": "ER40 Correct Sad Trial Responses"
+    },
+    "cnb_er40_fpa": {
+      "LongName": "ER40 False Positive Anger Responses"
+    },
+    "cnb_er40_fpf": {
+      "LongName": "ER40 False Positive Fear Responses"
+    },
+    "cnb_er40_fph": {
+      "LongName": "ER40 False Positive Happy Responses"
+    },
+    "cnb_er40_fpn": {
+      "LongName": "ER40 False Positive No Emotion Responses"
+    },
+    "cnb_er40_fps": {
+      "LongName": "ER40 False Positive Sad Responses"
+    },
+    "cnb_er40_angrt": {
+      "LongName": "ER40 Median Response Time for Correct Anger Trial Responses",
+      "Units": "ms"
+    },
+    "cnb_er40_fearrt": {
+      "LongName": "ER40 Median Response Time for Correct Fear Trial Responses",
+      "Units": "ms"
+    }, 
+    "cnb_er40_haprt": {
+      "LongName": "ER40 Median Response Time for Correct Happy Trial Responses",
+      "Units": "ms"
+    }, 
+    "cnb_er40_noert": {
+      "LongName": "ER40 Median Response Time for Correct No Emotion Trial Responses",
+      "Units": "ms"
+    }, 
+    "cnb_er40_sadrt": {
+      "LongName": "ER40 Median Response Time for Correct Sad Trial Responses",
+      "Units": "ms"
+    },
+    "cnb_er40_cnt_250": {
+      "LongName": "ER40 Total Count of Responses Under 250 milliseconds",
+      "Units": "ms"
+    },
+    "cnb_er40_lrsr": {
+      "LongName": "ER40 Longest Run of Same Responses"
+    },
+    "cnb_er40_valid_code": {
+        "LongName": "Validation Code for entire Penn Emotion Recognition Test",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+}

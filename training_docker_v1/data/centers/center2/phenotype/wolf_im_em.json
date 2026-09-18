@@ -1,0 +1,217 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "Wolf IM/EM",
+        "Instructions": "Please read each of the following statements. Decide how true or untrue each statement is for you, selecting a number from 1 to 7 where 1 is 'not at all true' and 7 is 'very true'.",
+        "TermURL": "https://doi.org/10.1016/j.comppsych.2023.152413"
+    },
+    "participant_id": {
+        "Description": "Participant ID Number"
+    },
+    "session_id": {
+        "Description": "Session ID Number"
+    },
+    "wolf_im_em_1": {
+        "Description": "I prefer activities that challenge my knowledge or abilities.",
+        "Levels": {
+            "1": "Not at all true",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "Very true"
+        }
+    },
+     "wolf_im_em_2": {
+        "Description": "I often do things mainly because I think they can help me.",
+        "Levels": {
+            "1": "Not at all true",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "Very true"
+        }
+    },
+     "wolf_im_em_3": {
+        "Description": "I like to go on to new work that's at a more difficult level.",
+        "Levels": {
+            "1": "Not at all true",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "Very true"
+        }
+    },
+     "wolf_im_em_4": {
+        "Description": "I tend to do things that make me feel good about myself.",
+        "Levels": {
+            "1": "Not at all true",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "Very true"
+        }
+    },
+     "wolf_im_em_5": {
+        "Description": "I prefer games of skill to games of chance.",
+        "Levels": {
+            "1": "Not at all true",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "Very true"
+        }
+    },
+     "wolf_im_em_6": {
+        "Description": "I tend to like activities where I know what the rules are.",
+        "Levels": {
+            "1": "Not at all true",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "Very true"
+        }
+    },
+     "wolf_im_em_7": {
+        "Description": "I especially like doing hard things that I am good at.",
+        "Levels": {
+            "1": "Not at all true",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "Very true"
+        }
+    },
+     "wolf_im_em_8": {
+        "Description": "I never feel tired or sleepy.",
+        "Levels": {
+            "1": "Not at all true",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "Very true"
+        }
+    },
+     "wolf_im_em_9": {
+        "Description": "I don't like to be wrong.",
+        "Levels": {
+            "1": "Not at all true",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "Very true"
+        }
+    },
+     "wolf_im_em_10": {
+        "Description": "I like finding out new ways to do things and learn new skills.",
+        "Levels": {
+            "1": "Not at all true",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "Very true"
+        }
+    },
+     "wolf_im_em_11": {
+        "Description": "I perform better when I get detailed instructions about what to do.",
+        "Levels": {
+            "1": "Not at all true",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "Very true"
+        }
+    },
+     "wolf_im_em_12": {
+        "Description": "I like difficult work because I find it more interesting.",
+        "Levels": {
+            "1": "Not at all true",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "Very true"
+        }
+    },
+     "wolf_im_em_13": {
+        "Description": "If I have to put in effort, I want to get something in return.",
+        "Levels": {
+            "1": "Not at all true",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "Very true"
+        }
+    },
+    "wolf_im_em_14": {
+        "Description": "I really enjoy learning for its own sake.",
+        "Levels": {
+            "1": "Not at all true",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "Very true"
+        }
+    },
+    "wolf_imem_short_complete": {
+        "Description": "Complete?",
+        "Levels": {
+            "0": "Incomplete",
+            "2": "Complete"
+        }
+    },
+    "im_average": {
+        "LongName": "Intrinsic Motivation Average",
+        "Description": "Average of all IM items. n/a if any individual IM items are n/a.",
+        "Derivative": true
+    },
+    "em_average": {
+        "LongName": "Extrinsic Motivation Average",
+        "Description": "Average of all EM items. n/a if any individual EM items are n/a.",
+        "Derivative": true
+    },
+    "validity_never_sleepy": {
+        "LongName": "Validity Check - Never Sleepy",
+        "Description": "Validity check based off of if participant answered an extreme (1 or 7) to question 8 (invalid) about if they never feel tired or sleepy.",
+        "Levels": {
+            "0": "Valid",
+            "1": "Invalid"
+        },
+        "Derivative": true
+    },
+    "avg_of_im_em_averages": {
+        "LongName": "Average of IM and EM Average Scores",
+        "Description": "Global score comprised of the average of the IM and EM average scores. n/a if IM or EM averages are n/a.",
+        "Derivative": true
+    },
+    "difference_of_im_em_averages": {
+        "LongName": "Difference of IM Average Score and EM Average Score (IM - EM)",
+        "Description": "Global score comprised of the difference between the IM and EM average scores. n/a if IM or EM averages are n/a.",
+        "Derivative": true
+    }
+}

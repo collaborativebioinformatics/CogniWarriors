@@ -1,0 +1,274 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "PRIME",
+        "Instructions": "The following questions ask about your personal experiences. We ask about your sensory, psychological, emotional, and social experiences. Some of these questions may seem to relate directly to your experiences and others may not. Based on your experiences within the past year, please indicate how much you agree or disagree with the following statements. Please read each question carefully and select the best answer that best describes your experiences. Please answer all questions.",
+        "TermURL": "https://doi.org/10.1016/j.schres.2008.08.018"
+    },
+     "participant_id": {
+        "Description": "Participant ID Number"
+    },
+    "session_id": {
+        "Description": "Session ID Number"
+    },
+    "prime_1": {
+        "Description": "I think that I have felt that there are odd or unusual things going on that I can't explain.",
+        "Levels": {
+            "0": "Definitely Disagree",
+            "1": "Somewhat Disagree",
+            "2": "Slightly Disagree",
+            "3": "Not Sure",
+            "4": "Slightly Agree",
+            "5": "Somewhat Agree",
+            "6": "Definitely Agree"
+        }
+    },
+    "prime_1_dur": {
+        "Description": "I think that I have felt that there are odd or unusual things going on that I can't explain. How long has it been since you first had this thought or experience?",
+        "Levels": {
+            "1": "Less Than 1 Month",
+            "2": "Between 1 Month and 1 Year",
+            "3": "More than 1 Year"
+        }
+    },
+    "prime_2": {
+        "Description": "I think that I might be able to predict the future.",
+        "Levels": {
+            "0": "Definitely Disagree",
+            "1": "Somewhat Disagree",
+            "2": "Slightly Disagree",
+            "3": "Not Sure",
+            "4": "Slightly Agree",
+            "5": "Somewhat Agree",
+            "6": "Definitely Agree"
+        }
+    },
+    "prime_2_dur": {
+        "Description": "I think that I might be able to predict the future. How long has it been since you first had this thought or experience?",
+        "Levels": {
+            "1": "Less Than 1 Month",
+            "2": "Between 1 Month and 1 Year",
+            "3": "More than 1 Year"
+        }
+    },
+    "prime_3": {
+        "Description": "I may have felt that there could possibly be something interrupting or controlling my thoughts, feelings, or actions.",
+        "Levels": {
+            "0": "Definitely Disagree",
+            "1": "Somewhat Disagree",
+            "2": "Slightly Disagree",
+            "3": "Not Sure",
+            "4": "Slightly Agree",
+            "5": "Somewhat Agree",
+            "6": "Definitely Agree"
+        }
+    },
+    "prime_3_dur": {
+        "Description": "I may have felt that there could possibly be something interrupting or controlling my thoughts, feelings, or actions. How long has it been since you first had this thought or experience?",
+        "Levels": {
+            "1": "Less Than 1 Month",
+            "2": "Between 1 Month and 1 Year",
+            "3": "More than 1 Year"
+        }
+    },
+    "prime_4": {
+        "Description": "I have had the experience of doing something differently because of my superstitions.",
+        "Levels": {
+            "0": "Definitely Disagree",
+            "1": "Somewhat Disagree",
+            "2": "Slightly Disagree",
+            "3": "Not Sure",
+            "4": "Slightly Agree",
+            "5": "Somewhat Agree",
+            "6": "Definitely Agree"
+        }
+    },
+    "prime_4_dur": {
+        "Description": "I have had the experience of doing something differently because of my superstitions. How long has it been since you first had this thought or experience?",
+        "Levels": {
+            "1": "Less Than 1 Month",
+            "2": "Between 1 Month and 1 Year",
+            "3": "More than 1 Year"
+        }
+    },
+    "prime_5": {
+        "Description": "I think that I may get confused at times whether something I experience or perceive may be real or may be just part of my imagination or dreams.",
+        "Levels": {
+            "0": "Definitely Disagree",
+            "1": "Somewhat Disagree",
+            "2": "Slightly Disagree",
+            "3": "Not Sure",
+            "4": "Slightly Agree",
+            "5": "Somewhat Agree",
+            "6": "Definitely Agree"
+        }
+    },
+    "prime_5_dur": {
+        "Description": "I think that I may get confused at times whether something I experience or perceive may be real or may be just part of my imagination or dreams. How long has it been since you first had this thought or experience?",
+        "Levels": {
+            "1": "Less Than 1 Month",
+            "2": "Between 1 Month and 1 Year",
+            "3": "More than 1 Year"
+        }
+    },
+    "prime_6": {
+        "Description": "I have thought that it might be possible that other people can read my mind, or that I can read other's minds.",
+        "Levels": {
+            "0": "Definitely Disagree",
+            "1": "Somewhat Disagree",
+            "2": "Slightly Disagree",
+            "3": "Not Sure",
+            "4": "Slightly Agree",
+            "5": "Somewhat Agree",
+            "6": "Definitely Agree"
+        }
+    },
+    "prime_6_dur": {
+        "Description": "I have thought that it might be possible that other people can read my mind, or that I can read other's minds. How long has it been since you first had this thought or experience?",
+        "Levels": {
+            "1": "Less Than 1 Month",
+            "2": "Between 1 Month and 1 Year",
+            "3": "More than 1 Year"
+        }
+    },
+    "prime_7": {
+        "Description": "I wonder if people may be planning to hurt me or even may be about to hurt me.",
+        "Levels": {
+            "0": "Definitely Disagree",
+            "1": "Somewhat Disagree",
+            "2": "Slightly Disagree",
+            "3": "Not Sure",
+            "4": "Slightly Agree",
+            "5": "Somewhat Agree",
+            "6": "Definitely Agree"
+        }
+    },
+    "prime_7_dur": {
+        "Description": "I wonder if people may be planning to hurt me or even may be about to hurt me. How long has it been since you first had this thought or experience?",
+        "Levels": {
+            "1": "Less Than 1 Month",
+            "2": "Between 1 Month and 1 Year",
+            "3": "More than 1 Year"
+        }
+    },
+    "prime_8": {
+        "Description": "I believe that I have special natural or supernatural gifts beyond my talents and natural strengths.",
+        "Levels": {
+            "0": "Definitely Disagree",
+            "1": "Somewhat Disagree",
+            "2": "Slightly Disagree",
+            "3": "Not Sure",
+            "4": "Slightly Agree",
+            "5": "Somewhat Agree",
+            "6": "Definitely Agree"
+        }
+    },
+    "prime_8_dur": {
+        "Description": "I believe that I have special natural or supernatural gifts beyond my talents and natural strengths. How long has it been since you first had this thought or experience?",
+        "Levels": {
+            "1": "Less Than 1 Month",
+            "2": "Between 1 Month and 1 Year",
+            "3": "More than 1 Year"
+        }
+    },
+    "prime_9": {
+        "Description": "I think I might feel like my mind is 'playing tricks' on me.",
+        "Levels": {
+            "0": "Definitely Disagree",
+            "1": "Somewhat Disagree",
+            "2": "Slightly Disagree",
+            "3": "Not Sure",
+            "4": "Slightly Agree",
+            "5": "Somewhat Agree",
+            "6": "Definitely Agree"
+        }
+    },
+    "prime_9_dur": {
+        "Description": "I think I might feel like my mind is 'playing tricks' on me. How long has it been since you first had this thought or experience?",
+        "Levels": {
+            "1": "Less Than 1 Month",
+            "2": "Between 1 Month and 1 Year",
+            "3": "More than 1 Year"
+        }
+    },
+    "prime_10": {
+        "Description": "I have had the experience of hearing faint or clear sounds of people or a person mumbling or talking when there is no one near me.",
+        "Levels": {
+            "0": "Definitely Disagree",
+            "1": "Somewhat Disagree",
+            "2": "Slightly Disagree",
+            "3": "Not Sure",
+            "4": "Slightly Agree",
+            "5": "Somewhat Agree",
+            "6": "Definitely Agree"
+        }
+    },
+    "prime_10_dur": {
+        "Description": "I have had the experience of hearing faint or clear sounds of people or a person mumbling or talking when there is no one near me. How long has it been since you first had this thought or experience?",
+        "Levels": {
+            "1": "Less Than 1 Month",
+            "2": "Between 1 Month and 1 Year",
+            "3": "More than 1 Year"
+        }
+    },
+    "prime_11": {
+        "Description": "I think that I may hear my own thoughts being said out loud.",
+        "Levels": {
+            "0": "Definitely Disagree",
+            "1": "Somewhat Disagree",
+            "2": "Slightly Disagree",
+            "3": "Not Sure",
+            "4": "Slightly Agree",
+            "5": "Somewhat Agree",
+            "6": "Definitely Agree"
+        }
+    },
+    "prime_11_dur": {
+        "Description": "I think that I may hear my own thoughts being said out loud. How long has it been since you first had this thought or experience?",
+        "Levels": {
+            "1": "Less Than 1 Month",
+            "2": "Between 1 Month and 1 Year",
+            "3": "More than 1 Year"
+        }
+    },
+    "prime_12": {
+        "Description": "I have been concerned that I might be 'going crazy'.",
+        "Levels": {
+            "0": "Definitely Disagree",
+            "1": "Somewhat Disagree",
+            "2": "Slightly Disagree",
+            "3": "Not Sure",
+            "4": "Slightly Agree",
+            "5": "Somewhat Agree",
+            "6": "Definitely Agree"
+        }
+    },
+    "prime_12_dur": {
+        "Description": "I have been concerned that I might be 'going crazy'. How long has it been since you first had this thought or experience?",
+        "Levels": {
+            "1": "Less Than 1 Month",
+            "2": "Between 1 Month and 1 Year",
+            "3": "More than 1 Year"
+        }
+    },
+    "prime_screen_selfreport_complete": {
+        "Description": "whether or not scale was completed",
+        "Levels": {
+            "0": "Incomplete",
+            "2": "Complete"
+        }
+    },
+    "prime_total_score": {
+        "LongName": "prime_total_score",
+        "Description": "Global score comprised of the sum of all items prime_1 through prime_12 (does not take into account duration of symptoms). n/a if any individual item is n/a.",
+        "Derivative": true
+    },
+    "clinically_significant_psychosis_spectrum_symptoms": {
+        "LongName": "Clinically significant psychosis spectrum symptoms. n/a if one or more of the items prime_1 through prime_12 is n/a, or if the age of the participant at that session is <11 years old.",
+        "Description": "Clinical significance is determined by meeting one or more of the following criteria: ≥1 item rated 6 (definitely agree); ≥3 items rated 5 (somewhat agree); total items 1-12 ≥ 2 SD away from mean by age (see Table 1 in Calkins et al.)",
+        "Levels": {
+            "0": "Not significant",
+            "2": "Clinically significant psychosis spectrum symptoms"
+        },
+        "Derivative": true
+    }
+ }

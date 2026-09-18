@@ -1,0 +1,205 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "State-Trait Anxiety Inventory. Note that item-wise data is in the TSV file exactly as reponses were recorded, but items 1, 2, 5, 8, 10, 11, 15, 16, 19, and 20 were reverse-scored when taken into account for the total and average scores.",
+        "Instructions": "A number of statements which people have used to describe themselves are given below. Read each statement and then click on the appropriate button to the right of the statement to indicate how you feel right now, that is, at this moment. There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.",
+        "TermURL": "https://www.researchgate.net/publication/235361542_Manual_for_the_State-Trait_Anxiety_Inventory_Form_Y1_-_Y2"
+    },
+     "participant_id": {
+        "Description": "Participant ID Number"
+    },
+    "session_id": {
+        "Description": "Session ID Number"
+    },
+    "stai_q_01": {
+        "Description": "I feel calm.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_02": {
+        "Description": "I feel secure.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_03": {
+        "Description": "I am tense.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_04": {
+        "Description": "I feel strained.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_05": {
+        "Description": "I feel at ease.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_06": {
+        "Description": "I feel upset.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_07": {
+        "Description": "I am presently worrying over possible misfortunes.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_08": {
+        "Description": "I feel satisfied.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_09": {
+        "Description": "I feel frightened",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_10": {
+        "Description": "I feel comfortable.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_11": {
+        "Description": "I feel self-confident.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_12": {
+        "Description": "I feel nervous.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_13": {
+        "Description": "I am jittery.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_14": {
+        "Description": "I feel indecisive.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_15": {
+        "Description": "I am relaxed.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_16": {
+        "Description": "I feel content.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_17": {
+        "Description": "I am worried.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_18": {
+        "Description": "I feel confused.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_19": {
+        "Description": "I feel steady.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_q_20": {
+        "Description": "I feel pleasant.",
+        "Levels": {
+            "1": "Not at all",
+            "2": "Somewhat",
+            "3": "Moderately so",
+            "4": "Very much so"
+        }
+    },
+    "stai_state_complete": {
+        "Description": "Whether or not scale was completed",
+        "Levels": {
+            "0": "Incomplete",
+            "2": "Complete"
+        }
+    },
+    "post_scan_STAI_state_total_score": {
+        "LongName": "post_scan_STAI_state_total_score",
+        "Description": "Global score comprised of the sum of all individual items 1-20 corresponding to state anxiety. n/a if any individual item is n/a",
+        "Derivative": true
+    }
+}

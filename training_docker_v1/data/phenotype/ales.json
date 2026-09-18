@@ -1,0 +1,623 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "Adverse Life Experiences Scale (ALES)",
+        "Instructions": "These questions are about certain things that may have happened to you over the last year. Please indicate whether each happened, and if so, how much it affected you. (Questions 1-11); Please indicate whether each event happened to you in the last year, and if so, whether it was a good or bad experience and how much it affected you. (Questions 12-25)",
+        "TermURL": "https://doi.org/10.1037/amp0000760"
+    },
+     "participant_id": {
+        "Description": "Participant ID Number"
+    },
+    "session_id": {
+        "Description": "Session ID Number"
+    },
+     "ales_1": {
+        "Description": "Someone in family died",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_1_1": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+     "ales_2": {
+        "Description": "Family member was seriously injured",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_2_1": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+     "ales_3": {
+        "Description": "Saw crime/accident",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_3_1": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+     "ales_4": {
+        "Description": "Close friend was seriously sick/injured",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_4_1": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+     "ales_5": {
+        "Description": "Negative change in parent's financial situation",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_5_1": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+     "ales_6": {
+        "Description": "Family member had drug/alcohol problem",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_6_1": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+     "ales_7": {
+        "Description": "Got seriously sick or injured",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_7_1": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+     "ales_8": {
+        "Description": "Parents argued more than previously",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_8_1": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+     "ales_9": {
+        "Description": "Close friend died",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_9_1": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+     "ales_10": {
+        "Description": "Family member had mental/emotional problem",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_10_1": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+     "ales_11": {
+        "Description": "Being a victim of crime/violence/assault",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_11_1": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+     "ales_12": {
+        "Description": "Parents separated in last 12 months",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_12_1": {
+        "Description": "Was this a good or bad experience?",
+        "Levels": {
+            "1": "Mostly good",
+            "2": "Mostly bad",
+            "3": "Not applicable",
+            "4": "Don't know"
+        }
+    },
+    "ales_12_2": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+    "ales_13": {
+        "Description": "Parents got divorced",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+    "ales_13_1": {
+        "Description": "Was this a good or bad experience?",
+        "Levels": {
+            "1": "Mostly good",
+            "2": "Mostly bad",
+            "3": "Not applicable",
+            "4": "Don't know"
+        }
+    },
+    "ales_13_2": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+    "ales_14": {
+        "Description": "One parent was away from home more often",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_14_1": {
+        "Description": "Was this a good or bad experience?",
+        "Levels": {
+            "1": "Mostly good",
+            "2": "Mostly bad",
+            "3": "Not applicable",
+            "4": "Don't know"
+        }
+    },
+    "ales_14_2": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+    "ales_15": {
+        "Description": "Got new stepmother or stepfather",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_15_1": {
+        "Description": "Was this a good or bad experience?",
+        "Levels": {
+            "1": "Mostly good",
+            "2": "Mostly bad",
+            "3": "Not applicable",
+            "4": "Don't know"
+        }
+    },
+    "ales_15_2": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+    "ales_16": {
+        "Description": "Parents got into trouble with the law",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_16_1": {
+        "Description": "Was this a good or bad experience?",
+        "Levels": {
+            "1": "Mostly good",
+            "2": "Mostly bad",
+            "3": "Not applicable",
+            "4": "Don't know"
+        }
+    },
+    "ales_16_2": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+    "ales_17": {
+        "Description": "One of the parents went to jail",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_17_1": {
+        "Description": "Was this a good or bad experience?",
+        "Levels": {
+            "1": "Mostly good",
+            "2": "Mostly bad",
+            "3": "Not applicable",
+            "4": "Don't know"
+        }
+    },
+    "ales_17_2": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+    "ales_18": {
+        "Description": "Someone in the family was arrested",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_18_1": {
+        "Description": "Was this a good or bad experience?",
+        "Levels": {
+            "1": "Mostly good",
+            "2": "Mostly bad",
+            "3": "Not applicable",
+            "4": "Don't know"
+        }
+    },
+    "ales_18_2": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+    "ales_19": {
+        "Description": "Parent got a new job",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_19_1": {
+        "Description": "Was this a good or bad experience?",
+        "Levels": {
+            "1": "Mostly good",
+            "2": "Mostly bad",
+            "3": "Not applicable",
+            "4": "Don't know"
+        }
+    },
+    "ales_19_2": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+    "ales_20": {
+        "Description": "Mother/father figure lost job",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_20_1": {
+        "Description": "Was this a good or bad experience?",
+        "Levels": {
+            "1": "Mostly good",
+            "2": "Mostly bad",
+            "3": "Not applicable",
+            "4": "Don't know"
+        }
+    },
+    "ales_20_2": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+
+        }
+    },
+    "ales_21": {
+        "Description": "Family moved",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_21_1": {
+        "Description": "Was this a good or bad experience?",
+        "Levels": {
+            "1": "Mostly good",
+            "2": "Mostly bad",
+            "3": "Not applicable",
+            "4": "Don't know"
+        }
+    },
+    "ales_21_2": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+    "ales_22": {
+        "Description": "Attended a new school",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_22_1": {
+        "Description": "Was this a good or bad experience?",
+        "Levels": {
+            "1": "Mostly good",
+            "2": "Mostly bad",
+            "3": "Not applicable",
+            "4": "Don't know"
+        }
+    },
+    "ales_22_2": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+    "ales_23": {
+        "Description": "A close friendship ended",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_23_1": {
+       "Description": "Was this a good or bad experience?",
+        "Levels": {
+            "1": "Mostly good",
+            "2": "Mostly bad",
+            "3": "Not applicable",
+            "4": "Don't know"
+        }
+    },
+    "ales_23_2": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+    "ales_24": {
+        "Description": "Got new brother or sister",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_24_1": {
+        "Description": "Was this a good or bad experience?",
+        "Levels": {
+            "1": "Mostly good",
+            "2": "Mostly bad",
+            "3": "Not applicable",
+            "4": "Don't know"
+        }
+    },
+    "ales_24_2": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+           "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+    "ales_25": {
+        "Description": "Brother or sister left home",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+     "ales_25_1": {
+        "Description": "Was this a good or bad experience?",
+        "Levels": {
+            "1": "Mostly good",
+            "2": "Mostly bad",
+            "3": "Not applicable",
+            "4": "Don't know"
+        }
+    },
+    "ales_25_2": {
+        "Description": "How much did the event affect you?",
+        "Levels": {
+            "1": "Not at all",
+            "2": "A little",
+            "3": "Some",
+            "4": "A lot",
+            "5": "Not applicable",
+            "6": "Don't know"
+        }
+    },
+    "adverse_life_experiences_scale_ales_complete": {
+        "Description": "Whether or not scale was completed",
+        "Levels": {
+            "0": "Incomplete",
+            "2": "Complete"
+        }
+    },
+    "ales_frequency": {
+        "LongName": "ales_frequency_score",
+        "Description": "Global score comprised of the sum of 'yes' responses to whether an event occured in item-level responses. n/a if one of the individual item responses is n/a.",
+        "Derivative": true
+    },
+    "ales_severity_sum": {
+        "LongName": "ales_severity_sum",
+        "Description": "Global score comprised of the sum of responses to items asking how much the event affected the participant (_1 in questions 1-11, _2 in questions 12-25). n/a if any one of the individual item responses is n/a AND the event was endorsed.",
+        "Derivative": true
+    },
+    "ales_severity_mean": {
+        "LongName": "ales_severity_mean",
+        "Description": "Global score comprised of the mean of responses to items asking how much the event affected the participant (_1 in questions 1-11, _2 in questions 12-25). n/a if any one of the individual item responses is n/a AND the event was endorsed.",
+        "Derivative": true
+    },
+    "ales_good_count": {
+        "LongName": "ales_good_count",
+        "Description": "Global score comprised of the sum of 'mostly good' (1) responses to items asking whether the event was a good or bad experience (12_2 through 25_2). 'Not applicable' or 'don't know' responses were not counted in either good_count or bad_count scores. n/a if any one of the individual item responses is n/a AND the event was endorsed.",
+        "Derivative": true
+    },
+    "ales_bad_count": {
+        "LongName": "ales_bad_count",
+        "Description": "Global score comprised of the sum of 'mostly bad' (2) responses to items asking whether the event was a good or bad experience (12_2 through 25_2). 'Not applicable' or 'don't know' responses were not counted in either good_count or bad_count scores. n/a if any one of the individual item responses is n/a AND the event was endorsed.",
+        "Derivative": true
+    }
+
+}

@@ -1,0 +1,35 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+        "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+    },
+    "participant_id":{
+        "Description": "participant identifier"
+    },
+    "session_id": {
+        "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+    },
+    "cnb_edisc_tot": {
+        "LongName": "EDISC Count of total effort"
+    },
+    "cnb_edisc_rt": {
+        "LongName": "EDISC Median Reaction Time",
+        "Units": "ms"
+    },
+    "cnb_edisc_mrt": {
+        "LongName": "EDISC Mean Reaction Time",
+        "Units": "ms"
+    },
+    "cnb_edisc_valid_code": {
+        "LongName": "Validation Code for entire Penn Effort Discounting Task",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+}
