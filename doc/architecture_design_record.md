@@ -337,3 +337,24 @@ Prediction targets: still TBD between EF composite and N-back score (2-back minu
 - Hub-worker pattern chosen over peer-to-peer for clearer coordination and easier debugging with multi-center data
 - FLARE chosen over other FL frameworks due to Nvidia ecosystem compatibility and documentation availability
 - N-back prediction as output aligns with primary clinical question of working memory assessment
+
+## Record Entry: 2026-09-18 HH:MM (NVIDIA FLARE federation)
+
+### Accepted
+- [x] NVIDIA FLARE 2.9 for federated training (`federated/flare/`), replacing the socket prototype (`center.py`/`worker.py`, moved to `legacy/`)
+- [x] Server: NVFlare FedAvg (weighted by each site's training-session count) with one added step: global feature scaling from per-site sums and counts (`controller.py`)
+- [x] Site: NVFlare Client API script (`client.py`); each site reads only its own data folder
+- [x] Global scaling stored inside the model (`cogni_model.py`), so saved models take raw features
+- [x] Data split per site by participant; test set identical to the centralized pipeline
+- [x] Fixed effects by default (`--loss mse`); `--loss lmmnn` also federates the two LMMNN variance terms
+
+### Rejected
+- [ ] HTTP Federation Head + Training Head containers: NVFlare provides communication, certificates and job management
+- [ ] Per-site feature scaling: sites would use different units
+
+### Outstanding
+- [ ] Real multi-machine deployment (provisioning with `federated/flare/project.yml`; Windows hosts need WSL2)
+- [ ] Per-site test sets for a real deployment (currently one shared held-out test set)
+
+### Arguments/Reasons for Changes
+- NVFlare simulator, 4 sites: test R² 0.26. Offline comparison (5 seeds): federated 0.265 ± 0.042, centralized 0.273 ± 0.055, single site 0.116 ± 0.032. Federation recovers nearly all pooled-data performance with no data leaving a site.

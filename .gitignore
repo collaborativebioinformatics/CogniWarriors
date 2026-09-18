@@ -1,2 +1,7 @@
 __pycache__/
 *.pyc
+
+federated/flare/data/
+jobs/
+results/fedavg/
+provision_workspace/
