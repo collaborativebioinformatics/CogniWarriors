@@ -103,6 +103,8 @@ model is the point.
 
 ## 5. Method: Multi-Modal Architecture and Federation
 
+![DL Architecture](architecture.png)
+
 **Architecture — late fusion of small, regularized MLPs** (~19.8k parameters):
 
 ```
