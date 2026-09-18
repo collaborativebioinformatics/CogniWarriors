@@ -84,7 +84,7 @@ on phenotype input quality worth stating explicitly in the write-up.
 
 ## Phenotype feature selection (161 → 97 columns)
 
-Run via `src/analyze_phenotype_features.py`; selection rule and rationale
+Run via `preprocessing/analyze_phenotype_features.py`; selection rule and rationale
 in `doc/method.md` Section 3.2. Outputs: `data/processed/
 feature_target_association.tsv`, `feature_redundancy_pairs.tsv`,
 `missingness_redundancy_pairs.tsv`, `feature_vif.tsv`.

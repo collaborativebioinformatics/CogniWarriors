@@ -118,7 +118,7 @@ folds are only ≈40 samples) is wide relative to N — `phenotype_model.py`
 already compensates on the model side (small embedder, dropout, weight
 decay), but nothing had trimmed the input side to match, and the initial
 matrix was built by a "not part of the EF composite → include it" rule
-rather than a chosen feature set. `src/analyze_phenotype_features.py`
+rather than a chosen feature set. `preprocessing/analyze_phenotype_features.py`
 computes three things against the 161-column matrix to fix that:
 
 1. **Univariate association** — Pearson + Spearman r of every column vs.
@@ -180,7 +180,7 @@ description per embedder-input/covariate column, for every one of the 99
 JSON sidecar (`LongName`/`Description` fields in `data/phenotype/*.json`)
 or `participants.json`, not invented — see `config.RAW_COLUMN_DESCRIPTIONS`,
 `CATEGORICAL_COLUMN_DESCRIPTIONS`, and `CATEGORICAL_LEVEL_DESCRIPTIONS`,
-expanded per column by `build_phenotype_input.py`'s `describe_column()`
+expanded per column by `preprocessing/build_phenotype_input.py`'s `describe_column()`
 (one-hot levels and `_was_missing` indicators are derived automatically,
 not hand-listed). `cnb_trails_rtcr`/`cnb_digsym_dscor`/`cnb_digsym_dscorrt`
 carry the EF-adjacency caveat from the open item above directly in their
@@ -241,10 +241,10 @@ produces useful embeddings — see `doc/results.md` for the numbers.
 
 | Script | Purpose |
 |---|---|
-| `src/config.py` | Single source of truth for EF task list, QC codes, feature-column selections, thresholds |
-| `src/download_openneuro.py` | Downloads `participants.tsv` + `sessions.tsv` from the public OpenNeuro S3 bucket |
-| `src/build_ef_composite.py` | Computes `ef_composite` per session |
-| `src/build_phenotype_input.py` | Builds the 225×97 phenotype feature matrix + manifest |
-| `src/analyze_phenotype_features.py` | Per-feature target association, redundancy, and VIF — drives the Section 3.2 selection rule |
-| `src/phenotype_model.py` | `PhenotypeEmbedder` + `PhenotypeRegressor` (PyTorch) |
-| `src/train_phenotype_sanity.py` | GroupKFold sanity check: MLP vs. Ridge vs. mean-baseline |
+| `training/config.py` | Single source of truth for EF task list, QC codes, feature-column selections, thresholds |
+| `scripts/download_openneuro.py` | Downloads `participants.tsv` + `sessions.tsv` from the public OpenNeuro S3 bucket |
+| `preprocessing/build_ef_composite.py` | Computes `ef_composite` per session |
+| `preprocessing/build_phenotype_input.py` | Builds the 225×97 phenotype feature matrix + manifest |
+| `preprocessing/analyze_phenotype_features.py` | Per-feature target association, redundancy, and VIF — drives the Section 3.2 selection rule |
+| `training/phenotype_model.py` | `PhenotypeEmbedder` + `PhenotypeRegressor` (PyTorch) |
+| `training/train_phenotype_sanity.py` | GroupKFold sanity check: MLP vs. Ridge vs. mean-baseline |

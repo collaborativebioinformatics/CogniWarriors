@@ -21,7 +21,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "training"))
 import config
 from device_utils import get_device
 from fusion_model import FusionRegressor

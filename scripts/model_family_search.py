@@ -19,6 +19,7 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.svm import SVR
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "training"))
 import config
 from architecture_search import ARCHITECTURES, SEEDS, load_split, to_device_tensors, train_one
 

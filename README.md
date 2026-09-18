@@ -30,7 +30,7 @@ Raw data (volumes, phenotype data) stays local to each site. Only model updates,
 **Pipeline Components:**
 1. **Image Feature Extractor**: ROI thickness, 68 DK regions (ACTIVE: bypass placeholder) → feeds into Model 1
    - Other imaging features (IN PROGRESS: vertex-wise / functional connectivity / raw volumes) → planned swap-in
-2. **Phenotype Feature Extractor**: 97 features (selected via `src/analyze_phenotype_features.py`, down from an initial 161-column candidate matrix — see `doc/method.md` §3.2) — age, sex, group, dx flags, non-target CNB domains, a trimmed set of self-report scales → feeds into Model 2
+2. **Phenotype Feature Extractor**: 97 features (selected via `preprocessing/analyze_phenotype_features.py`, down from an initial 161-column candidate matrix — see `doc/method.md` §3.2) — age, sex, group, dx flags, non-target CNB domains, a trimmed set of self-report scales → feeds into Model 2
 3. **Embedding Models**: 
    - Model 1: Image embedder — consumes imaging features
    - Model 2: Phenotype embedder — consumes phenotype features

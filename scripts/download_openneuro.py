@@ -28,7 +28,7 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "training"))
 import config
 
 S3_BASE = "https://s3.amazonaws.com/openneuro.org"

@@ -41,7 +41,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import pearsonr, spearmanr
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "training"))
 import config
 
 REDUNDANCY_THRESHOLD_DEFAULT = 0.85

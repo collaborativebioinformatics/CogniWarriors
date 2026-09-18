@@ -68,7 +68,7 @@ FusionRegressor:     concat(z_img[32], z_pheno[32], covariates[2]) = 66
 ```
 
 **19,841 parameters** total (n_targets=1). This is deliberately the
-smaller of two candidates found by `architecture_search.py` -- a "wide"
+smaller of two candidates found by `scripts/architecture_search.py` -- a "wide"
 variant (64/64 embeddings, 128 hidden, 56k params) scored better on val
 MSE but not by a robust margin once run-to-run MPS noise and seed variance
 were accounted for, and 2.8x the parameters on 143 training rows is real
@@ -161,11 +161,11 @@ for callers that don't want to hold a loaded model in memory.
 
 ## 6. Architecture & model-family search tools
 
-- **`architecture_search.py`** -- trains several `FusionRegressor` width/depth
+- **`scripts/architecture_search.py`** -- trains several `FusionRegressor` width/depth
   variants (same data split, plain MSE, 3 seeds each) and ranks them by val
   MSE. Useful if you change the data (more sessions, more image features)
   and want to re-check whether a bigger network is now justified.
-- **`model_family_search.py`** -- compares genuinely different model
+- **`scripts/model_family_search.py`** -- compares genuinely different model
   *families* on the flat `concat(image, phenotype, covariates)` feature
   vector: Ridge, linear/RBF SVR, Random Forest, gradient boosting, k-NN,
   plus the MLP fusion architectures as a reference point. **The classical
@@ -220,5 +220,5 @@ Both run on the same auto-detected device as the main training script.
 | `lmmnn_loss.py` | `LMMNNLoss` -- the random-effects loss |
 | `checkpoint.py` | `save_checkpoint` / `load_checkpoint` / `predict` -- the I/O boundary |
 | `train_fusion_lmmnn.py` | Main training entrypoint; produces the plots + checkpoint in `results/` |
-| `architecture_search.py` | MLP width/depth search for the fusion model |
-| `model_family_search.py` | MLP vs. classical regressors, same split |
+| `scripts/architecture_search.py` | MLP width/depth search for the fusion model |
+| `scripts/model_family_search.py` | MLP vs. classical regressors, same split |

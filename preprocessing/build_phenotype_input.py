@@ -35,7 +35,7 @@ import pandas as pd
 # performance-only concern that doesn't apply at this scale.
 warnings.filterwarnings("ignore", category=pd.errors.PerformanceWarning)
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "training"))
 import config
 
 SESSION_NUM_RE = re.compile(r"ses-(\d+)")
