@@ -1,0 +1,396 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "Extended Strenghts and Weaknesses Assessment of DMDD Symptoms and Normal Behavior",
+        "Instructions": "People differ in their abilities to handle emotions and behave appropriately in several situations. For each item listed below, rate how well you handle emotions and behave compared to other people of the same age. Compared to other people your age, in recent weeks, how well do you most of the time:",
+        "TermURL": "https://doi.org/10.1111/jcpp.13104"
+    },
+     "participant_id": {
+        "Description": "Participant ID Number"
+    },
+    "session_id": {
+        "Description": "Session ID Number"
+    },
+    "eswan_dmdd_01a": {
+        "Description": "Avoid or control arguing or yelling at home.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_01b": {
+        "Description": "Avoid or control arguing or yelling with friends.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_01c": {
+        "Description": "Avoid or control arguing or yelling at school.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_02a": {
+        "Description": "Avoid or control getting into fights at home.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_02b": {
+        "Description": "Avoid or control getting into fights with friends.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_02c": {
+        "Description": "Avoid or control getting into fights at school.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_03a": {
+        "Description": "Avoid or control taking anger out on objects or throwing things at people at home.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_03b": {
+        "Description": "Avoid or control taking anger out on objects or throwing things at people with friends.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_03c": {
+        "Description": "Avoid or control taking anger out on objects or throwing things at people at school.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_04a": {
+        "Description": "Control the intensity of anger at home.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_04b": {
+        "Description": "Control the intensity of anger with friends.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_04c": {
+        "Description": "Control the intensity of anger at school.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_05a": {
+        "Description": "Return quickly to baseline mood and behavior when frustrated at home.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_05b": {
+        "Description": "Return quickly to baseline mood and behavior when frustrated with friends.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_05c": {
+        "Description": "Return quickly to baseline mood and behavior when frustrated at school.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_06a": {
+        "Description": "Handle anger when you do not get what you want at home.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_06b": {
+        "Description": "Handle anger when you do not get what you want with friends.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_06c": {
+        "Description": "Handle anger when you do not get what you want at school.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_07a": {
+        "Description": "Handle frustration on a day-to-day basis at home.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_07b": {
+        "Description": "Handle frustration on a day-to-day basis with friends.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_07c": {
+        "Description": "Handle frustration on a day-to-day basis at school.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_08a": {
+        "Description": "Avoid or limit temper tantrums at home.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_08b": {
+        "Description": "Avoid or limit temper tantrums with friends.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_08c": {
+        "Description": "Avoid or limit temper tantrums at school.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_09a": {
+        "Description": "Exhibit a good mood throughout the day, most days of the week at home.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_09b": {
+        "Description": "Exhibit a good mood throughout the day, most days of the week with friends.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_09c": {
+        "Description": "Exhibit a good mood throughout the day, most days of the week at school.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_10a": {
+        "Description": "Compared to other people of the same age, over the past year, how well have you maintained appropriate mood and behavior at home.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_10b": {
+        "Description": "Compared to other people of the same age, over the past year, how well have you maintained appropriate mood and behavior with friends.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_10c": {
+        "Description": "Compared to other people of the same age, over the past year, how well have you maintained appropriate mood and behavior at school.",
+        "Levels": {
+            "1": "Far below average",
+            "2": "Below average",
+            "3": "Slightly below average",
+            "4": "About average",
+            "5": "Slightly above average",
+            "6": "Above average",
+            "7": "Far above average"
+        }
+    },
+    "eswan_dmdd_proband_complete": {
+        "Description": "Complete?",
+        "Levels": {
+            "0": "Incomplete",
+            "2": "Complete"
+        }
+    },
+    "eswan_dmdd_home_total":{
+        "Description": "Sum of the items pertaining to behaviors at home (_a). n/a if any individual item _a is n/a.",
+        "Derivative": true
+    },
+    "eswan_dmdd_friends_total":{
+        "Description": "Sum of the items pertaining to behaviors with friends (_b). n/a if any individual item _b is n/a.",
+        "Derivative": true
+    },
+    "eswan_dmdd_school_total":{
+        "Description": "Sum of the items pertaining to behaviors at school (_c). n/a if any individual item _c is n/a.",
+        "Derivative": true
+    },
+    "eswan_dmdd_total_score":{
+        "Description": "Global score comprised of the sum of all behaviors that occur at home, with friends, and at school. n/a if any individual item is n/a.",
+        "Derivative": true
+    }
+}

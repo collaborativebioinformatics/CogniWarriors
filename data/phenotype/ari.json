@@ -1,0 +1,86 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "Affective Reactivity Index",
+        "Instructions": "In the last six months and compared to others of the same age, how well does each of the following statements describe your behavior/feelings? Please try to answer all questions.",
+        "TermURL": "https://doi.org/10.1111/j.1469-7610.2012.02561.x"
+    },
+     "participant_id": {
+        "Description": "Participant ID Number"
+    },
+    "session_id": {
+        "Description": "Session ID Number"
+    },
+    "ari_1": {
+        "Description": "Easily annoyed by others",
+        "Levels": {
+            "0": "Not true",
+            "1": "Somewhat true",
+            "2": "Certainly true"
+        }
+    },
+    "ari_2": {
+        "Description": "Often lose temper",
+        "Levels": {
+            "0": "Not true",
+            "1": "Somewhat true",
+            "2": "Certainly true"
+        }
+    },
+    "ari_3": {
+        "Description": "Stay angry for a long time",
+        "Levels": {
+            "0": "Not true",
+            "1": "Somewhat true",
+            "2": "Certainly true"
+        }
+    },
+    "ari_4": {
+        "Description": "Angry most of the time",
+        "Levels": {
+            "0": "Not true",
+            "1": "Somewhat true",
+            "2": "Certainly true"
+        }
+    },
+    "ari_5": {
+        "Description": "Get angry frequently",
+        "Levels": {
+            "0": "Not true",
+            "1": "Somewhat true",
+            "2": "Certainly true"
+        }
+    },
+    "ari_6": {
+        "Description": "Lose temper easily",
+        "Levels": {
+            "0": "Not true",
+            "1": "Somewhat true",
+            "2": "Certainly true"
+        }
+    },
+    "ari_7": {
+        "Description": "Overall, irritability causes me problems",
+        "Levels": {
+            "0": "Not true",
+            "1": "Somewhat true",
+            "2": "Certainly true"
+        }
+    },
+    "ari_proband_complete": {
+        "Description": "Complete?",
+        "Levels": {
+            "0": "Incomplete",
+            "2": "Complete"
+        }
+    },
+    "ari_total_score":{
+        "LongName": "ari_total_score",
+        "Description": "Global score comprised of the sum of items 1-6. n/a if any individual item 1-6 is n/a.",
+        "Derivative": true
+    },
+    "ari_avg":{
+        "LongName": "ari_avg",
+        "Description": "The average total score of all items 1-6. n/a if any individual item 1-6 is n/a.",
+        "Derivative": true
+    }
+}

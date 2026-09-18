@@ -1,0 +1,117 @@
+{
+    "participant_id":{
+		"Description": "participant identifier"
+    },
+    "study_group": {
+        "Description": "experimental group the participant belonged to",
+        "Levels": {
+            "ADHD": "participants with ADHD",
+            "TD/NC": "typically developing comparator participants",
+            "PRO/CHR": "participants with psychosis or at clinical high risk for psychosis"
+        }
+    },
+    "sex": {
+        "Description": "sex of the participant as reported by the participant",
+        "Levels": {
+            "M": "male",
+            "F": "female"
+        }
+    },
+    "race": {
+		"Description": "race of the participant as reported by the participant",
+		"Levels": {
+			"White":"White",
+			"Black or African American": "Black of African American",
+			"Asian": "Asian",
+			"Unknown or not reported": "Unknown or not reported",
+			"More than one race": "More than one race"
+        }
+    },
+    "ethnicity": {
+		"Description": "ethnicity of the participant as reported by the participant",
+		"Levels": {
+			"Hispanic": "Hispanic",
+			"Non - Hispanic": "Non-Hispanic",
+			"n/a": "Unknown or not reported"
+		}
+    },
+    "age_months": {
+        "Description": "age of the participant at baseline intake as in the initial session, might not be correct for other sessions",
+        "Units": "month"
+    },
+    "age": {
+        "Description": "age of the participant at baseline intake as in the initial session, might not be correct for other sessions",
+        "Units": "year"
+    },
+     "dx_none": {
+        "Description": "binary record of whether or not the participant had no clinical diagnoses from the clinical interview at timepoint 1",
+        "Levels": {
+            "0": "participant had at least one clinical diagnosis",
+            "1": "participant did not have any clinical diagnosis"
+        }
+    },
+     "dx_prodromal": {
+        "Description": "binary record of whether or not the participant had prodromal psychosis/subthreshold psychosis spectrum disorder from the clinical interview at timepoint 1",
+        "Levels": {
+            "0": "participant did not have a prodromal psychosis/subthreshold psychosis spectrum disorder",
+            "1": "participant had a prodromal psychosis/subthreshold psychosis spectrum disorder"
+        }
+    },
+     "dx_prodromal_remit": {
+        "Description": "binary record of whether or not the participant had prodromal psychosis/subthreshold psychosis spectrum disorder that is now in remission from the clinical interview at timepoint 1",
+        "Levels": {
+            "0": "participant did not have a prodromal psychosis/subthresdhold psychosis spectrum disorder that is now in remission",
+            "1": "participant had a prodromal psychosis/subthreshold psychosis spectrum disorder that is now in remission"
+        }
+    },
+     "dx_psychosis": {
+        "Description": "binary record of whether or not the participant had threshold psychosis spectrum disorder from the clinical interview at timepoint 1",
+        "Levels": {
+            "0": "participant did not have a threshold psychosis diagnosis",
+            "1": "participant had a threshold psychosis diagnosis"
+        }
+    },
+     "dx_moodnos": {
+        "Description": "binary record of whether or not the participant had a non-specific mood disorder from the clinical interview at timepoint 1",
+        "Levels": {
+            "0": "participant did not have a non-specified mood disorder diagnosis",
+            "1": "participant had a non-specified mood disorder diagnosis"
+        }
+    },
+     "dx_mdd": {
+        "Description": "binary record of whether or not the participant had major depressive disorder from the clinical interview at timepoint 1",
+        "Levels": {
+            "0": "participant did not have a major depressive disorder diagnosis",
+            "1": "participant had a major depressive disorder diagnosis"
+        }
+    },
+     "dx_bp": {
+        "Description": "binary record of whether or not the participant had bipolar disorder from the clinical interview at timepoint 1",
+        "Levels": {
+            "0": "participant did not have a bipolar disorder diagnosis",
+            "1": "participant had a bipolar disorder diagnosis"
+        }
+    },
+     "dx_adhd": {
+        "Description": "binary record of whether or not the participant had Attention Deficit Hyperactivity Disorder from the clinical interview at timepoint 1",
+        "Levels": {
+            "0": "participant did not have an Attention Deficit Hyperactivity Disorder diagnosis",
+            "1": "participant had an Attention Deficit Hyperactivity Disorder diagnosis"
+        }
+    },
+     "dx_ptsd": {
+        "Description": "binary record of whether or not the participant had Post-Traumatic Stress Disorder from the clinical interview at timepoint 1",
+        "Levels": {
+            "0": "participant did not have a Post-Traumatic Stress Disorder diagnosis that is now in remission",
+            "1": "participant had a Post-Traumatic Stress Disorder diagnosis that is now in remission"
+        }
+    },
+     "dx_ptsd_remit": {
+        "Description": "binary record of whether or not the participant had Post-Traumatic Stress Disorder that is now in remission from the clinical interview at timepoint 1",
+        "Levels": {
+            "0": "participant did not have a Post-Traumatic Stress Disorder diagnosis that is now in remission",
+            "1": "participant had a Post-Traumatic Stres Disorder diagnosis that is now in remission"
+        }
+    }
+    
+}

@@ -1,0 +1,85 @@
+{
+  "MeasurementToolMetadata": {
+    "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+    "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+  },
+  "participant_id":{
+    "Description": "participant identifier"
+  },
+  "session_id": {
+    "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+  },
+  "cnb_cpf_cr":{
+    "LongName": "CPF Total Correct Responses"
+  },
+  "cnb_cpf_rtcr": {
+    "LongName": "CPF Median Response Time for Correct Responses",
+    "Units": "ms"
+  },
+  "cnb_cpf_w_rtcr": {
+    "LongName": "CPF Weighted Median Response Time for Correct Responses",
+    "Units": "ms"
+  },
+  "cnb_cpf_er": {
+    "LongName": "CPF Total Incorrect Responses"
+  },
+  "cnb_cpf_rter":{
+    "LongName": "CPF Median Response Time for Incorrect Responses",
+    "Units": "ms"
+  },
+  "cnb_cpf_w_rter": {
+    "LongName": "CPF Weighted Median Response Time for Incorrect Responses",
+    "Units": "ms"
+  },
+  "cnb_cpf_rt":{
+    "LongName": "CPF Median Response Time for All Responses",
+    "Units": "ms"
+  },
+  "cnb_cpf_tp":{
+    "LongName": "CPF True Positive Responses"
+  },
+  "cnb_cpf_tn": {
+    "LongName": "CPF True Negative Responses"
+  },
+  "cnb_cpf_tprt": {
+    "LongName": "CPF Median Response Time for True Positive Responses",
+    "Units": "ms"
+  },
+  "cnb_cpf_tnrt": {
+    "LongName": "CPF Median Response Time for True Negative Responses",
+    "Units": "ms"
+  },
+  "cnb_cpf_fp": {
+    "LongName": "CPF False Positive Responses"
+  }, 
+  "cnb_cpf_fn": {
+    "LongName": "CPF False Negative Responses"
+  },
+  "cnb_cpf_fprt": {
+    "LongName": "CPF Median Response Time for False Positive Responses",
+    "Units": "ms"
+  },
+  "cnb_cpf_fnrt": {
+    "LongName": "CPF Median Response Time for False Negative Responses",
+    "Units": "ms"
+  },
+  "cnb_cpf_cnt_200": {
+    "LongName": "CPF Total Count of Responses Under 200 milliseconds",
+    "Units": "ms"
+  },
+  "cnb_cpf_lrsr": {
+    "LongName": "CPF Longest Run of Same Responses"
+  },
+  "cnb_cpf_valid_code": {
+        "LongName": "Validation Code for entire Penn Face Memory Test",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+}

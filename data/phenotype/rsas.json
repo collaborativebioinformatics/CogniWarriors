@@ -1,0 +1,135 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "Revised Social Anhedonia Scale (RSAS). Note that item-wise data is in the TSV file exactly as reponses were recorded, but items 4, 9, 11, 12, 13, and 14 were reverse-scored when taken into account for the total and average scores.",
+        "Instructions": "For each of the following items, select either True or False.",
+        "TermURL": "https://doi.org/10.1037/0021-843X.85.4.374"
+    },
+    "participant_id": {
+        "Description": "Participant ID Number"
+    },
+    "session_id": {
+        "Description": "Session ID Number"
+    },
+    "soc_anhed_1": {
+        "Description": "Having close friends is not as important as many people say.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "soc_anhed_2": {
+        "Description": "I never had really close friends in high school.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "soc_anhed_3": {
+        "Description": "I prefer watching television to going out with other people.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "soc_anhed_4": {
+        "Description": "Just being with friends can make me feel really good.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "soc_anhed_5": {
+        "Description": "I'm much too independent to really get involved with other people.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "soc_anhed_6": {
+        "Description": "I prefer hobbies and leisure activities that do not involve other people.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "soc_anhed_7": {
+        "Description": "I don't really feel very close to my friends.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "soc_anhed_8": {
+        "Description": "People who try to get to know me better usually give up after awhile.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "soc_anhed_9": {
+        "Description": "Knowing that I have friends who care about me gives me a sense of security.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "soc_anhed_10": {
+        "Description": "People are usually better off if they stay aloof from emotional involvements with most others.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "soc_anhed_11": {
+        "Description": "If given the choice, I would much rather be with others than be alone.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "soc_anhed_12": {
+        "Description": "Although there are things that I enjoy doing by myself, I usually seem to have more fun when I do things with other people.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "soc_anhed_13": {
+        "Description": "I feel pleased and gratified as I learn more and more about the emotional life of my friends.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "soc_anhed_14": {
+        "Description": "When things are going really good for my close friends, it makes me feel good too.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "soc_anhed_15": {
+        "Description": "Making new friends isn't worth the energy it takes.",
+        "Levels": {
+            "0": "False",
+            "1": "True"
+        }
+    },
+    "revised_social_anhedonia_scale_rsas_complete": {
+        "Description": "Complete?",
+        "Levels": {
+            "0": "Incomplete",
+            "2": "Complete"
+        }
+    },
+    "rsas_total_score": {
+        "LongName": "rsas_total_score",
+        "Description": "Global score comprised of the sum of all items. n/a if any individual item is n/a.",
+        "Derivative": true
+    },
+    "rsas_average_score": {
+        "LongName": "rsas_average_score",
+        "Description": "Global score comprised of the average of all item. n/a if any individual item is n/a.",
+        "Derivative": true
+    }
+}
