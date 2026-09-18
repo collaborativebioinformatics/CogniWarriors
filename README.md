@@ -6,7 +6,7 @@
 
 *Data and study workflow.*
 
-![Federated Architecture](federated_architecture.svg)
+![Federated Architecture](federated_architecture.png)
 
 *Federated learning architecture — NVIDIA FLARE 2.9 (FedAvg) with global feature scaling.*
 
