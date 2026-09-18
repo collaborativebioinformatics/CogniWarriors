@@ -6,22 +6,23 @@
 
 ---
 
-## 1. We use phenotypes to predict cognitive progression
+## 1. Using phenotypes to predict cognitive progression
 
-A federated-learning proof of concept that predicts **cognitive progression** — an
-executive-function (EF) composite measured at each imaging session — from
-**phenotypes**: cheap, low-burden measures (demographics, a non-target battery of
-computerized cognition tasks, self-report scales, and pubertal staging) plus a
-**structural-MRI embedding**, with no cognitive testing battery required to make
-a prediction.
+Our federated-learning proof of concept predicts **cognitive progression** — an
+executive-function (EF) composite measured at each imaging session — **structural-MRI** paired with **phenotypical** information.
 
 - **Data**: Penn LEAD (OpenNeuro `ds007116`), **132 adolescents, 225 imaging
   sessions** (59 subjects with 1 session, 53 with 2, 20 with 3), 3 diagnostic
   groups (TD/NC, ADHD, PRO/CHR).
+  - **Structural-MRI embedding**: Processed with FreeSurfer.
+  - **Phenotypes**: Cheap, low-burden measures (demographics, a non-target battery of
+computerized cognition tasks, self-report scales, and pubertal staging) plus a
+**structural-MRI embedding**, with no cognitive testing battery required to make
+a prediction.
 - **Modeling unit = each imaging session**, not each subject — every session has
   its own EF composite and (eventually) its own structural features.
 - This gives a biobank a one-stop surface for *cognitive outcome prediction*,
-  tracked across repeated visits, without re-running a task battery.
+  tracked across repeated visits.
 
 ## 2. Challenges: Very longitudinal, repeated observations, random-effects, proof of concept enabling data centers
 
