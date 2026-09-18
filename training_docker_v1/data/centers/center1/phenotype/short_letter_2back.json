@@ -1,0 +1,48 @@
+{
+    "MeasurementToolMetadata": {
+      "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+      "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+    },
+    "participant_id":{
+      "Description": "participant identifier"
+    },
+    "session_id": {
+      "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+    },
+    "cnb_lnb_tp": {
+      "LongName": "LNB True Positive Responses for 0-BACK, 1-BACK and 2-BACK trials"
+    },
+    "cnb_lnb_fp": {
+      "LongName": "LNB False Positive Responses for 0-BACK, 1-BACK and 2-BACK trials"
+    },
+    "cnb_lnb_rtc": {
+      "LongName": "LNB Median Response Time for True Positive responses for 0-BACK, 1-BACK and 2-BACK response",
+      "Units": "ms"
+    },
+    "cnb_lnb_mcr": {
+      "LongName": "LNB True Positive Responses for 1-BACK and 2-BACK Trials"
+    },
+    "cnb_lnb_mrtc": {
+      "LongName": "LNB Median Response Time for True Positive responses for 1-BACK and 2-BACK response",
+      "Units": "ms"
+    },
+    "cnb_lnb_cnt_200": {
+      "LongName": "LNB Total Count of Responses Under 200 milliseconds",
+      "Units": "ms"
+    },
+    "cnb_lnb_lrnr": {
+      "LongName": "LNB Longest Run of Same Responses"
+    },
+    "cnb_lnb_valid_code": {
+        "LongName": "Validation Code for entire Short Letter-N-Back (2 back)",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+}

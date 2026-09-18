@@ -1,0 +1,5 @@
+column_a	column_b	pearson_r	same_one_hot_group
+ethnicity_Hispanic	ethnicity_Non - Hispanic	-1.0	True
+sex_F	sex_M	-1.0	True
+study_group_TD/NC	dx_none	0.9031377054834986	False
+study_group_PRO/CHR	dx_prodromal	0.8666638302653838	False

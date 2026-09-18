@@ -1,0 +1,105 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "Promis Pediatric Anxiety (PPA)",
+        "Instructions": "Please respond to each question or statement by selecting one choice per row. In the past 7 days...",
+        "TermURL": "https://link.springer.com/article/10.1186/1477-7525-10-22"
+    },
+    "participant_id": {
+        "Description": "Participant ID Number"
+    },
+    "session_id": {
+        "Description": "Session ID Number"
+    },
+    "ppa_1": {
+        "Description": "I felt like something awful might happen.",
+        "Levels": {
+            "1": "Never",
+            "2": "Almost Never",
+            "3": "Sometimes",
+            "4": "Often",
+            "5": "Almost Always"
+        }
+    },
+    "ppa_2": {
+        "Description": "I felt nervous.",
+        "Levels": {
+            "1": "Never",
+            "2": "Almost Never",
+            "3": "Sometimes",
+            "4": "Often",
+            "5": "Almost Always"
+        }
+    },
+    "ppa_3": {
+        "Description": "I felt scared.",
+        "Levels": {
+            "1": "Never",
+            "2": "Almost Never",
+            "3": "Sometimes",
+            "4": "Often",
+            "5": "Almost Always"
+        }
+    },
+    "ppa_4": {
+        "Description": "I felt worried.",
+        "Levels": {
+            "1": "Never",
+            "2": "Almost Never",
+            "3": "Sometimes",
+            "4": "Often",
+            "5": "Almost Always"
+        }
+    },
+    "ppa_5": {
+        "Description": "I worried when I was at home.",
+        "Levels": {
+            "1": "Never",
+            "2": "Almost Never",
+            "3": "Sometimes",
+            "4": "Often",
+            "5": "Almost Always"
+        }
+    },
+    "ppa_6": {
+        "Description": "I got scared really easy.",
+        "Levels": {
+            "1": "Never",
+            "2": "Almost Never",
+            "3": "Sometimes",
+            "4": "Often",
+            "5": "Almost Always"
+        }
+    },
+    "ppa_7": {
+        "Description": "I worried about what could happen to me.",
+        "Levels": {
+            "1": "Never",
+            "2": "Almost Never",
+            "3": "Sometimes",
+            "4": "Often",
+            "5": "Almost Always"
+        }
+    },
+    "ppa_8": {
+        "Description": "I worried when I went to bed at night.",
+        "Levels": {
+            "1": "Never",
+            "2": "Almost Never",
+            "3": "Sometimes",
+            "4": "Often",
+            "5": "Almost Always"
+        }
+    },
+    "promis_pediatric_anxiety_ppa_complete": {
+        "Description": "Complete?",
+        "Levels": {
+            "0": "Incomplete",
+            "2": "Complete"
+        }
+    },
+    "ppa_total_score": {
+        "LongName": "ppa_total_score",
+        "Description": "Global score comprised of the sum of all items. n/a if any individual item is n/a.",
+        "Derivative": true
+    }
+}

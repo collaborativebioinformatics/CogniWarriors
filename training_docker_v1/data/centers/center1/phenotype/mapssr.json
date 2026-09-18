@@ -1,0 +1,195 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "The Motivation and Pleasure Scale - Self-Report (MAPSSR)",
+        "Instructions": "Please answer the following questions to the best of your ability.",
+        "TermURL": "https://doi.org/10.1016/j.comppsych.2012.12.001"
+    },
+     "participant_id": {
+        "Description": "Participant ID Number"
+    },
+    "session_id": {
+        "Description": "Session ID Number"
+    },
+     "mapssr_1": {
+       "Description": "In the past week, what is the most pleasure you experienced from being with other people?",
+        "Levels": {
+            "0": "No pleasure",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "Extreme pleasure"
+        }
+    },
+    "mapssr_2": {
+        "Description": "In the past week, how often have you experienced pleasure from being with other people?",
+        "Levels": {
+            "0": "Not at all",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "Very often"
+        }
+    },
+    "mapssr_3": {
+        "Description": "Looking ahead to being with other people in the next few weeks, how much pleasure do you expect you will experience from being with others?",
+        "Levels": {
+            "0": "No pleasure",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "Extreme pleasure"
+        }
+    },
+    "mapssr_4": {
+        "Description": "In the past week, what is the most pleasure you experienced from hobbies, recreation, or from work?",
+        "Levels": {
+            "0": "No pleasure",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "Extreme pleasure"
+        }
+    },
+    "mapssr_5": {
+        "Description": "In the past week, how often have you experienced pleasure from hobbies, recreation, or from work?",
+        "Levels": {
+            "0": "Not at all",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "Very often"
+        }
+    },
+    "mapssr_6": {
+        "Description": "Looking ahead, how much pleasure do you expect you will experience from your hobbies, recreation, or work?",
+        "Levels": {
+            "0": "No pleasure",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "Extreme pleasure"
+        }
+    },
+    "mapssr_7": {
+        "Description": "When it comes to close relationships with your family members, how important have these relationships been to you over the past week?",
+        "Levels": {
+            "0": "Not at all important to me",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "Extremely important to me"
+        }
+    },
+    "mapssr_8": {
+        "Description": "When it comes to having a close relationship with a romantic partner, how important has this type of relationship been to you over the past week?",
+        "Levels": {
+            "0": "Not at all important to me",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "Extremely important to me"
+        }
+    },
+    "mapssr_9": {
+        "Description": "When it comes to close relationships with your friends, how important have these relationships been to you over the past week?",
+        "Levels": {
+            "0": "Not at all important to me",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "Extremely important to me"
+        }
+    },
+    "mapssr_10": {
+        "Description": "In the past week how motivated have you been to be around other people and do things with them?",
+        "Levels": {
+            "0": "Not at all motivated",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "Very motivated"
+        }
+    },
+    "mapssr_11": {
+        "Description": "In the past week how much effort have you made to actually do things with other people?",
+        "Levels": {
+            "0": "No effort",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "Very much effort"
+        }
+    },
+    "mapssr_12": {
+        "Description": "In the past week how motivated have you been to go to work or school or look for a job or class to take?",
+        "Levels": {
+            "0": "Not at all motivated",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "Very motivated"
+        }
+    },
+    "mapssr_13": {
+        "Description": "In the past week how much effort have you made to do things at work or school? (If you are not working or going to school, how much effort have you made to look for a job or go to school.)",
+        "Levels": {
+            "0": "No effort",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "Very much effort"
+        }
+    },
+    "mapssr_14": {
+        "Description": "In the past week how motivated have you been to do hobbies or other recreational activities?",
+        "Levels": {
+            "0": "Not at all motivated",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "Very motivated"
+        }
+    },
+    "mapssr_15": {
+        "Description": "In the past week how much effort have you made to actually do any hobbies or recreational activities?",
+        "Levels": {
+            "0": "No effort",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "Very much effort"
+        }
+    },
+    "mapssr_complete": {
+        "Description": "Complete?",
+        "Levels": {
+            "0": "Incomplete",
+            "2": "Complete"
+        }
+    },
+    "mapssr_social_total": {
+        "LongName": "MAPSSR Total Social Score",
+        "Description": "Global score comprised of the sum of all items 1-3 that correspond to social pleasure. n/a if any individual item 1-3 is n/a.",
+        "Derivative": true
+    },
+    "mapssr_recvoc_total": {
+        "LongName": "MAPSSR Total Recreational/Vocational Score",
+        "Description": "Global score comprised of the sum of all items 4-6 that correspond to recreational/work pleasure. n/a if any individual item 4-6 is n/a.",
+        "Derivative": true
+    },
+    "mapssr_motrelation_total": {
+        "LongName": "MAPSSR Total Motivation about Relationships Score",
+        "Description": "Global score comprised of the sum of all items 7-9 that correspond to feelings and motivations about close, caring relationships. n/a if any individual item 7-9 is n/a.",
+        "Derivative": true
+    },
+    "mapssr_engage_total": {
+        "LongName": "MAPSSR Total Engagement Score",
+        "Description": "Global score comprised of the sum of all items 10-15 that correspond to motivation and effort to engage in activities. n/a if any individual item 10-15 is n/a.",
+        "Derivative": true
+    },
+    "mapssr_total_score": {
+        "LongName": "mapssr_total_score",
+        "Description": "Global score comprised of the sum of all items. n/a if any individual item is n/a.",
+        "Derivative": true
+    }
+}

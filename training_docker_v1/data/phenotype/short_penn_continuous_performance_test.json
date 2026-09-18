@@ -1,0 +1,146 @@
+{
+    "MeasurementToolMetadata": {
+      "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+      "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+    },
+    "participant_id":{
+        "Description": "participant identifier"
+    },
+    "session_id": {
+        "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+    },
+    "cnb_cptnl_number_tp": {
+        "LongName": "CPTNL True Positive Responses for Number Trials"
+    },
+    "cnb_cptnl_number_fp": {
+        "LongName": "CPTNL False Positive Responses for Number Trials"
+    },
+    "cnb_cptnl_number_tn": {
+        "LongName": "CPTNL True Negative Responses for Number Trials"
+    },
+    "cnb_cptnl_number_fn": {
+        "LongName": "CPTNL False Negative Responses for Number Trials"
+    },
+    "cnb_cptnl_number_tprt": {
+        "LongName": "CPTNL Median Response Time for True Positive Responses for Number Trials",
+        "Units": "ms"
+    },
+    "cnb_cptnl_number_fprt": {
+        "LongName": "CPTNL Median Response Time for False Positive Responses for Number Trials",
+        "Units": "ms"
+    },
+    "cnb_cptnl_letter_tp": {
+        "LongName": "CPTNL True Positive Responses for Letter Trials"
+    },
+    "cnb_cptnl_letter_fp": {
+        "LongName": "CPTNL False Positive Responses for Letter Trials"
+    },
+     "cnb_cptnl_letter_tn": {
+        "LongName": "CPTNL True Negative Responses for Letter Trials"
+    },
+    "cnb_cptnl_letter_fn": {
+        "LongName": "CPTNL False Negative Responses for Letter Trials"
+    },
+     "cnb_cptnl_letter_tprt": {
+        "LongName": "CPTNL Median Response Time for True Positive Responses for Letter Trials",
+        "Units": "ms"
+    },
+    "cnb_cptnl_letter_fprt": {
+        "LongName": "CPTNL Median Response Time for False Positive Responses for Letter Trials",
+        "Units": "ms"
+    },
+    "cnb_cptnl_total_fn": {
+        "LongName": "CPTNL Total False Negatives"
+    },
+    "cnb_cptnl_total_fp": {
+        "LongName": "CPTNL Total False Positives"
+    },
+    "cnb_cptnl_total_tp": {
+        "LongName": "CPTNL Total True Positives"
+    },
+    "cnb_cptnl_total_tn": {
+        "LongName": "CPTNL Total True Negatives"
+    },
+    "cnb_cptnl_total_tprt": {
+        "LongName": "CPTNL Median Response Time for True Positive Number Responses and True Positive Letter Responses",
+        "Units": "ms"
+    },
+    "cnb_cptnl_total_tprt_mean": {
+        "LongName": "CPTNL Mean Response Time for True Positive Responses",
+        "Units": "ms"
+    },
+    "cnb_cptnl_total_tprt_stdev": {
+        "LongName": "CPTNL Standard Deviation Response Time for True Positive Responses",
+        "Units": "ms"
+    },
+     "cnb_cptnl_total_fprt": {
+        "LongName": "CPTNL Median Response Time for False Positive Number Responses and False Positive Letter Responses",
+        "Units": "ms"
+    },
+    "cnb_cptnl_total_fprt_mean": {
+        "LongName": "CPTNL Mean Response Time for False Positive Responses",
+        "Units": "ms"
+    },
+    "cnb_cptnl_total_fprt_stdev": {
+        "LongName": "CPTNL Standard Deviation Response Time for False Positive Responses",
+        "Units": "ms"
+    },
+    "cnb_cptnl_number_rt": {
+        "LongName": "CPTNL Median Response Time for All Number Responses",
+        "Units": "ms"
+    },
+    "cnb_cptnl_letter_rt": {
+        "LongName": "CPTNL Median Response Time for All Letter Responses",
+        "Units": "ms"
+    },
+    "cnb_cptnl_total_rt": {
+        "LongName": "CPTNL Median Response Time for All Responses",
+        "Units": "ms"
+    },
+    "cnb_cptnl_total_rt_mean": {
+        "LongName": "CPTNL Mean Response Time for All Responses",
+        "Units": "ms"
+    },
+    "cnb_cptnl_total_rt_stdev": {
+        "LongName": "CPTNL Standard Deviation Time for All Trial Responses",
+        "Units": "ms"
+    },
+    "cnb_cptnl_total_sen": {
+        "LongName": "CPTNL Sensitivity"
+    },
+     "cnb_cptnl_total_spec": {
+        "LongName": "CPTNL Specificity"
+    },
+    "cnb_cptnl_total_rev_fp": {
+        "LongName": "CPTNL Total Number Reversed Number Trial and Letter Trial False Positive Responses"
+    },
+    "cnb_cptnl_total_rev_fprt": {
+        "LongName": "CPTNL Median Response Time for CPT Reversed Number Trial and Letter Trial False Positive Responses",
+        "Units": "ms"
+    },
+    "cnb_cptnl_total_rev_fn": {
+        "LongName": "CPTNL Total Number Reversed Number Trial and Letter Trial False Negative Responses"
+    },
+    "cnb_cptnl_total_frnr": {
+        "LongName": "CPTNL Final Run of Non-Responses"
+    },
+    "cnb_cptnl_total_cnt_200": {
+        "LongName": "CPTNL Total Count of Responses Under 200 milliseconds",
+        "Units": "ms"
+    },
+    "cnb_cptnl_total_lrsr": {
+        "LongName": "CPTNL Longest Run of Same Responses"
+    },
+    "cnb_cptnl_valid_code": {
+        "LongName": "Validation Code for entire Short Penn Continuous Performance Test - Number and Letter Version",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+}

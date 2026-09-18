@@ -1,0 +1,225 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "BIS/BAS Child. Note that item-wise data is in the TSV file exactly as reponses were recorded, but item 5 was reverse-scored when taken into account for the total and average scores.",
+        "Instructions": "For each item, indicate how much you agree or disagree with what the item says. Please respond to all items; do not leave any blank. Choose only one response to each statement. Please be as accurate and honest as you can be. Respond to each item as if it were the only item. Don't worry about being 'consistent' in your responses.",
+        "TermURL": "https://doi.org/10.1037/0022-3514.67.2.319; https://doi-org.proxy.library.upenn.edu/10.1016/j.paid.2004.06.007"
+    },
+     "participant_id": {
+        "Description": "Participant ID Number"
+    },
+    "session_id": {
+        "Description": "Session ID Number"
+    },
+    "bisbas_child_1": {
+        "Description": "I usually get very tense when I think something unpleasant is going to happen.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_2": {
+        "Description": "I worry about making mistakes.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_3": {
+        "Description": "I am hurt when people scold me or tell me that I do something wrong.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_4": {
+        "Description": "I feel pretty upset when I think that someone is angry with me.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_5": {
+        "Description": "I do not become fearful or nervous, even when something bad happens to me.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_6": {
+        "Description": "I feel worried when I think I have done poorly at something.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_7": {
+        "Description": "I am very fearful compared to my friends.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_8": {
+        "Description": "I feel excited and full of energy when I get something that I want.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_9": {
+        "Description": "When I am doing well at something, I like to keep doing this.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_10": {
+        "Description": "I get thrilled when good things happen to me.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_11": {
+        "Description": "I get very excited when I would win a contest.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_12": {
+        "Description": "I get really excited when I see an opportunity to get something I like.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_13": {
+        "Description": "When I want something, I usually go all the way to get it.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_14": {
+        "Description": "I do everything to get the things that I want.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_15": {
+        "Description": "When I see an opportunity to get something that I want, I go for it right away.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_16": {
+        "Description": "Nobody can stop me when I want something.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_17": {
+        "Description": "I often do things for no other reason that that they might be fun.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_18": {
+        "Description": "I crave for excitement and new sensations.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_19": {
+        "Description": "I am always willing to try something new, when I think it will be fun.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "bisbas_child_20": {
+        "Description": "I often do things on the spur of the moment.",
+        "Levels": {
+            "1": "Very true for me",
+            "2": "Somewhat true for me",
+            "3": "Somewhat false for me",
+            "4": "Very false for me"
+        }
+    },
+    "behavioral_inhibitionactivation_system_child_versi_complete": {
+        "Description": "Complete?",
+        "Levels": {
+            "0": "Incomplete",
+            "1": "Complete"
+        }
+    },
+    "bissc_total": {
+        "LongName": "BIS Scale score",
+        "Description": "Global score comprised of the sum of all items corresponding to behavioral inhibition system (items 1-7). n/a if any individual item 1-7 is n/a.",
+        "Derivative": true
+    },
+    "bas_drive": {
+        "LongName": "BAS Drive",
+        "Description": "Global score comprised of the sum of all items corresponding to behavioral activation system, drive scale (items 9-16). n/a if any individual item 9-16 is n/a.",
+        "Derivative": true
+    },
+    "bas_fs": {
+        "LongName": "BAS Fun seeking",
+        "Description": "Global score comprised of the sum of all items corresponding to behavioral activation system, fun-seeking scale (items 17-20). n/a if any individual item 17-20 is n/a.",
+        "Derivative": true
+    },
+    "bas_rr": {
+        "LongName": "BAS Reward responsiveness",
+        "Description": "Global score comprised of the sum of all items corresponding to behavioral activation system, reward responsiveness scale (items 8-12). n/a if any individual item 8-12 is n/a.",
+        "Derivative": true
+    },
+    "bas_total": {
+        "LongName": "BAS Total Score",
+        "Description": "Global score comprised of the sum of all items corresponding to behavioral activation system (items 8-20). n/a if any individual item 8-20 is n/a.",
+        "Derivative": true
+    }
+}

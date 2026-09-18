@@ -1,0 +1,20 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY center.py .
+COPY worker.py .
+
+# Create data directory
+RUN mkdir -p /data/center01 /data/center02
+
+# Expose port for hub
+EXPOSE 8080
+
+# Default command (can be overridden)
+CMD ["python3", "center.py", "--port", "8080", "--n-workers", "2", "--n-rounds", "3"]

@@ -1,0 +1,52 @@
+{
+    "MeasurementToolMetadata": {
+      "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+      "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+    },
+    "participant_id":{
+      "Description": "participant identifier"
+    },
+    "session_id": {
+      "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+    },
+    "cnb_plot_cr": {
+      "LongName": "PLOT Total Correct Responses"
+    },
+    "cnb_plot_pc": {
+      "LongName": "PLOT Percent Correct Responses"
+    },
+    "cnb_plot_rtcr": {
+      "LongName": "PLOT Median Response Time for Correct Responses",
+      "Units": "ms"
+    },
+    "cnb_plot_er": {
+      "LongName": "PLOT Total Incorrect Responses"
+    },
+    "cnb_plot_rter": {
+      "LongName": "PLOT Median Response Time for Incorrect Responses",
+      "Units": "ms"
+    },
+    "cnb_plot_rt": {
+      "LongName": "PLOT Median Response Time for All Responses",
+      "Units": "ms"
+    },
+    "cnb_plot_pcrt": {
+      "LongName": "PLOT Median of Mean Response Time Per Click for Each Trial",
+      "Units": "ms"
+    },
+    "cnb_plot_rev": {
+      "LongName": "PLOT Mean Reversals for All Responses"
+    },
+    "cnb_plot_valid_code": {
+        "LongName": "Validation Code for entire Variable Short Penn Line Orientation Test",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+}

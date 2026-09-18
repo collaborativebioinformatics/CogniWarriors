@@ -1,0 +1,63 @@
+{
+    "MeasurementToolMetadata": {
+      "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+      "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+    },
+    "ctap_valid_code": {
+      "Description": "Validation Code for entire Short Computerized Finger-Tapping Task",
+      "Levels": {
+        "N": "Invalid",
+        "F": "Likely invalid",
+        "V3": "Likely invalid",
+        "S": "Skipped"
+      }
+    },
+    "participant_id":{
+        "Description": "participant identifier"
+    },
+    "session_id": {
+        "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+    },
+    "cnb_ctap_hand": {
+      "LongName": "CTAP Dominant Hand selected"
+    },
+    "cnb_ctap_dom": {
+      "LongName": "CTAP Mean of Dominant Hand Trials"
+    },
+    "cnb_ctap_non": {
+      "LongName": "CTAP Mean of Non-Dominant Hand Trials"
+    },
+    "cnb_ctap_domsd": {
+      "LongName": "CTAP Standard Deviation (STDEV) of Dominant Hand Trials"
+    },
+    "cnb_ctap_nonsd": {
+      "LongName": "CTAP Standard Deviation (STDEV) of Non-Dominant Hand Trials"
+    },
+    "cnb_ctap_tot": {
+      "LongName": "CTAP Sum of DOM and NON-Dominant Trials"
+    },
+    "cnb_ctap_unf_tot": {
+      "LongName": "CTAP Unfiltered Sum of Dominant and Non-Dominant Hand Trials"
+    },
+    "cnb_ctap_unf_std": {
+      "LongName": "CTAP Unfiltered Standard Deviation of Dominant and Non-Dominant Hand Trials"
+    },
+    "cnb_ctap_excess_tot": {
+      "LongName": "CTAP Sum of Taps after Trials Have Ended"
+    },
+    "cnb_ctap_excess_std": {
+      "LongName": "CTAP Standard Deviation of Taps after Trials Have Ended"
+    },
+    "cnb_ctap_valid_code": {
+        "LongName": "Validation Code for entire Short Computerized Finger-Tapping Task",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+  }

@@ -1,0 +1,74 @@
+{
+    "MeasurementToolMetadata": {
+      "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+      "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+    },
+    "participant_id":{
+        "Description": "participant identifier"
+    },
+    "session_id": {
+        "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+    },
+    "cnb_digsym_dscor": {
+        "LongName": "DIGSYM Total Correct Responses for Matching Trials"
+    },
+     "cnb_digsym_ds_tp": {
+        "LongName": "DIGSYM True Positive Responses for Matching Trials"
+    },
+    "cnb_digsym_ds_tn": {
+        "LongName": "DIGSYM True Negative Responses for Matching Trials"
+    },
+    "cnb_digsym_ds_fp": {
+        "LongName": "DIGSYM False Positive Responses for Matching Trials"
+    },
+     "cnb_digsym_ds_fn": {
+        "LongName": "DIGSYM False Negative Responses for Matching Trials"
+    },
+    "cnb_digsym_dscorrt": {
+        "LongName": "DIGSYM Median Response Time for Correct Responses for Matching Trials",
+        "Units": "ms"
+    },
+    "cnb_digsym_ds_tprt": {
+        "LongName": "DIGSYM Median Response Time for True Positive Responses for Matching Trials",
+        "Units": "ms"
+    },
+    "cnb_digsym_ds_tnrt": {
+        "LongName": "DIGSYM Median Response Time for True Negative Responses for Matching Trials",
+        "Units": "ms"
+    },
+    "cnb_digsym_ds_fprt": {
+        "LongName": "DIGSYM Median Response Time for False Positive Responses for Matching Trials",
+        "Units": "ms"
+    },
+    "cnb_digsym_ds_fnrt": {
+        "LongName": "DIGSYM Median Response Time for False Negative Responses for Matching Trials",
+        "Units": "ms"
+    },
+    "cnb_digsym_dsmemcr": {
+        "LongName": "DIGSYM Total Correct Responses for Recall Trials"
+    },
+    "cnb_digsym_dsmemin": {
+        "LongName": "DIGSYM Median Response Time for Correct Responses for Recall Trials",
+        "Units": "ms"
+    },
+    "cnb_digsym_dsmcrrt": {
+      "LongName": "DIGSYM Median Response Time for Correct Responses for Recall Trials",
+      "Units": "ms"
+    },
+    "cnb_digsym_dsminrt": {
+        "LongName": "DIGSYM Median Response Time for Incorrect Responses for Recall Trials",
+        "Units": "ms"
+    },
+    "cnb_digsym_valid_code": {
+        "LongName": "Validation Code for entire Digist Symbol Test",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+  }

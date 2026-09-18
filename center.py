@@ -1,220 +1,285 @@
 #!/usr/bin/env python3
-"""Center/Hub script for Nvidia FLARE federated analysis with mixed-effects models.
+"""Federation Head for federated learning with mixed-effects models.
 
-Distributes workers and coordinates the federated learning process.
-Implements FedAvg aggregation for mixed-effects models with:
-- Random effects at worker level (local)
-- Fixed effects at hub level (global)
+Orchestrates Training Heads via HTTP REST API calls.
+Implements FedAvg aggregation with sample-weighted averaging.
+
+API Call Order per round:
+1. Health Check (GET /health)
+2. Initialize Local Models (POST /initialize)
+3. Start Local Training (POST /train)
+4. Poll Training Status (GET /status)
+5. Retrieve Local Weights (GET /weights)
+6. Aggregate With FedAvg
+7. Start Next Round
 
 Usage:
-    python center.py --port 8080 --n-workers 2 --n-rounds 5
+    python center.py --rounds 5 --epochs 10
 """
 
 import argparse
+import base64
+import io
 import json
-import socket
-import threading
 import time
 from pathlib import Path
+from typing import List, Optional
 
+import requests
 import torch
 import torch.nn as nn
 
 
 class MixedEffectsModel(nn.Module):
-    """Mixed-effects model with fixed effects (global) and random effects (local)."""
-    
-    def __init__(self, n_fixed_features, n_random_features):
+    def __init__(self, n_fixed_features: int, n_random_features: int):
         super().__init__()
         self.fixed_weights = nn.Linear(n_fixed_features, 1, bias=False)
         self.random_weights = nn.Linear(n_random_features, 1, bias=False)
-        
-    def forward(self, x_fixed, x_random):
+
+    def forward(self, x_fixed: torch.Tensor, x_random: torch.Tensor) -> torch.Tensor:
         fixed_output = self.fixed_weights(x_fixed)
         random_output = self.random_weights(x_random)
         return (fixed_output + random_output).squeeze(-1)
 
 
-class Hub:
-    """Hub server for federated learning with mixed-effects models."""
-    
-    def __init__(self, port=8080, n_workers=2, n_fixed_features=10, 
-                 n_random_features=5, n_rounds=5, n_local_epochs=10):
-        self.port = port
-        self.n_workers = n_workers
+def encode_state_dict(state_dict: dict) -> str:
+    buffer = io.BytesIO()
+    cpu_state = {k: v.detach().cpu() for k, v in state_dict.items()}
+    torch.save(cpu_state, buffer)
+    return base64.b64encode(buffer.getvalue()).decode("ascii")
+
+
+def decode_state_dict(payload: str) -> dict:
+    raw = base64.b64decode(payload.encode("ascii"), validate=True)
+    buffer = io.BytesIO(raw)
+    try:
+        return torch.load(buffer, map_location="cpu", weights_only=True)
+    except TypeError:
+        buffer.seek(0)
+        return torch.load(buffer, map_location="cpu")
+
+
+def fedavg(weight_payloads: List[dict]) -> dict:
+    decoded = [
+        (decode_state_dict(item["weights"]), int(item["num_samples"]))
+        for item in weight_payloads
+    ]
+    total_samples = sum(n for _, n in decoded)
+    if total_samples <= 0:
+        raise ValueError("FedAvg requires at least one sample")
+    global_state = {}
+    for key in decoded[0][0]:
+        global_state[key] = sum(
+            state[key].float() * (n / total_samples) for state, n in decoded
+        )
+    return global_state
+
+
+class FederationHead:
+    def __init__(self, training_head_urls, n_rounds=5, n_epochs=10,
+                 n_fixed_features=10, n_random_features=5, poll_interval=1.0):
+        self.training_head_urls = training_head_urls
+        self.n_rounds = n_rounds
+        self.n_epochs = n_epochs
         self.n_fixed_features = n_fixed_features
         self.n_random_features = n_random_features
-        self.n_rounds = n_rounds
-        self.n_local_epochs = n_local_epochs
-        
-        # Global model with fixed effects
+        self.poll_interval = poll_interval
         self.global_model = MixedEffectsModel(n_fixed_features, n_random_features)
-        
-        # Store worker connections
-        self.workers = {}
-        self.worker_updates = {}
+        self.current_round = 0
+        self.model_version = "global_v0"
         self.round_metrics = []
-        
-    def start(self):
-        """Start the hub server."""
-        print(f"[Hub] Starting server on port {self.port}")
-        print(f"[Hub] Waiting for {self.n_workers} workers...")
-        
-        # Create socket server
-        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        server.bind(('localhost', self.port))
-        server.listen(self.n_workers)
-        
-        # Accept worker connections
-        while len(self.workers) < self.n_workers:
-            client, address = server.accept()
-            worker_id = client.recv(1024).decode()
-            self.workers[worker_id] = client
-            print(f"[Hub] Worker {worker_id} connected from {address}")
-            
-            # Send global model to worker
-            model_data = self.serialize_model()
-            client.send(model_data)
-        
-        print(f"[Hub] All {self.n_workers} workers connected")
-        
-        # Run federated training
-        for round_num in range(self.n_rounds):
-            print(f"\n[Hub] Round {round_num + 1}/{self.n_rounds}")
-            
-            # Collect updates from all workers
-            self.collect_updates()
-            
-            # Aggregate updates (FedAvg)
-            self.aggregate_updates()
-            
-            # Send updated model to all workers
-            self.broadcast_model()
-            
-            # Log round metrics
-            self.log_round_metrics(round_num)
-        
-        # Save final model and metrics
-        self.save_results()
-        
-        # Wait a moment for workers to receive final update
-        time.sleep(1)
-        
-        # Close connections
-        for worker_id, client in self.workers.items():
+
+    def run(self):
+        print(f"[Federation Head] Training Heads: {self.training_head_urls}")
+        print(f"[Federation Head] Rounds: {self.n_rounds}, Epochs: {self.n_epochs}")
+
+        for round_num in range(1, self.n_rounds + 1):
+            print(f"\n{'='*60}")
+            print(f"[Federation Head] Round {round_num}/{self.n_rounds}")
+            print(f"{'='*60}")
+
+            self.current_round = round_num
+            self.model_version = f"global_v{round_num}"
+
+            if not self._health_check():
+                print("[Federation Head] Health check failed. Aborting.")
+                break
+            if not self._initialize_models():
+                print("[Federation Head] Initialize failed. Aborting.")
+                break
+            if not self._start_training():
+                print("[Federation Head] Start training failed. Aborting.")
+                break
+            if not self._poll_training():
+                print("[Federation Head] Training failed. Aborting.")
+                break
+            payloads = self._retrieve_weights()
+            if not payloads:
+                print("[Federation Head] Retrieve weights failed. Aborting.")
+                break
+            self._aggregate_weights(payloads)
+            self._log_round(payloads)
+
+        self._save_results()
+        print(f"\n{'='*60}")
+        print("[Federation Head] Training complete")
+        print(f"{'='*60}")
+
+    def _health_check(self) -> bool:
+        print("\n[FH] Step 1: Health Check")
+        ok = True
+        for url in self.training_head_urls:
             try:
-                client.close()
-            except:
-                pass
-        server.close()
-        
-        print("[Hub] Training complete")
-        
-    def collect_updates(self):
-        """Collect model updates from all workers."""
-        self.worker_updates = {}
-        
-        for worker_id, client in self.workers.items():
-            # Receive update from worker
-            update_data = client.recv(4096)
-            update = self.deserialize_update(update_data)
-            self.worker_updates[worker_id] = update
-            
-        print(f"[Hub] Collected updates from {len(self.worker_updates)} workers")
-        
-    def aggregate_updates(self):
-        """Aggregate worker updates using FedAvg."""
-        # Average random effects from all workers
-        random_weights_list = []
-        for worker_id, update in self.worker_updates.items():
-            random_weights_list.append(update['random_weights'])
-        
-        # Stack and average
-        avg_random_weights = torch.mean(torch.stack(random_weights_list), dim=0)
-        
-        # Update global model
-        self.global_model.random_weights.weight.data = avg_random_weights
-        
-        print("[Hub] Aggregated model updates (FedAvg)")
-        
-    def broadcast_model(self):
-        """Send updated global model to all workers."""
-        model_data = self.serialize_model()
-        
-        for worker_id, client in self.workers.items():
-            client.send(model_data)
-            
-        print("[Hub] Broadcasted updated model to all workers")
-        
-    def serialize_model(self):
-        """Serialize model to bytes."""
-        return json.dumps({
-            'fixed_weights': self.global_model.fixed_weights.weight.data.tolist(),
-            'random_weights': self.global_model.random_weights.weight.data.tolist()
-        }).encode()
-        
-    def deserialize_update(self, data):
-        """Deserialize worker update from bytes."""
-        update = json.loads(data.decode())
-        return {
-            'random_weights': torch.tensor(update['random_weights']),
-            'metrics': update.get('metrics', {})
+                r = requests.get(f"{url}/health", timeout=5)
+                if r.status_code == 200:
+                    print(f"  OK {url}: {r.json().get('status')}")
+                else:
+                    print(f"  FAIL {url}: HTTP {r.status_code}")
+                    ok = False
+            except requests.RequestException as e:
+                print(f"  FAIL {url}: {e}")
+                ok = False
+        return ok
+
+    def _initialize_models(self) -> bool:
+        print("\n[FH] Step 2: Initialize Models")
+        weights = None if self.current_round == 1 else encode_state_dict(self.global_model.state_dict())
+        payload = {
+            "round": self.current_round,
+            "model_version": self.model_version,
+            "weights": weights,
+            "weights_format": "torch_state_dict_base64",
         }
-        
-    def log_round_metrics(self, round_num):
-        """Log metrics for the current round."""
-        # Calculate average metrics from workers
-        avg_loss = 0
-        for worker_id, update in self.worker_updates.items():
-            if 'metrics' in update and 'loss' in update['metrics']:
-                avg_loss += update['metrics']['loss']
-        
-        if self.worker_updates:
-            avg_loss /= len(self.worker_updates)
-        
+        ok = True
+        for url in self.training_head_urls:
+            try:
+                r = requests.post(f"{url}/initialize", json=payload, timeout=10)
+                if r.status_code == 200:
+                    print(f"  OK {url}: {r.json().get('status')}")
+                else:
+                    print(f"  FAIL {url}: HTTP {r.status_code}")
+                    ok = False
+            except requests.RequestException as e:
+                print(f"  FAIL {url}: {e}")
+                ok = False
+        return ok
+
+    def _start_training(self) -> bool:
+        print("\n[FH] Step 3: Start Training")
+        payload = {"round": self.current_round, "model_version": self.model_version, "epochs": self.n_epochs}
+        ok = True
+        for url in self.training_head_urls:
+            try:
+                r = requests.post(f"{url}/train", json=payload, timeout=10)
+                if r.status_code == 200:
+                    print(f"  OK {url}: {r.json().get('status')}")
+                else:
+                    print(f"  FAIL {url}: HTTP {r.status_code}")
+                    ok = False
+            except requests.RequestException as e:
+                print(f"  FAIL {url}: {e}")
+                ok = False
+        return ok
+
+    def _poll_training(self) -> bool:
+        print("\n[FH] Step 4: Poll Status")
+        status = {u: "training" for u in self.training_head_urls}
+        pending = set(self.training_head_urls)
+
+        while pending:
+            time.sleep(self.poll_interval)
+            for url in list(pending):
+                try:
+                    r = requests.get(f"{url}/status", timeout=5)
+                    if r.status_code == 200:
+                        d = r.json()
+                        s = d.get("status", "unknown")
+                        status[url] = s
+                        epoch = d.get("epoch", "?")
+                        total = d.get("total_epochs", "?")
+                        loss = d.get("train_loss", "?")
+                        if s == "training":
+                            print(f"  {url}: epoch {epoch}/{total}, loss={loss}")
+                        elif s == "completed":
+                            print(f"  OK {url}: completed")
+                            pending.discard(url)
+                        elif s == "failed":
+                            print(f"  FAIL {url}: {d.get('error')}")
+                            pending.discard(url)
+                except requests.RequestException as e:
+                    print(f"  FAIL {url}: {e}")
+                    status[url] = "failed"
+                    pending.discard(url)
+
+        return all(s == "completed" for s in status.values())
+
+    def _retrieve_weights(self) -> List[dict]:
+        print("\n[FH] Step 5: Retrieve Weights")
+        payloads = []
+        for url in self.training_head_urls:
+            try:
+                r = requests.get(f"{url}/weights", timeout=10)
+                if r.status_code == 200:
+                    d = r.json()
+                    payloads.append(d)
+                    print(f"  OK {url}: {d.get('num_samples')} samples")
+                else:
+                    print(f"  FAIL {url}: HTTP {r.status_code}")
+            except requests.RequestException as e:
+                print(f"  FAIL {url}: {e}")
+        return payloads
+
+    def _aggregate_weights(self, payloads: List[dict]):
+        print("\n[FH] Step 6: FedAvg Aggregation")
+        global_state = fedavg(payloads)
+        self.global_model.load_state_dict(global_state)
+        print(f"  Aggregated from {len(payloads)} Training Heads")
+
+    def _log_round(self, payloads: List[dict]):
+        total_samples = sum(p.get("num_samples", 0) for p in payloads)
+        avg_metrics = {}
+        for p in payloads:
+            for k, v in p.get("metrics", {}).items():
+                avg_metrics.setdefault(k, []).append(v)
+        avg_metrics = {k: sum(v) / len(v) for k, v in avg_metrics.items()}
         self.round_metrics.append({
-            'round': round_num + 1,
-            'avg_loss': avg_loss,
-            'n_workers': len(self.worker_updates)
+            "round": self.current_round,
+            "total_samples": total_samples,
+            "metrics": avg_metrics,
         })
-        
-        print(f"[Hub] Round {round_num + 1} metrics: avg_loss={avg_loss:.4f}")
-        
-    def save_results(self):
-        """Save final model and training metrics."""
-        # Save model
-        model_path = Path("hub_model.pt")
+        print(f"\n  Round {self.current_round} Summary: samples={total_samples}, metrics={avg_metrics}")
+
+    def _save_results(self):
+        model_path = Path("federation_model.pt")
         torch.save(self.global_model.state_dict(), model_path)
-        print(f"[Hub] Model saved to {model_path}")
-        
-        # Save metrics
-        metrics_path = Path("hub_metrics.json")
-        with open(metrics_path, 'w') as f:
+        print(f"\n[Federation Head] Model saved to {model_path}")
+        metrics_path = Path("federation_metrics.json")
+        with open(metrics_path, "w") as f:
             json.dump(self.round_metrics, f, indent=2)
-        print(f"[Hub] Metrics saved to {metrics_path}")
+        print(f"[Federation Head] Metrics saved to {metrics_path}")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Nvidia FLARE Hub for mixed-effects models")
-    parser.add_argument("--port", type=int, default=8080, help="Hub port")
-    parser.add_argument("--n-workers", type=int, default=2, help="Number of workers to wait for")
-    parser.add_argument("--n-rounds", type=int, default=5, help="Number of federated rounds")
-    parser.add_argument("--n-local-epochs", type=int, default=10, help="Local epochs per worker")
-    parser.add_argument("--n-fixed-features", type=int, default=10, help="Number of fixed effect features")
-    parser.add_argument("--n-random-features", type=int, default=5, help="Number of random effect features")
+    parser = argparse.ArgumentParser(description="Federation Head")
+    parser.add_argument("--training-heads", nargs="+",
+                        default=["http://localhost:8001", "http://localhost:8002"],
+                        help="Training Head URLs")
+    parser.add_argument("--rounds", type=int, default=5)
+    parser.add_argument("--epochs", type=int, default=10)
+    parser.add_argument("--n-fixed-features", type=int, default=10)
+    parser.add_argument("--n-random-features", type=int, default=5)
+    parser.add_argument("--poll-interval", type=float, default=1.0)
     args = parser.parse_args()
-    
-    hub = Hub(
-        port=args.port,
-        n_workers=args.n_workers,
+
+    fh = FederationHead(
+        training_head_urls=args.training_heads,
+        n_rounds=args.rounds,
+        n_epochs=args.epochs,
         n_fixed_features=args.n_fixed_features,
         n_random_features=args.n_random_features,
-        n_rounds=args.n_rounds,
-        n_local_epochs=args.n_local_epochs
+        poll_interval=args.poll_interval,
     )
-    
-    hub.start()
+    fh.run()
 
 
 if __name__ == "__main__":

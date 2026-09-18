@@ -1,0 +1,67 @@
+{
+    "MeasurementToolMetadata": {
+      "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+      "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+    },
+    "participant_id":{
+      "Description": "participant identifier"
+    },
+    "session_id": {
+      "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+    },
+    "cnb_pcet_cr": {
+      "LongName": "PCET Total Correct Responses"
+    },
+    "cnb_pcet_rtcr": {
+      "LongName": "PCET Median Response Time for Correct Responses",
+      "Units": "ms"
+    },
+    "cnb_pcet_er": {
+      "LongName": "PCET Total Incorrect Responses"
+    },
+    "cnb_pcet_rter": {
+      "LongName": "PCET Median Response Time for Incorrect Responses",
+      "Units": "ms"
+    },
+    "cnb_pcet_num": {
+      "LongName": "PCET Total Number of Responses"
+    },
+    "cnb_pcet_rt": {
+      "LongName": "PCET Median Response Time for All Responses",
+      "Units": "ms"
+    },
+    "cnb_pcet_cat": {
+      "LongName": "PCET Total Number of Categories Achieved"
+    },
+    "cnb_pcet_cat1_tr": {
+      "LongName": "PCET Total Number of Responses for Category 1"
+    },
+    "cnb_pcet_cat2_tr": {
+      "LongName": "PCET Total Number of Responses for Category 2"
+    },
+    "cnb_pcet_cat3_tr": {
+      "LongName": "PCET Total Number of Responses for Category 3"
+    },
+    "cnb_pcet_acc2": {
+      "LongName": "PCET Calculated Accuracy Measure"
+    },
+    "cnb_pcet_cnt_750": {
+      "LongName": "PCET Total Count of Responses Under 750 milliseconds",
+      "Units": "ms"
+    },
+    "cnb_pcet_lrsr": {
+      "LongName": "PCET Longest Run of Same Responses"
+    },
+    "cnb_pcet_valid_code": {
+        "LongName": "Validation Code for entire Penn Conditional Exclusion Task",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+  }

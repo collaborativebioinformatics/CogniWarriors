@@ -1,0 +1,57 @@
+services:
+  federation-head:
+    build:
+      context: .
+      dockerfile: Dockerfile.federation-head
+    container_name: federation-head
+    depends_on:
+      - training-head-1
+      - training-head-2
+    networks:
+      - federated_net
+    command: >
+      python3 center.py
+      --training-heads http://training-head-1:8001 http://training-head-2:8002
+      --rounds 5
+      --epochs 10
+      --poll-interval 1.0
+
+  training-head-1:
+    build:
+      context: .
+      dockerfile: Dockerfile.training-head
+    container_name: training-head-1
+    networks:
+      - federated_net
+    command: >
+      python3 worker.py
+      --center-id center1
+      --data-dir /data/center1
+      --port 8001
+      --host 0.0.0.0
+    volumes:
+      - center1_data:/data/center1
+
+  training-head-2:
+    build:
+      context: .
+      dockerfile: Dockerfile.training-head
+    container_name: training-head-2
+    networks:
+      - federated_net
+    command: >
+      python3 worker.py
+      --center-id center2
+      --data-dir /data/center2
+      --port 8001
+      --host 0.0.0.0
+    volumes:
+      - center2_data:/data/center2
+
+networks:
+  federated_net:
+    driver: bridge
+
+volumes:
+  center1_data:
+  center2_data:
