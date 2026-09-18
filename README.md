@@ -11,10 +11,16 @@
 Our federated-learning proof of concept predicts **cognitive progression** — an
 executive-function (EF) composite measured at each imaging session — **structural-MRI** paired with **phenotypical** information.
 
-- **Data**: Penn LEAD (OpenNeuro `ds007116`), **132 adolescents, 225 imaging
-  sessions** (59 subjects with 1 session, 53 with 2, 20 with 3), 3 diagnostic
-  groups (TD/NC, ADHD, PRO/CHR).
-  - **Structural-MRI embedding**: Processed with FreeSurfer.
+- **Data**: Penn LEAD — behavioral/phenotype source
+  [OpenNeuro `ds007116`](https://openneuro.org/datasets/ds007116/versions/1.0.6)
+  and structural-MRI source
+  [OpenNeuro `ds007089`](https://openneuro.org/datasets/ds007089/versions/1.0.1)
+  (~1.5 GB of FreeSurfer T1w derivatives, `sourcedata>freesurfer>any>mri>*.mgz`
+  — 223 volumes + phenotype tables, organized into 4 centers) —
+  **132 adolescents, 225 imaging sessions** (59 subjects with 1 session, 53 with
+  2, 20 with 3), 3 diagnostic groups (TD/NC, ADHD, PRO/CHR).
+  - **Structural-MRI embedding**: Processed with FreeSurfer
+    ([`ds007089`](https://openneuro.org/datasets/ds007089/versions/1.0.1)).
   - **Phenotypes**: Cheap, low-burden measures (demographics, a non-target battery of
 computerized cognition tasks, self-report scales, and pubertal staging) plus a
 **structural-MRI embedding**, with no cognitive testing battery required to make
@@ -82,8 +88,11 @@ univariate association, redundancy, and VIF — see `doc/results.md`):
 
 **Image inputs**: a precomputed **80-dim structural-MRI embedding** per session,
 projected by a small trainable `ImageEmbedder` (the repo has no raw-image
-pipeline — this plays the role a CNN encoder would). Image signal alone is weak
-(R²≈0.12); phenotype alone is strong (R²≈0.6+); the fused model is the point.
+pipeline — this plays the role a CNN encoder would). The embeddings are derived
+from FreeSurfer segmentations of the T1w volumes in
+[`ds007089`](https://openneuro.org/datasets/ds007089/versions/1.0.1). Image
+signal alone is weak (R²≈0.12); phenotype alone is strong (R²≈0.6+); the fused
+model is the point.
 
 ## 5. Method: Multi-Modal Architecture and Federation
 
@@ -112,6 +121,9 @@ FusionRegressor:     concat(z_img[32], z_pheno[32], covariates[2]) = 66
   3. **Best model + early stopping** on weighted validation MSE (`--patience`).
 - Sites' training data is split **by participant** (`prepare_site_data.py`); the
   held-out test set is the same 20% of participants used by the centralized pipeline.
+  In a real deployment, each of the 4 centers of the
+  [`ds007089`](https://openneuro.org/datasets/ds007089/versions/1.0.1) split acts
+  as one federated site.
 - `--loss mse` federates fixed effects only; `--loss lmmnn` additionally
   federates the two random-effect variance terms.
 - `job.py` runs it as simulator (`sim`), POC processes (`poc`), an exported job
@@ -263,7 +275,7 @@ aggregate information, never individual records. Each site's raw data folder
 
 ## Resources
 
-- https://openneuro.org/datasets/ds007116/versions/1.0.6
-- https://openneuro.org/datasets/ds007089/versions/1.0.1
+- https://openneuro.org/datasets/ds007116/versions/1.0.6 — Penn LEAD behavioral / phenotype data
+- https://openneuro.org/datasets/ds007089/versions/1.0.1 — Penn LEAD FreeSurfer structural-MRI data
 - https://github.com/collaborativebioinformatics/Longitudinal_imaging_to_multimodality
 - https://github.com/IBM/comical/tree/main
