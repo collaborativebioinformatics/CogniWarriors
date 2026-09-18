@@ -141,7 +141,19 @@ pipeline):
 | NVFlare FedAvg, 4 sites (simulator) | 0.26 |
 | Offline FedAvg simulation, 5 seeds | 0.265 ± 0.042 |
 | Centralized (all data pooled), 5 seeds | 0.273 ± 0.055 |
+| Local LMMNN fusion run, seed 0 (Docker) | 0.239 |
 | Single site alone, 5 seeds | 0.116 ± 0.032 |
+
+Local run details: 215 sessions from 130 subjects, with a grouped
+143/33/39 train/validation/test session split. Held-out test metrics for
+`ef_composite`: model MSE 0.4959, mean-baseline MSE 0.6518, R² 0.239
+(`n_test=39`).
+
+![Local LMMNN loss curve](training/readme_assets/local_lmmnn_loss_curve.png)
+
+![Local MSE baseline loss curve](training/readme_assets/local_mse_baseline_loss_curve.png)
+
+![Local modality comparison](training/readme_assets/local_modality_comparison.png)
 
 **Federation recovers nearly all pooled-data performance without moving a single
 record.**
