@@ -4,6 +4,12 @@
 
 ![Workflow](workflow.png)
 
+*Data and study workflow.*
+
+![Federated Architecture](federated_architecture.svg)
+
+*Federated learning architecture — NVIDIA FLARE 2.9 (FedAvg) with global feature scaling.*
+
 ---
 
 ## 1. Using phenotypes to predict cognitive progression
