@@ -1,0 +1,17 @@
+[
+  {
+    "round": 1,
+    "avg_loss": 1.170590341091156,
+    "n_workers": 2
+  },
+  {
+    "round": 2,
+    "avg_loss": 1.1673652529716492,
+    "n_workers": 2
+  },
+  {
+    "round": 3,
+    "avg_loss": 1.1642476320266724,
+    "n_workers": 2
+  }
+]

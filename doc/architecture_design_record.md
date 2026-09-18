@@ -1,5 +1,35 @@
 # Architecture Design Record
 
+## Record Entry: 2026-09-18 09:29
+
+### Dataset
+- **Source**: https://openneuro.org/datasets/ds007089/versions/1.0.1
+- **Files**: sourcedata>freesurfer>any>mri>*.mgz
+
+### FLARE Configuration (flare_config.yaml)
+- **Mixed-Effects Models**: Set up to accommodate mixed-effects models in training
+- **Random Effects**: Local (worker) level
+- **Fixed Effects**: Federated (center/hub) level
+
+### Pre-trained Model Initialization and Fine-tuning Pipeline
+- **Status**: REJECTED
+- **Reason**: No pre-training anymore
+
+### Structural MRI Loading and Preprocessing Pipeline
+- **Status**: New embeddings processed but not fully integrated yet
+
+### Phenotypical Data Integration with Training Progress
+- **Status**: New embeddings processed but not fully integrated yet
+
+### Visualization Dashboard for Training Progress
+- **Status**: WIP (Work in Progress)
+- **Approach**: Start with CLI/Pythonic approaches before anything more advanced
+
+### Multi-center Coordination and Data Governance Protocols
+- **Status**: Single-center, single-worker first before anything more complicated
+- **Data Governance**: No real data governance protocols
+- **Scaffold**: Leave some scaffold for data validation / schema checking
+
 ## Record Entry: 2026-09-17 17:52
 
 - EF scores: here the original plan was to have the outcome be a composite score 'Executive Function'.
@@ -99,7 +129,7 @@
       dimensionality for negligible signal at this N.
 
 ### Outstanding
-- [ ] Fuse with an image embedder (structural MRI, deferred/owned by a
+- [x] Fuse with an image embedder (structural MRI, deferred/owned by a
       separate track) and the NVFLARE federated training loop.
 - [ ] Revisit whether Euler number / other structural QC should re-enter
       as a covariate once the image side lands.
