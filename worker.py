@@ -6,8 +6,10 @@ Implements mixed-effects model with:
 - Random effects at worker level (local)
 - Fixed effects at hub level (global, frozen during local training)
 
+Docker-ready: Connects to hub via container networking
+
 Usage:
-    python worker.py --hub-address localhost:8080 --worker-id worker_01 --data-dir ./data/center01
+    python worker.py --hub-address hub:8080 --worker-id worker_01 --data-dir /data/center01
 """
 
 import argparse
@@ -15,6 +17,7 @@ import json
 import socket
 import time
 from pathlib import Path
+from typing import Tuple
 
 import torch
 import torch.nn as nn
@@ -24,22 +27,33 @@ import numpy as np
 class MixedEffectsModel(nn.Module):
     """Mixed-effects model with fixed effects (global) and random effects (local)."""
     
-    def __init__(self, n_fixed_features, n_random_features):
+    def __init__(self, n_fixed_features: int, n_random_features: int):
         super().__init__()
         self.fixed_weights = nn.Linear(n_fixed_features, 1, bias=False)
         self.random_weights = nn.Linear(n_random_features, 1, bias=False)
         
-    def forward(self, x_fixed, x_random):
+    def forward(self, x_fixed: torch.Tensor, x_random: torch.Tensor) -> torch.Tensor:
         fixed_output = self.fixed_weights(x_fixed)
         random_output = self.random_weights(x_random)
         return (fixed_output + random_output).squeeze(-1)
+    
+    def get_random_weights(self) -> torch.Tensor:
+        """Get random effect weights."""
+        return self.random_weights.weight.data.clone()
 
 
 class Worker:
     """Worker client for federated learning with mixed-effects models."""
     
-    def __init__(self, hub_address, worker_id, data_dir, n_fixed_features=10, 
-                 n_random_features=5, n_local_epochs=10, log_interval=5, n_rounds=3):
+    def __init__(self, 
+                 hub_address: Tuple[str, int], 
+                 worker_id: str, 
+                 data_dir: str,
+                 n_fixed_features: int = 10, 
+                 n_random_features: int = 5, 
+                 n_local_epochs: int = 10, 
+                 log_interval: int = 5,
+                 n_rounds: int = 3):
         self.hub_address = hub_address
         self.worker_id = worker_id
         self.data_dir = Path(data_dir)
@@ -58,6 +72,8 @@ class Worker:
     def run(self):
         """Run the worker training loop."""
         print(f"[{self.worker_id}] Starting worker...")
+        print(f"[{self.worker_id}] Hub address: {self.hub_address}")
+        print(f"[{self.worker_id}] Data directory: {self.data_dir}")
         
         # Load local data
         x_fixed, x_random, y_true = self.load_data()
@@ -72,13 +88,13 @@ class Worker:
         client.send(self.worker_id.encode())
         
         # Receive global model from hub
-        model_data = client.recv(4096)
+        model_data = client.recv(8192)
         self.load_model_from_hub(model_data)
         print(f"[{self.worker_id}] Received global model from hub")
         
         # Run federated training rounds
         for round_num in range(self.n_rounds):
-            print(f"\n[{self.worker_id}] Round {round_num + 1}")
+            print(f"\n[{self.worker_id}] Round {round_num + 1}/{self.n_rounds}")
             
             # Local training
             metrics = self.local_train(x_fixed, x_random, y_true)
@@ -89,13 +105,14 @@ class Worker:
             
             try:
                 # Receive updated model from hub
-                model_data = client.recv(4096)
+                model_data = client.recv(8192)
                 if model_data:
                     self.load_model_from_hub(model_data)
+                    print(f"[{self.worker_id}] Received updated model from hub")
             except (ConnectionResetError, ConnectionAbortedError):
                 print(f"[{self.worker_id}] Hub closed connection")
                 break
-            
+        
         # Save result report
         self.save_report()
         
@@ -106,7 +123,7 @@ class Worker:
             pass
         print(f"[{self.worker_id}] Training complete")
         
-    def load_data(self):
+    def load_data(self) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """Load local data (random data for testing)."""
         # Generate random data for testing
         n_samples = 100
@@ -117,7 +134,7 @@ class Worker:
         
         return x_fixed, x_random, y_true
         
-    def load_model_from_hub(self, model_data):
+    def load_model_from_hub(self, model_data: bytes):
         """Load model parameters from hub."""
         params = json.loads(model_data.decode())
         
@@ -125,7 +142,7 @@ class Worker:
         self.model.fixed_weights.weight.data = torch.tensor(params['fixed_weights'])
         self.model.random_weights.weight.data = torch.tensor(params['random_weights'])
         
-    def local_train(self, x_fixed, x_random, y_true):
+    def local_train(self, x_fixed: torch.Tensor, x_random: torch.Tensor, y_true: torch.Tensor) -> dict:
         """Perform local training on worker data."""
         # Freeze fixed effects (only train random effects)
         for param in self.model.fixed_weights.parameters():
@@ -159,11 +176,11 @@ class Worker:
         # Return final metrics
         return {
             'loss': loss.item(),
-            'random_weights': self.model.random_weights.weight.data.clone(),
+            'random_weights': self.model.get_random_weights(),
             'n_samples': len(y_true)
         }
         
-    def send_update(self, client, metrics):
+    def send_update(self, client: socket.socket, metrics: dict):
         """Send model update to hub."""
         update = {
             'random_weights': metrics['random_weights'].tolist(),
@@ -189,6 +206,7 @@ class Worker:
         report = {
             'worker_id': self.worker_id,
             'n_local_epochs': self.n_local_epochs,
+            'n_rounds': self.n_rounds,
             'training_metrics': serializable_metrics,
             'final_model_state': {
                 'fixed_weights': self.model.fixed_weights.weight.data.tolist(),

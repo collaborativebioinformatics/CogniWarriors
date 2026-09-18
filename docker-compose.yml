@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  hub:
+    build:
+      context: .
+      dockerfile: Dockerfile.hub
+    container_name: federated_hub
+    ports:
+      - "8080:8080"
+    networks:
+      - federated_net
+    command: >
+      python3 center.py 
+      --port 8080 
+      --host 0.0.0.0
+      --n-workers 2 
+      --n-rounds 3 
+      --n-local-epochs 5
+    volumes:
+      - hub_data:/data
+
+  worker1:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    container_name: federated_worker_01
+    depends_on:
+      - hub
+    networks:
+      - federated_net
+    command: >
+      python3 worker.py 
+      --hub-address hub:8080 
+      --worker-id worker_01 
+      --data-dir /data/center01 
+      --n-local-epochs 5 
+      --n-rounds 3
+    volumes:
+      - worker1_data:/data/center01
+
+  worker2:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    container_name: federated_worker_02
+    depends_on:
+      - hub
+    networks:
+      - federated_net
+    command: >
+      python3 worker.py 
+      --hub-address hub:8080 
+      --worker-id worker_02 
+      --data-dir /data/center02 
+      --n-local-epochs 5 
+      --n-rounds 3
+    volumes:
+      - worker2_data:/data/center02
+
+networks:
+  federated_net:
+    driver: bridge
+
+volumes:
+  hub_data:
+  worker1_data:
+  worker2_data:

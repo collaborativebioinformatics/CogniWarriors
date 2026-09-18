@@ -1,0 +1,16 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY worker.py .
+
+# Create data directory
+RUN mkdir -p /data/center01 /data/center02
+
+# Default command (can be overridden)
+CMD ["python3", "worker.py", "--hub-address", "hub:8080", "--worker-id", "worker_01", "--data-dir", "/data/center01", "--n-local-epochs", "5", "--n-rounds", "3"]
