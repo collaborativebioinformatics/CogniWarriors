@@ -102,6 +102,35 @@ def missing_fraction(series):
     return series.isna().mean()
 
 
+def describe_column(col):
+    """Human-readable description for one embedder-input/covariate column,
+    for interpretability only. Expands `config.RAW_COLUMN_DESCRIPTIONS`
+    (sourced from each phenotype file's own JSON sidecar) into the derived
+    one-hot and `_was_missing` column names actually present in the final
+    matrix. Returns None for anything not covered (should not happen for a
+    column this pipeline itself produced -- surfaced as a warning in main())."""
+    if col.endswith("_was_missing"):
+        base = col[: -len("_was_missing")]
+        if base in config.CATEGORICAL_COLUMNS:
+            base_desc = config.CATEGORICAL_COLUMN_DESCRIPTIONS.get(base, base)
+            return f"Missingness indicator: 1 if '{base}' ({base_desc}) was missing in participants.tsv and imputed with the mode; 0 otherwise."
+        base_desc = config.RAW_COLUMN_DESCRIPTIONS.get(base)
+        if base_desc is None:
+            return None
+        return f"Missingness indicator: 1 if this session's '{base}' value was missing and imputed; 0 otherwise. `{base}`: {base_desc}"
+
+    for cat in config.CATEGORICAL_COLUMNS:
+        prefix = f"{cat}_"
+        if col.startswith(prefix):
+            level = col[len(prefix):]
+            levels = config.CATEGORICAL_LEVEL_DESCRIPTIONS.get(cat, {})
+            if level in levels:
+                base_desc = config.CATEGORICAL_COLUMN_DESCRIPTIONS.get(cat, cat)
+                return f"One-hot indicator: {base_desc} = '{level}' ({levels[level]})"
+
+    return config.RAW_COLUMN_DESCRIPTIONS.get(col)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", default=str(config.PHENOTYPE_FEATURES_TSV))
@@ -174,12 +203,22 @@ def main():
     out_path.parent.mkdir(parents=True, exist_ok=True)
     result.to_csv(out_path, sep="\t", index=False)
 
+    column_descriptions = {}
+    undescribed = []
+    for col in embedder_input_columns + config.COVARIATE_COLUMNS:
+        desc = describe_column(col)
+        if desc is None:
+            undescribed.append(col)
+        else:
+            column_descriptions[col] = desc
+
     manifest = {
         "n_rows": len(result),
         "embedder_input_columns": embedder_input_columns,
         "covariate_columns": config.COVARIATE_COLUMNS,
         "dropped_columns": dropped_columns,
         "imputation_values": imputation_values,
+        "column_descriptions": column_descriptions,
     }
     manifest_path = Path(args.manifest_out)
     manifest_path.write_text(json.dumps(manifest, indent=2, default=str))
@@ -189,6 +228,9 @@ def main():
     print(f"Dropped columns (>{config.MISSING_DROP_THRESHOLD:.0%} missing): "
           f"{list(dropped_columns.keys()) or 'none'}")
     print(f"Manifest written to {manifest_path}")
+    if undescribed:
+        print(f"WARNING: no column_descriptions entry for: {undescribed} "
+              "-- add to config.RAW_COLUMN_DESCRIPTIONS")
 
     # Spot-check: one-hot groups should sum to 1 per row.
     for col in categorical_candidate_columns:

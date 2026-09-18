@@ -6,9 +6,12 @@
 phenotype feature matrix construction, phenotype MLP embedder +
 sanity-check regression.
 
-**Not yet implemented** (separate track): structural/functional image
-embedder, late fusion of image + phenotype embeddings, NVFLARE federated
-training loop across simulated institutes.
+**Also implemented, documented separately**: the image embedder, late
+fusion of image + phenotype embeddings, and an LMMNN random-effects loss
+for the repeated-imaging-session structure -- see `doc/fusion_lmmnn.md`.
+
+**Not yet implemented**: the NVFLARE federated training loop across
+simulated institutes.
 
 ## 1. Data
 
@@ -170,6 +173,20 @@ one-per-column to one-per-administered-block, so 106 near-duplicate
 indicator pairs still remain post-pruning (down from 163, only because
 there are fewer columns overall) — see Section 5.
 
+**Interpretability**: the manifest (`phenotype_feature_manifest.json`)
+now includes a `column_descriptions` field — one human-readable
+description per embedder-input/covariate column, for every one of the 99
+(97 + 2 covariates). Sourced from each phenotype file's own BIDS-style
+JSON sidecar (`LongName`/`Description` fields in `data/phenotype/*.json`)
+or `participants.json`, not invented — see `config.RAW_COLUMN_DESCRIPTIONS`,
+`CATEGORICAL_COLUMN_DESCRIPTIONS`, and `CATEGORICAL_LEVEL_DESCRIPTIONS`,
+expanded per column by `build_phenotype_input.py`'s `describe_column()`
+(one-hot levels and `_was_missing` indicators are derived automatically,
+not hand-listed). `cnb_trails_rtcr`/`cnb_digsym_dscor`/`cnb_digsym_dscorrt`
+carry the EF-adjacency caveat from the open item above directly in their
+description text, so it surfaces wherever the manifest is read, not only
+in this doc.
+
 ### Missing-value handling
 
 1. Any candidate column missing in more than 50% of sessions would be
@@ -209,12 +226,10 @@ produces useful embeddings — see `doc/results.md` for the numbers.
 
 ## 5. What's still missing
 
-- Structural (or functional) image embedder — a separate track, not
-  started as part of this pipeline.
-- Late fusion of image + phenotype embeddings into one joint model.
 - The NVFLARE federated training loop across simulated institutes.
-- Re-introducing structural-MRI QC (Euler number) as a covariate once the
-  image side lands (it was explicitly dropped from this pipeline's scope).
+- Re-introducing structural-MRI QC (Euler number) as a covariate now that
+  the image side exists (`doc/fusion_lmmnn.md`) — it was explicitly dropped
+  from this pipeline's scope, not from the fusion model's.
 - Collapsing the `_was_missing` indicators to one flag per administered
   battery/form instead of one per column (see Section 3.2).
 - Deciding where `age`/`session_index` concatenate in the eventual fusion

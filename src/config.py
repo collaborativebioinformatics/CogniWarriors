@@ -55,9 +55,6 @@ EF_TASKS = {
     },
 }
 
-# Files excluded from the EF composite deliberately, but still phenotype-embedder input.
-EF_ADJACENT_EXCLUDED_FROM_COMPOSITE = ["trailmaking_test_a", "digit_symbol"]
-
 MIN_TASKS_REQUIRED = 2
 
 # CNB valid_code levels (documented identically in every task's JSON sidecar):
@@ -106,15 +103,17 @@ NON_EF_COGNITION_TASKS = {
     "delay_discounting_task": {"columns": ["cnb_ddisc_tot", "cnb_ddisc_rt"], "valid_code_column": "cnb_ddisc_valid_code"},
     "effort_discounting_task": {"columns": ["cnb_edisc_rt"], "valid_code_column": "cnb_edisc_valid_code"},  # tot: p=0.214, cut
     "risk_discounting_task": {"columns": ["cnb_rdisc_rt"], "valid_code_column": "cnb_rdisc_valid_code"},  # tot: p=0.575, cut
-    # EF-adjacent tasks deliberately excluded from the EF composite (see
-    # EF_ADJACENT_EXCLUDED_FROM_COMPOSITE) but still valid phenotype input.
-    # cr dropped: constant (25.0) across all 225 sessions post-imputation --
-    # zero variance, zero information. rtcr kept despite being the single
-    # strongest univariate predictor in the whole table (|r|=0.66) -- flagged
-    # in doc/results.md as a near-EF-tautology risk, not silently trusted.
-    "trailmaking_test_a": {"columns": ["cnb_trails_rtcr"], "valid_code_column": "cnb_trails_valid_code"},
-    "digit_symbol": {"columns": ["cnb_digsym_dscor", "cnb_digsym_dscorrt"], "valid_code_column": "cnb_digsym_valid_code"},
 }
+
+# Files excluded from phenotype input entirely (not just the EF composite):
+# Trail Making A and Digit Symbol are the same processing-speed/set-shifting
+# construct family as Trail Making B, which IS one of the 5 EF_TASKS. Their
+# columns were the top univariate predictors of ef_composite (|r| up to 0.67,
+# and |r|=0.63-0.70 against z_trailmaking_test_b specifically) -- close
+# enough to the target's own construct to be tautological rather than
+# independent phenotype signal, even though the raw values are not literally
+# duplicated from the EF_TASKS files (see doc/results.md).
+EF_ADJACENT_EXCLUDED_FROM_PHENOTYPE_INPUT = ["trailmaking_test_a", "digit_symbol"]
 
 # Self-report scales: summary/subscale columns only (item-level responses
 # excluded to keep dimensionality sane at N~225); redundant total-vs-average
@@ -157,6 +156,143 @@ TANNER_COMPLETE_COLUMN = {
     "tanner_girl": "tanner_developmental_girls_complete",
 }
 
+# Human-readable descriptions for every surviving raw/candidate column, for
+# interpretability only -- not used by any pipeline logic. Sourced from each
+# phenotype file's own BIDS-style JSON sidecar (`LongName`/`Description`
+# fields in data/phenotype/*.json) or participants.json, not invented here.
+# build_phenotype_input.py expands these into a full per-embedder-input-
+# column description (one-hot levels, `_was_missing` indicators) written to
+# the manifest as `column_descriptions`.
+RAW_COLUMN_DESCRIPTIONS = {
+    "age": "Age in fractional years at this session (from sessions.tsv, not participants.tsv's baseline-only age)",
+    "session_index": "Session order for this participant (1st/2nd/3rd scan), derived by ranking session numbers in sessions.tsv",
+    # CNB non-EF cognition tasks (Penn Computerized Neurobehavioral Battery)
+    "cnb_cpf_cr": "Penn Face Memory Test (CPF) -- total correct responses",
+    "cnb_cpf_rtcr": "Penn Face Memory Test (CPF) -- median response time for correct responses (ms)",
+    "cnb_cpw_cr": "Penn Word Memory Test (CPW) -- total correct responses",
+    "cnb_cpw_rtcr": "Penn Word Memory Test (CPW) -- median response time for correct responses (ms)",
+    "cnb_volt_cr": "Visual Object Learning Test (VOLT) -- total correct responses",
+    "cnb_er40_cr": "Penn Emotion Recognition Task, 40 faces (ER40) -- total correct responses",
+    "cnb_er40_rtcr": "Penn Emotion Recognition Task (ER40) -- median response time for correct responses (ms)",
+    "cnb_medf_cr": "Measured Emotion Differentiation Test (MEDF) -- total correct responses",
+    "cnb_medf_rtcr": "Measured Emotion Differentiation Test (MEDF) -- median response time for correct responses (ms)",
+    "cnb_adt_cr": "Age Differentiation Test (ADT) -- total correct responses",
+    "cnb_adt_rtcr": "Age Differentiation Test (ADT) -- median response time for correct responses (ms)",
+    "cnb_pmat_cr": "Penn Matrix Reasoning Test (PMAT) -- total correct responses",
+    "cnb_pvrt_cr": "Penn Verbal Reasoning Test (PVRT) -- total correct responses",
+    "cnb_pvrt_rtcr": "Penn Verbal Reasoning Test (PVRT) -- median response time for correct responses (ms)",
+    "cnb_plot_cr": "Variable Short Penn Line Orientation Test (PLOT) -- total correct responses",
+    "cnb_mpract_mp2": "Motor Praxis Test (MPRACT) -- total correct responses",
+    "cnb_mpract_mp2rtcr": "Motor Praxis Test (MPRACT) -- median response time for correct responses (ms)",
+    "cnb_ctap_dom": "Short Computerized Finger-Tapping Task (CTAP) -- mean taps, dominant hand",
+    "cnb_ctap_non": "Short Computerized Finger-Tapping Task (CTAP) -- mean taps, non-dominant hand",
+    "cnb_ddisc_tot": "Delay Discounting Task (DDISC) -- count of total delay chosen (impulsivity / preference-for-immediacy measure)",
+    "cnb_ddisc_rt": "Delay Discounting Task (DDISC) -- median reaction time (ms)",
+    "cnb_edisc_rt": "Effort Discounting Task (EDISC) -- median reaction time (ms)",
+    "cnb_rdisc_rt": "Risk Discounting Task, child version (RDISC) -- median reaction time (ms)",
+    # Self-report scales (summary/subscale totals; see doc/method.md 3.2 for
+    # which scales were pruned out entirely)
+    "bas_rr": "BIS/BAS Child -- Behavioral Activation System, Reward Responsiveness subscale (sum of items 8-12)",
+    "ari_total_score": "Affective Reactivity Index (ARI) -- total irritability score (sum of items 1-6)",
+    "asrm_total_score": "Altman Self-Rating Mania Scale (ASRM) -- total score (sum of 5 items)",
+    "rpas_total_score": "Revised Physical Anhedonia Scale (RPAS) -- total score (sum of 15 true/false items, several reverse-scored)",
+    "mapssr_social_total": "Motivation and Pleasure Scale, Self-Report (MAP-SR) -- Social pleasure subscale (sum of items 1-3)",
+    "mapssr_recvoc_total": "Motivation and Pleasure Scale, Self-Report (MAP-SR) -- Recreational/Vocational pleasure subscale (sum of items 4-6)",
+    "im_average": "Wolf Intrinsic/Extrinsic Motivation Scale -- Intrinsic Motivation average (mean of IM items)",
+    "em_average": "Wolf Intrinsic/Extrinsic Motivation Scale -- Extrinsic Motivation average (mean of EM items)",
+    "eswan_adhd_inattention_total": "E-SWAN ADHD Scale -- Inattention subscale (sum of items 1-9)",
+    "prime_total_score": "PRIME psychosis-risk screen -- total score (sum of items 1-12, not adjusted for symptom duration)",
+    # Derived / engineered
+    "tanner_mean_stage": "Tanner pubertal staging -- mean stage across the sex-appropriate item set (boy: 6 items, girl: 8 items), sex-coalesced into one column",
+    # Diagnosis flags (participants.tsv, clinical interview at timepoint 1)
+    "dx_none": "1 if the participant had no clinical diagnosis at the timepoint-1 clinical interview; 0 if they had at least one",
+    "dx_prodromal": "1 if the participant had prodromal psychosis / subthreshold psychosis spectrum disorder at the timepoint-1 clinical interview",
+    "dx_prodromal_remit": "1 if the participant had prodromal psychosis / subthreshold psychosis spectrum disorder now in remission",
+    "dx_psychosis": "1 if the participant had a threshold psychosis spectrum disorder diagnosis at the timepoint-1 clinical interview",
+    "dx_moodnos": "1 if the participant had a non-specific (NOS) mood disorder diagnosis at the timepoint-1 clinical interview",
+    "dx_mdd": "1 if the participant had a major depressive disorder diagnosis at the timepoint-1 clinical interview",
+    "dx_bp": "1 if the participant had a bipolar disorder diagnosis at the timepoint-1 clinical interview",
+    "dx_adhd": "1 if the participant had an ADHD diagnosis at the timepoint-1 clinical interview",
+    "dx_ptsd": "1 if the participant had a PTSD diagnosis at the timepoint-1 clinical interview",
+    "dx_ptsd_remit": "1 if the participant had a PTSD diagnosis now in remission",
+}
+
+# Categorical columns (one-hot encoded): base description + per-level text,
+# both from participants.json. Used to expand e.g. `study_group_ADHD` into
+# a full description rather than just echoing the column name.
+CATEGORICAL_COLUMN_DESCRIPTIONS = {
+    "study_group": "Experimental group the participant belonged to",
+    "sex": "Sex of the participant as reported by the participant",
+    "race": "Race of the participant as reported by the participant",
+    "ethnicity": "Ethnicity of the participant as reported by the participant",
+}
+CATEGORICAL_LEVEL_DESCRIPTIONS = {
+    "study_group": {
+        "ADHD": "participants with ADHD",
+        "TD/NC": "typically developing comparator participants",
+        "PRO/CHR": "participants with psychosis or at clinical high risk for psychosis",
+    },
+    "sex": {"M": "male", "F": "female"},
+    "race": {
+        "White": "White",
+        "Black or African American": "Black or African American",
+        "Asian": "Asian",
+        "Unknown or not reported": "Unknown or not reported",
+        "More than one race": "More than one race",
+    },
+    "ethnicity": {"Hispanic": "Hispanic", "Non - Hispanic": "Non-Hispanic"},
+}
+
 # Structural-MRI QC (Euler number) is out of scope here -- that's the
 # image-side teammate's territory. Only session-level covariates we own.
 COVARIATE_COLUMNS = ["age", "session_index"]
+
+# --- Fusion model (image + phenotype) + LMMNN random-effects loss ---
+
+# Regression target(s), pulled from ef_composite.tsv. Single source of
+# truth: swap to the 5 per-task z-score columns (all already present in
+# that file) to go from 1 to 5 targets -- nothing else needs to change.
+TARGET_COLUMNS = ["ef_composite"]
+# To predict the 5 EF sub-scores instead, swap in (all already present in
+# ef_composite.tsv, no upstream changes needed):
+# TARGET_COLUMNS = [
+#     "z_short_letter_2back",
+#     "z_penn_conditional_exclusion_task",
+#     "z_penn_abstraction_inhibition_working_memory_task",
+#     "z_short_penn_continuous_performance_test",
+#     "z_trailmaking_test_b",
+# ]
+
+IMAGE_DIR = DATA_ROOT / "images"
+IMAGE_EMBEDDING_DIR = IMAGE_DIR / "embeddings"
+# Both concatenated -- this "train/test" split is by session-count
+# (single- vs multi-session subjects), not an ML split. Do not reuse it
+# as a train/test split; grouped splitting is done fresh in the training
+# script instead.
+IMAGE_EMBEDDING_FILES = ["train_embedding.csv", "test_embedding.csv"]
+IMAGE_EMBEDDING_DIM = 80
+
+IMAGE_EMBEDDING_OUTPUT_DIM = 32  # mirrors PhenotypeEmbedder's embedding_dim
+FUSION_HIDDEN_DIM = 64
+FUSION_BATCH_SIZE = 32
+FUSION_OUTPUT_DIR = Path(__file__).resolve().parents[1] / "results"
+FUSION_CHECKPOINT_PATH = FUSION_OUTPUT_DIR / "fusion_lmmnn.pt"
+LR = 1e-3
+WEIGHT_DECAY = 1e-3
+MAX_EPOCHS = 300
+PATIENCE = 20
+
+# Chosen fusion architecture -- "current" from architecture_search.py, not
+# "wide". "wide" won on val MSE but has ~2.8x the parameters (56k) on only
+# 143 training rows, and its margin over "current" was smaller than the
+# run-to-run noise from MPS non-determinism across seeds -- not a robust
+# enough win to justify the extra capacity/overfitting risk. Single source
+# of truth: both training and checkpoint metadata read this dict, so the
+# architecture is guaranteed to match what a saved checkpoint expects.
+FUSION_ARCHITECTURE = dict(
+    image_embedding_dim=32,
+    phenotype_embedding_dim=32,
+    embedder_hidden_dim=64,
+    head_hidden_dims=[64],
+    head_dropout=0.3,
+)
