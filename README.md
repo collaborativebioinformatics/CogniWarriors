@@ -138,16 +138,22 @@ pipeline):
 
 | Setting | R² |
 |---|---|
-| NVFlare FedAvg, 4 sites (simulator) | 0.26 |
-| Offline FedAvg simulation, 5 seeds | 0.265 ± 0.042 |
-| Centralized (all data pooled), 5 seeds | 0.273 ± 0.055 |
-| Local LMMNN fusion run, seed 0 (Docker) | 0.239 |
-| Single site alone, 5 seeds | 0.116 ± 0.032 |
+| NVFLARE FedAvg, 4 sites (local simulator, seed 0) | 0.128 |
+| Offline FedAvg simulation, 5 local seeds | 0.279 ± 0.039 |
+| Centralized (all data pooled), 5 local seeds | 0.275 ± 0.043 |
+| Single site alone, 5 local seeds | 0.126 ± 0.038 |
 
-Local run details: 215 sessions from 130 subjects, with a grouped
-143/33/39 train/validation/test session split. Held-out test metrics for
-`ef_composite`: model MSE 0.4959, mean-baseline MSE 0.6518, R² 0.239
-(`n_test=39`).
+Local Docker calculation details: active `training_docker_v1` code/data,
+`ef_composite`, IID 4-site split, MSE loss, same 39-session held-out test set.
+The NVFLARE simulator row used seed 0, 100 max rounds, 3 local epochs, and
+stopped after 37 rounds (`MSE=0.5673`, `MAE=0.5268`). The offline comparison
+rows used seeds 0-4, 150 max rounds, and 3 local epochs.
+
+![Local R2 comparison](training/readme_assets/local_results_r2_comparison.png)
+
+Additional local LMMNN sanity run: seed 0, grouped 143/33/39
+train/validation/test session split, held-out `R²=0.239` (`model_MSE=0.4959`,
+`mean_baseline_MSE=0.6518`, `n_test=39`).
 
 ![Local LMMNN loss curve](training/readme_assets/local_lmmnn_loss_curve.png)
 
@@ -155,8 +161,8 @@ Local run details: 215 sessions from 130 subjects, with a grouped
 
 ![Local modality comparison](training/readme_assets/local_modality_comparison.png)
 
-**Federation recovers nearly all pooled-data performance without moving a single
-record.**
+**In the local offline comparison, FedAvg recovers pooled-data performance
+without moving a single record.**
 
 - **Modularity** — every block is swappable: swap the image embedder for
   vertex-wise/functional-connectivity/raw-volume features, swap the 1 target for
