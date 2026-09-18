@@ -71,7 +71,8 @@ One continuous target per session — the **EF composite** — the mean of 5 CNB
 ## 4. Method: Predictors
 
 **Phenotype inputs** (97 columns after selection from an initial 161, pruned by
-univariate association, redundancy, and VIF — see `doc/results.md`):
+univariate association, redundancy, and VIF — see
+`pending_cleanup/docs/project_docs/results.md` for the archived project notes):
 
 - **Demographics + diagnosis flags** one-hot encoded: `study_group`, `sex`,
   `race`, `ethnicity`, and 10 `dx_*` diagnostic flags.
@@ -111,7 +112,8 @@ FusionRegressor:     concat(z_img[32], z_pheno[32], covariates[2]) = 66
 - **LMMNN loss** replaces MSE: Gaussian NLL with per-subject random intercept,
   minibatched with subject-grouped sampling (closed-form Sherman–Morrison — no
   dense matrix inverses).
-- **Federation (NVFLARE 2.9 FedAvg)** — `federated/flare/`:
+- **Federation (NVFLARE 2.9 FedAvg)** —
+  `training_docker_v1/federated/flare/`:
   1. **Global scaling (once)**: the server combines per-site column
      sums/sums-of-squares/counts into one global mean/std, stored *inside* the
      model (`FedFusionModel` buffers) so every site scales identically and the
@@ -168,22 +170,22 @@ record.**
 
 ### 1. Install
 ```bash
-pip install -r requirements.txt        # nvflare==2.9.0 is pinned on purpose
+pip install -r training_docker_v1/requirements-flare.txt  # nvflare==2.9.0 is pinned on purpose
 ```
 
 ### 2. Prepare the site data
 ```bash
-python federated/flare/prepare_site_data.py --n-sites 4
+python training_docker_v1/federated/flare/prepare_site_data.py --n-sites 4
 ```
 
 ### 3. Train & evaluate (simulator)
 ```bash
-python federated/flare/job.py --mode sim --n-sites 4 --rounds 100
-python federated/flare/evaluate_global.py \
+python training_docker_v1/federated/flare/job.py --mode sim --n-sites 4 --rounds 100
+python training_docker_v1/federated/flare/evaluate_global.py \
   --model /tmp/nvflare/cogniwarriors/cogniwarriors_fedavg/server/simulate_job/app_server/best_FL_global_model.pt
 ```
 
-### Full options (`federated/flare/job.py`)
+### Full options (`training_docker_v1/federated/flare/job.py`)
 
 | Flag | Default | Meaning |
 |---|---|---|
@@ -194,14 +196,15 @@ python federated/flare/evaluate_global.py \
 | `--patience` | 20 | Stop after N rounds without val improvement |
 | `--loss` | `mse` | `mse` (fixed effects) or `lmmnn` (+ random-effect variances) |
 | `--mu` | 0 | FedProx strength (0 = plain FedAvg) |
-| `--data-root` | `federated/flare/data` | Folder of per-site data folders |
+| `--data-root` | `training_docker_v1/federated/flare/data` | Folder of per-site data folders |
 
 Real deployment (separate machines): build the runtime image
-(`docker build -t cogniwarriors-flare:latest -f federated/flare/Dockerfile .`),
-provision with `nvflare provision -p federated/flare/project.yml -w provision_workspace`,
+(`docker build -t cogniwarriors-flare:latest -f training_docker_v1/federated/flare/Dockerfile training_docker_v1`),
+provision with
+`nvflare provision -p training_docker_v1/federated/flare/project.yml -w provision_workspace`,
 ship each startup kit only to its owner, start server + sites with
 `./startup/start.sh` (or `docker.sh`), and submit the job with `--mode prod`.
-See `federated/README.md`.
+For the Docker dashboard and smoke-test runbook, see `training_docker_v1/README.md`.
 
 ---
 
@@ -209,15 +212,16 @@ See `federated/README.md`.
 
 ```bash
 # Phenotype pipeline: EF composite → 97-column phenotype matrix
-python preprocessing/build_ef_composite.py
-python preprocessing/build_phenotype_input.py
+python training/build_ef_composite.py
+python training/build_phenotype_input.py
 python training/train_phenotype_sanity.py        # GroupKFold sanity check
 
 # Fused image + phenotype model with LMMNN random-effects loss
 python training/train_fusion_lmmnn.py            # trains + saves results/
 ```
 
-Run with `--loss lmmnn` to also federate the two LMMNN variance terms.
+For FLARE runs, add `--loss lmmnn` to the `job.py` command to federate the two
+LMMNN variance terms.
 
 ---
 
@@ -230,14 +234,18 @@ Run with `--loss lmmnn` to also federate the two LMMNN variance terms.
 │   ├── lmmnn_loss.py            # LMMNN random-effects loss
 │   ├── multimodal_data.py       # Data join + subject-grouped batch sampler
 │   ├── checkpoint.py            # Self-describing checkpoint + predict API
+│   ├── build_ef_composite.py    # EF composite builder
+│   ├── build_phenotype_input.py # Phenotype feature matrix builder
 │   ├── train_fusion_lmmnn.py    # Main training entrypoint
 │   └── train_phenotype_sanity.py
-├── preprocessing/               # EF composite + phenotype feature matrix builder
-├── scripts/                     # OpenNeuro download, architecture & model-family search
-├── federated/
-│   └── flare/                   # NVFLARE federation (client, controller, model, job)
-├── doc/                         # Method, results, fusion/LMMNN, architecture record
-├── data/                        # Raw + processed data (stays local to each center)
+├── training_docker_v1/          # Docker dashboard + active NVFLARE workflow
+│   ├── federated/
+│   │   └── flare/               # NVFLARE federation (client, controller, model, job)
+│   ├── monitor_app/             # Web monitor API and UI
+│   ├── docker-compose.yml       # Dashboard container entrypoint
+│   └── README.md                # Runbook and API order
+├── mri_preprocessing/           # MRI preprocessing helpers
+├── pending_cleanup/             # Archived notes, legacy prototypes, and generated artifacts
 └── README.md
 ```
 
