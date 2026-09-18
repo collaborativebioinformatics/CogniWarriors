@@ -1,68 +1,57 @@
-version: '3.8'
-
 services:
-  hub:
+  federation-head:
     build:
       context: .
-      dockerfile: Dockerfile.hub
-    container_name: federated_hub
-    ports:
-      - "8080:8080"
+      dockerfile: Dockerfile.federation-head
+    container_name: federation-head
+    depends_on:
+      - training-head-1
+      - training-head-2
     networks:
       - federated_net
     command: >
-      python3 center.py 
-      --port 8080 
+      python3 center.py
+      --training-heads http://training-head-1:8001 http://training-head-2:8002
+      --rounds 5
+      --epochs 10
+      --poll-interval 1.0
+
+  training-head-1:
+    build:
+      context: .
+      dockerfile: Dockerfile.training-head
+    container_name: training-head-1
+    networks:
+      - federated_net
+    command: >
+      python3 worker.py
+      --center-id center1
+      --data-dir /data/center1
+      --port 8001
       --host 0.0.0.0
-      --n-workers 2 
-      --n-rounds 3 
-      --n-local-epochs 5
     volumes:
-      - hub_data:/data
+      - center1_data:/data/center1
 
-  worker1:
+  training-head-2:
     build:
       context: .
-      dockerfile: Dockerfile.worker
-    container_name: federated_worker_01
-    depends_on:
-      - hub
+      dockerfile: Dockerfile.training-head
+    container_name: training-head-2
     networks:
       - federated_net
     command: >
-      python3 worker.py 
-      --hub-address hub:8080 
-      --worker-id worker_01 
-      --data-dir /data/center01 
-      --n-local-epochs 5 
-      --n-rounds 3
+      python3 worker.py
+      --center-id center2
+      --data-dir /data/center2
+      --port 8001
+      --host 0.0.0.0
     volumes:
-      - worker1_data:/data/center01
-
-  worker2:
-    build:
-      context: .
-      dockerfile: Dockerfile.worker
-    container_name: federated_worker_02
-    depends_on:
-      - hub
-    networks:
-      - federated_net
-    command: >
-      python3 worker.py 
-      --hub-address hub:8080 
-      --worker-id worker_02 
-      --data-dir /data/center02 
-      --n-local-epochs 5 
-      --n-rounds 3
-    volumes:
-      - worker2_data:/data/center02
+      - center2_data:/data/center2
 
 networks:
   federated_net:
     driver: bridge
 
 volumes:
-  hub_data:
-  worker1_data:
-  worker2_data:
+  center1_data:
+  center2_data:
