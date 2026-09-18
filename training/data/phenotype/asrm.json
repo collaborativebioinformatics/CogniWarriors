@@ -1,0 +1,75 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "Altman Self-Rating Mania Scale (ASRM)",
+        "Instructions": "There are 5 statement groups on this questionnaire. Read each group of statements carefully. Choose one statement in each group that best describes the way you have been feeling for the past week. Please note: The word 'occasionally' when used here means once or twice; 'often' means several times or more; and 'frequently' measns most of the time.",
+        "TermURL": "https://doi.org/10.1016/S0006-3223(96)00548-3"
+    },
+     "participant_id": {
+        "Description": "Participant ID Number"
+    },
+    "session_id": {
+        "Description": "Session ID Number"
+    },
+    "asrm_1": {
+       "Description": "Question 1 - In the past week, I:",
+        "Levels": {
+            "1": "did not feel happier or more cheerful than usual",
+            "2": "occasionally felt happier or more cheerful than usual",
+            "3": "often felt happier or more cheerful than usual",
+            "4": "felt happier or more cheerful than usual most of the time",
+            "5": "felt happier or more cheerful than usual all of the time"
+        }
+    },
+    "asrm_2": {
+       "Description": "Question 2 - In the past week, I:",
+        "Levels": {
+            "1": "did not feel more self-confident than usual",
+            "2": "occasionally felt more self-confident than usual",
+            "3": "often felt more self-confident than usual",
+            "4": "frequently felt more self-confident than usual",
+            "5": "felt extremely self-confident all of the time"
+        }
+    },
+    "asrm_3": {
+       "Description": "Question 3 - In the past week, I:",
+        "Levels": {
+            "1": "did not need less sleep than usual",
+            "2": "occasionally needed less sleep than usual",
+            "3": "often needed less sleep than usual",
+            "4": "frequently needed less sleep than usual",
+            "5": "could go all day and night without any sleep and still not feel tired"
+        }
+    },
+    "asrm_4": {
+       "Description": "Question 4 - In the past week, I:",
+        "Levels": {
+            "1": "did not talk more than usual",
+            "2": "occasionally talked more than usual",
+            "3": "often talked more than usual",
+            "4": "frequently talked more than usual",
+            "5": "talked constantly and could not be interrupted"
+        }
+    },
+    "asrm_5": {
+       "Description": "Question 5 - In the past week, I:",
+        "Levels": {
+            "1": "have not been more active (either socially, at work, home or school) than usual",
+            "2": "have occasionally been more active than usual",
+            "3": "have often been more active than usual",
+            "4": "have frequently been more active than usual",
+            "5": "was constantly active or on the go all the time"
+        }
+    },
+    "altman_selfrating_mania_scale_asrm_complete": {
+        "Description": "Complete?",
+        "Levels": {
+            "0": "Incomplete",
+            "2": "Complete"
+        }
+    },
+    "asrm_total_score": {
+        "LongName": "asrm_total_score",
+        "Description": "Global score comprised of the sum of all items. n/a if any individual item is n/a.",
+        "Derivative": true
+    }
+}

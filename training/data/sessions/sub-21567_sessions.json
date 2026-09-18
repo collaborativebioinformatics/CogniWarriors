@@ -1,0 +1,119 @@
+{
+  "session_id": {
+    "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+  },
+  "age": {
+    "Description": "age in fractional years at the time of each session"
+  },
+  "acq_time": {
+    "Description": "Acquisition time for the session rounded to the nearest hour and half-month period for anonymization"
+  },
+  "0_back_false_positive": {
+    "Description": "False positives in 0-back",
+    "Units": "count"
+  },
+  "0_back_false_negative": {
+    "Description": "False negatives in 0-back",
+    "Units": "count"
+  },
+  "0_back_true_positive": {
+    "Description": "True positives in 0-back",
+    "Units": "count"
+  },
+  "0_back_true_negative": {
+    "Description": "True negatives in 0-back",
+    "Units": "count"
+  },
+  "2_back_false_positive": {
+    "Description": "False positives in 2-back",
+    "Units": "count"
+  },
+  "2_back_false_negative": {
+    "Description": "False negatives in 2-back",
+    "Units": "count"
+  },
+  "2_back_true_positive": {
+    "Description": "True positives in 2-back",
+    "Units": "count"
+  },
+  "2_back_true_negative": {
+    "Description": "True negatives in 2-back",
+    "Units": "count"
+  },
+  "all_back_true_positive": {
+    "Description": "True positives in 0- and 2-back",
+    "Units": "count"
+  },
+  "all_back_true_negative": {
+    "Description": "True negatives in 0- and 2-back",
+    "Units": "count"
+  },
+  "all_back_false_positive": {
+    "Description": "False positives in 0- and 2-back",
+    "Units": "count"
+  },
+  "all_back_false_negative": {
+    "Description": "False negatives in 0- and 2-back",
+    "Units": "count"
+  },
+  "0_back_all_correct": {
+    "Description": "All correct responses in 0-back (true positives + true negatives)",
+    "Units": "count"
+  },
+  "0_back_all_incorrect": {
+    "Description": "All incorrect responses in 0-back (false positives + false negatives)",
+    "Units": "count"
+  },
+  "2_back_all_correct": {
+    "Description": "All correct responses in 2-back (true positives + true negatives)",
+    "Units": "count"
+  },
+  "2_back_all_incorrect": {
+    "Description": "All incorrect responses in 2-back (false positives + false negatives)",
+    "Units": "count"
+  },
+  "all_back_all_correct": {
+    "Description": "All correct responses in 0- and 2-back (true positives + true negatives)",
+    "Units": "count"
+  },
+  "all_back_all_incorrect": {
+    "Description": "All incorrect responses in 0- and 2-back (false positives + false negatives)",
+    "Units": "count"
+  },
+  "0_back_hit_rate": {
+    "Description": "Hit rate in 0-back (true positives / targets)",
+    "Units": "proportion (0-1)"
+  },
+  "0_back_false_alarm_rate": {
+    "Description": "False alarm rate in 0-back (false positives / foils)",
+    "Units": "proportion (0-1)"
+  },
+  "2_back_hit_rate": {
+    "Description": "Hit rate in 2-back (true positives / targets)",
+    "Units": "proportion (0-1)"
+  },
+  "2_back_false_alarm_rate": {
+    "Description": "False alarm rate in 2-back (false positives / foils)",
+    "Units": "proportion (0-1)"
+  },
+  "all_back_hit_rate": {
+    "Description": "Hit rate in 0- and 2-back (true positives / targets)",
+    "Units": "proportion (0-1)"
+  },
+  "all_back_false_alarm_rate": {
+    "Description": "False alarm rate in 0- and 2-back (false positives / foils)",
+    "Units": "proportion (0-1)"
+  },
+  "0_back_dprime": {
+    "Description": "d' sensitivity index for 0-back (Z(H) - Z(FA))",
+    "Units": "arbitrary"
+  },
+  "2_back_dprime": {
+    "Description": "d' sensitivity index for 2-back (Z(H) - Z(FA))",
+    "Units": "arbitrary"
+  },
+  "all_back_dprime": {
+    "Description": "d' sensitivity index for 0- and 2-back (Z(H) - Z(FA))",
+    "Units": "arbitrary"
+  }
+}

@@ -1,0 +1,80 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "Tanner Developmental Stages Scale - Boys. Note that we only include item-level data, we do not include summary scores due to the complexities in how puberty is staged.",
+        "Instructions": "Because our research is about how children develop into teenagers and young adults, it is important for us to know where you are in terms of your physical development. You can complete this short questionnaire on your own. If you have any questions, please feel free to ask.",
+        "TermURL": "https://adc.bmj.com/content/45/239/13"
+    },
+     "participant_id": {
+        "Description": "Participant ID Number"
+    },
+    "session_id": {
+        "Description": "Session ID Number"
+    },
+    "tanner_boy_1": {
+        "Description": "Would you say that your growth in height:",
+        "Levels": {
+            "1": "Has not yet begun to spirt ('spurt' means faster growth than usual)",
+            "2": "Has barely started",
+            "3": "Is definitely underway",
+            "4": "Seems completed",
+            "5": "I don't know"
+        }
+    },
+    "tanner_boy_2": {
+        "Description": "Have you noticed any skin changes, especially pimples?",
+        "Levels": {
+            "1": "Skin has not yet started changing",
+            "2": "Skin has barely started changing",
+            "3": "Skin changes are definitely underway",
+            "4": "Skin changes seem complete",
+            "5": "I don't know"
+        }
+    },
+    "tanner_boy_3": {
+        "Description": "Have you begun to grow hair on your face?",
+        "Levels": {
+            "1": "Facial hair has not yet started growing",
+            "2": "Facial hair has barely started growing",
+            "3": "Facial hair growth has definitely started",
+            "4": "Facial hair growth seems complete",
+            "5": "I don't know"
+        }
+    },
+    "tanner_boy_4": {
+        "Description": "What about the growth of body hair ('body hair' means hair any place other than the head, such as under the arms)?",
+        "Levels": {
+            "1": "Has not yet started to grow",
+            "2": "Has barely started to grow",
+            "3": "Is definitely underway",
+            "4": "Seems completed",
+            "5": "I don't know"
+        }
+    },
+    "tanner_boy_5": {
+        "Description": "Have you noticed a deepening of your voice?",
+        "Levels": {
+            "1": "Voice has not yet started changing",
+            "2": "Voice has barely started changing",
+            "3": "Voice change is definitely underway",
+            "4": "Voice change seems complete",
+            "5": "I don't know"
+        }
+    },
+     "tanner_boy_6": {
+        "Description": "The following pictures show different stages of pubic hair growth. A boy goes through each of the five stages shown. Please look at each picture and read the sentence below it. Click non the picture that is closest to your stage. Do not look at penis size. ",
+        "Levels": {
+            "1": "Picture 1",
+            "2": "Picture 2",
+            "3": "Picture 3",
+            "4": "Picture 4",
+            "5": "Picture 5"
+        }
+    },
+    "tanner_developmental_boys_complete": {
+        "Description": "Complete?",
+        "Levels": {
+            "0": "Incomplete",
+            "2": "Complete"
+        }
+    }
+}    

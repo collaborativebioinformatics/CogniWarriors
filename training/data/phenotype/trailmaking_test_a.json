@@ -1,0 +1,67 @@
+{
+    "MeasurementToolMetadata": {
+      "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+      "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+    },
+    "participant_id":{
+        "Description": "participant identifier"
+    },
+    "session_id": {
+        "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+    },
+    "cnb_trails_form": {
+        "Description": "Describes whether data refers to TRAILS A or TRAILS B form"
+    },
+    "cnb_trails_rt": {
+        "LongName": "TRAILS Median Response Time for All Trials",
+        "Units": "ms"
+    },
+    "cnb_trails_cr": {
+        "LongName": "TRAILS Total Correct Responses"
+    },
+    "cnb_trails_rtcr": {
+        "LongName": "TRAILS Median Response Time for Correct Responses",
+        "Units": "ms"
+    },
+    "cnb_trails_er": {
+        "LongName": "TRAILS Total Incorrect Responses"
+    },
+    "cnb_trails_rter": {
+        "LongName": "TRAILS Median Response Time for Incorrect Responses",
+        "Units": "ms"
+    },
+     "cnb_trails_seq_er": {
+        "LongName": "TRAILS Total Sequencing Errors"
+    },
+    "cnb_trails_sl_er": {
+        "LongName": "TRAILS Total Set Loss Errors"
+    },
+    "cnb_trails_avg_rtcr": {
+        "LongName": "TRAILS Mean Response Time for Correct Responses",
+        "Units": "ms"
+    },
+     "cnb_trails_sd_rtcr": {
+        "LongName": "TRAILS Standard Deviation of Median Response Time for Correct Responses",
+        "Units": "ms"
+    },
+    "cnb_trails_avg_rter": {
+        "LongName": "TRAILS Mean Response Time for Incorrect Responses",
+        "Units": "ms"
+    },
+    "cnb_trails_sd_rter": {
+        "LongName": "TRAILS Standard Deviation of Median Response Time for Incorrect Responses",
+        "Units": "ms"
+    },
+    "cnb_trails_valid_code": {
+        "LongName": "Validation Code for entire Penn Trailmaking Test A",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+}

@@ -1,0 +1,45 @@
+{
+    "MeasurementToolMetadata": {
+      "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+      "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+    },
+    "participant_id":{
+        "Description": "participant identifier"
+    },
+    "session_id": {
+        "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+    },
+    "cnb_pvrt_form": {
+        "LongName": "Form of Penn Verbal Reasoning Test (PVRT)"
+    },
+    "cnb_pvrt_cr": {
+        "LongName": "PVRT Total Correct Responses"
+    },
+    "cnb_pvrt_pc": {
+        "LongName": "PVRT Percent Correct Responses"
+    },
+    "cnb_pvrt_rtto": {
+        "LongName": "PVRT Median Response Time for All Responses",
+        "Units": "ms"
+    },
+    "cnb_pvrt_rtcr": {
+        "LongName": "PVRT Median Response Time for Correct Responses",
+        "Units": "ms"
+    },
+    "cnb_pvrt_rter":{
+        "LongName": "PVRT Median Response Time for Incorrect Responses",
+        "Units": "ms"
+    },
+    "cnb_pvrt_valid_code": {
+        "LongName": "Validation Code for entire Children's Verbal Reasoning Test",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+}
