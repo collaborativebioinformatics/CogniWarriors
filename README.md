@@ -2,6 +2,8 @@
 
 *We will blow your mind.*
 
+**Predicting cognitive progression/decline with MRI and phenotype.**
+
 ![Workflow](workflow.png)
 
 *Data and study workflow.*
