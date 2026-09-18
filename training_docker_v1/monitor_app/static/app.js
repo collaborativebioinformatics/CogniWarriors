@@ -43,6 +43,18 @@ function fmtTime(timestamp) {
   return new Date(timestamp * 1000).toLocaleTimeString();
 }
 
+function drawAxisLabels(canvasCtx, width, height, padding, xLabel, yLabel) {
+  canvasCtx.save();
+  canvasCtx.fillStyle = colors.text;
+  canvasCtx.font = "600 12px Inter, sans-serif";
+  canvasCtx.textAlign = "center";
+  canvasCtx.fillText(xLabel, padding.left + (width - padding.left - padding.right) / 2, height - 14);
+  canvasCtx.translate(18, padding.top + (height - padding.top - padding.bottom) / 2);
+  canvasCtx.rotate(-Math.PI / 2);
+  canvasCtx.fillText(yLabel, 0, 0);
+  canvasCtx.restore();
+}
+
 function statusClass(status) {
   if (!status) return "healthy";
   return String(status).toLowerCase();
@@ -194,7 +206,7 @@ function drawChart(summary) {
     <span><i style="background:${colors.r2}"></i>R2</span>
   `;
 
-  const padding = { left: 58, right: 26, top: 24, bottom: 48 };
+  const padding = { left: 76, right: 26, top: 24, bottom: 72 };
   const plotW = width - padding.left - padding.right;
   const plotH = height - padding.top - padding.bottom;
   ctx.strokeStyle = colors.grid;
@@ -208,6 +220,7 @@ function drawChart(summary) {
     ctx.lineTo(width - padding.right, y);
     ctx.stroke();
   }
+  drawAxisLabels(ctx, width, height, padding, "Target", "Metric value");
 
   if (!targets.length) {
     ctx.fillText("No held-out test metrics yet.", padding.left, padding.top + 34);
@@ -245,7 +258,7 @@ function drawChart(summary) {
       ctx.fillRect(x, y, barW, barH);
     });
     ctx.fillStyle = colors.text;
-    ctx.fillText(target.target, groupX - 34, height - 18);
+    ctx.fillText(target.target, groupX - 34, height - 42);
   });
 }
 
@@ -264,7 +277,7 @@ function drawLossChart(summary) {
   ];
   document.querySelector("#loss-legend").innerHTML = legendItems.join("");
 
-  const padding = { left: 58, right: 26, top: 24, bottom: 48 };
+  const padding = { left: 76, right: 26, top: 24, bottom: 72 };
   const plotW = width - padding.left - padding.right;
   const plotH = height - padding.top - padding.bottom;
   lossCtx.strokeStyle = colors.grid;
@@ -278,6 +291,7 @@ function drawLossChart(summary) {
     lossCtx.lineTo(width - padding.right, y);
     lossCtx.stroke();
   }
+  drawAxisLabels(lossCtx, width, height, padding, "Federated round", "Loss / MSE");
 
   const values = [
     ...globals.map((item) => item.valMse),
@@ -336,7 +350,7 @@ function drawLossChart(summary) {
   rounds.forEach((round) => {
     const x = xForRound(round);
     lossCtx.fillStyle = colors.text;
-    lossCtx.fillText(`R${round}`, x - 8, height - 18);
+    lossCtx.fillText(`R${round}`, x - 8, height - 42);
   });
 
   const latestBySite = sites.map((site) =>
