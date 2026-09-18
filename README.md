@@ -77,7 +77,8 @@ One continuous target per session — the **EF composite** — the mean of 5 CNB
 ## 4. Method: Predictors
 
 **Phenotype inputs** (97 columns after selection from an initial 161, pruned by
-univariate association, redundancy, and VIF — see `doc/results.md`):
+univariate association, redundancy, and VIF — see
+`pending_cleanup/docs/project_docs/results.md` for the archived project notes):
 
 - **Demographics + diagnosis flags** one-hot encoded: `study_group`, `sex`,
   `race`, `ethnicity`, and 10 `dx_*` diagnostic flags.
@@ -117,7 +118,8 @@ FusionRegressor:     concat(z_img[32], z_pheno[32], covariates[2]) = 66
 - **LMMNN loss** replaces MSE: Gaussian NLL with per-subject random intercept,
   minibatched with subject-grouped sampling (closed-form Sherman–Morrison — no
   dense matrix inverses).
-- **Federation (NVFLARE 2.9 FedAvg)** — `federated/flare/`:
+- **Federation (NVFLARE 2.9 FedAvg)** —
+  `training_docker_v1/federated/flare/`:
   1. **Global scaling (once)**: the server combines per-site column
      sums/sums-of-squares/counts into one global mean/std, stored *inside* the
      model (`FedFusionModel` buffers) so every site scales identically and the
@@ -142,13 +144,31 @@ pipeline):
 
 | Setting | R² |
 |---|---|
-| NVFlare FedAvg, 4 sites (simulator) | 0.26 |
-| Offline FedAvg simulation, 5 seeds | 0.265 ± 0.042 |
-| Centralized (all data pooled), 5 seeds | 0.273 ± 0.055 |
-| Single site alone, 5 seeds | 0.116 ± 0.032 |
+| NVFLARE FedAvg, 4 sites (local simulator, seed 0) | 0.128 |
+| Offline FedAvg simulation, 5 local seeds | 0.279 ± 0.039 |
+| Centralized (all data pooled), 5 local seeds | 0.275 ± 0.043 |
+| Single site alone, 5 local seeds | 0.126 ± 0.038 |
 
-**Federation recovers nearly all pooled-data performance without moving a single
-record.**
+Local Docker calculation details: active `training_docker_v1` code/data,
+`ef_composite`, IID 4-site split, MSE loss, same 39-session held-out test set.
+The NVFLARE simulator row used seed 0, 100 max rounds, 3 local epochs, and
+stopped after 37 rounds (`MSE=0.5673`, `MAE=0.5268`). The offline comparison
+rows used seeds 0-4, 150 max rounds, and 3 local epochs.
+
+![Local R2 comparison](training/readme_assets/local_results_r2_comparison.png)
+
+Additional local LMMNN sanity run: seed 0, grouped 143/33/39
+train/validation/test session split, held-out `R²=0.239` (`model_MSE=0.4959`,
+`mean_baseline_MSE=0.6518`, `n_test=39`).
+
+![Local LMMNN loss curve](training/readme_assets/local_lmmnn_loss_curve.png)
+
+![Local MSE baseline loss curve](training/readme_assets/local_mse_baseline_loss_curve.png)
+
+![Local modality comparison](training/readme_assets/local_modality_comparison.png)
+
+**In the local offline comparison, FedAvg recovers pooled-data performance
+without moving a single record.**
 
 - **Modularity** — every block is swappable: swap the image embedder for
   vertex-wise/functional-connectivity/raw-volume features, swap the 1 target for
@@ -174,22 +194,22 @@ record.**
 
 ### 1. Install
 ```bash
-pip install -r requirements.txt        # nvflare==2.9.0 is pinned on purpose
+pip install -r training_docker_v1/requirements-flare.txt  # nvflare==2.9.0 is pinned on purpose
 ```
 
 ### 2. Prepare the site data
 ```bash
-python federated/flare/prepare_site_data.py --n-sites 4
+python training_docker_v1/federated/flare/prepare_site_data.py --n-sites 4
 ```
 
 ### 3. Train & evaluate (simulator)
 ```bash
-python federated/flare/job.py --mode sim --n-sites 4 --rounds 100
-python federated/flare/evaluate_global.py \
+python training_docker_v1/federated/flare/job.py --mode sim --n-sites 4 --rounds 100
+python training_docker_v1/federated/flare/evaluate_global.py \
   --model /tmp/nvflare/cogniwarriors/cogniwarriors_fedavg/server/simulate_job/app_server/best_FL_global_model.pt
 ```
 
-### Full options (`federated/flare/job.py`)
+### Full options (`training_docker_v1/federated/flare/job.py`)
 
 | Flag | Default | Meaning |
 |---|---|---|
@@ -200,14 +220,15 @@ python federated/flare/evaluate_global.py \
 | `--patience` | 20 | Stop after N rounds without val improvement |
 | `--loss` | `mse` | `mse` (fixed effects) or `lmmnn` (+ random-effect variances) |
 | `--mu` | 0 | FedProx strength (0 = plain FedAvg) |
-| `--data-root` | `federated/flare/data` | Folder of per-site data folders |
+| `--data-root` | `training_docker_v1/federated/flare/data` | Folder of per-site data folders |
 
 Real deployment (separate machines): build the runtime image
-(`docker build -t cogniwarriors-flare:latest -f federated/flare/Dockerfile .`),
-provision with `nvflare provision -p federated/flare/project.yml -w provision_workspace`,
+(`docker build -t cogniwarriors-flare:latest -f training_docker_v1/federated/flare/Dockerfile training_docker_v1`),
+provision with
+`nvflare provision -p training_docker_v1/federated/flare/project.yml -w provision_workspace`,
 ship each startup kit only to its owner, start server + sites with
 `./startup/start.sh` (or `docker.sh`), and submit the job with `--mode prod`.
-See `federated/README.md`.
+For the Docker dashboard and smoke-test runbook, see `training_docker_v1/README.md`.
 
 ---
 
@@ -223,7 +244,8 @@ python training/train_phenotype_sanity.py        # GroupKFold sanity check
 python training/train_fusion_lmmnn.py            # trains + saves results/
 ```
 
-Run with `--loss lmmnn` to also federate the two LMMNN variance terms.
+For FLARE runs, add `--loss lmmnn` to the `job.py` command to federate the two
+LMMNN variance terms.
 
 ---
 
@@ -238,12 +260,18 @@ Run with `--loss lmmnn` to also federate the two LMMNN variance terms.
 │   ├── checkpoint.py            # Self-describing checkpoint + predict API
 │   ├── train_fusion_lmmnn.py    # Main training entrypoint
 │   └── train_phenotype_sanity.py
-├── preprocessing/               # EF composite + phenotype feature matrix builder
-├── scripts/                     # OpenNeuro download, architecture & model-family search
-├── federated/
-│   └── flare/                   # NVFLARE federation (client, controller, model, job)
-├── doc/                         # Method, results, fusion/LMMNN, architecture record
-├── data/                        # Raw + processed data (stays local to each center)
+├── preprocessing/               # EF composite, phenotype feature, and MRI preprocessing
+│   ├── build_ef_composite.py    # EF composite builder
+│   ├── build_phenotype_input.py # Phenotype feature matrix builder
+│   └── segment_brain.py         # MRI segmentation helper
+├── scripts/                     # OpenNeuro download, architecture search, model-family search
+├── training_docker_v1/          # Docker dashboard + active NVFLARE workflow
+│   ├── federated/
+│   │   └── flare/               # NVFLARE federation (client, controller, model, job)
+│   ├── monitor_app/             # Web monitor API and UI
+│   ├── docker-compose.yml       # Dashboard container entrypoint
+│   └── README.md                # Runbook and API order
+├── pending_cleanup/             # Archived notes, legacy prototypes, and generated artifacts
 └── README.md
 ```
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create two center-local data roots for federated Training Heads."""
+"""Create two center-local data roots for FLARE site simulations."""
 
 from __future__ import annotations
 
