@@ -1,0 +1,52 @@
+{
+    "MeasurementToolMetadata": {
+      "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+      "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+    },
+    "participant_id":{
+      "Description": "participant identifier"
+    },
+    "session_id": {
+      "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+    },
+    "cnb_pmat_cr": {
+      "LongName": "PMAT Total Correct Responses"
+    },
+    "cnb_pmat_pc": {
+      "LongName": "PMAT Percent Correct Responses"
+    },
+    "cnb_pmat_si": {
+      "LongName": "PMAT Total Number of Skipped Trials"
+    },
+    "cnb_pmat_rtcr": {
+      "LongName": "PMAT Median Response Time for Correct Responses",
+      "Units": "ms"
+    },
+    "cnb_pmat_rter": {
+      "LongName": "PMAT Median Response Time for Incorrect Responses",
+      "Units": "ms"
+    },
+    "cnb_pmat_rtto": {
+      "LongName": "PMAT Median Response Time for All Responses",
+      "Units": "ms"
+    },
+    "cnb_pmat_cnt_200": {
+      "LongName": "PMAT Total Count of Responses Under 200 milliseconds",
+      "Units": "ms"
+    },
+    "cnb_pmat_lrsr": {
+      "LongName": "PMAT Longest Run of Same Responses"
+    },
+    "cnb_pmat_valid_code": {
+        "LongName": "Validation Code for entire Penn Matrix Reasoning Test",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+}

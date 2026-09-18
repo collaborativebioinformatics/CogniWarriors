@@ -1,0 +1,11 @@
+{
+  "session_id": {
+    "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+  },
+  "age": {
+    "Description": "age in fractional years at the time of each session"
+  },
+  "acq_time": {
+    "Description": "Acquisition time for the session rounded to the nearest hour and half-month period for anonymization"
+  }
+}

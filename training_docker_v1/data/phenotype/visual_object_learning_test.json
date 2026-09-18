@@ -1,0 +1,85 @@
+{
+    "MeasurementToolMetadata": {
+      "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+      "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+    },
+    "participant_id":{
+        "Description": "participant identifier"
+    },
+    "session_id": {
+        "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+    },
+    "cnb_volt_cr": {
+        "LongName": "VOLT Total Correct Responses"
+    },
+    "cnb_volt_rtcr": {
+        "LongName": "VOLT Median Response Time for Correct Responses",
+        "Units": "ms"
+    },
+    "cnb_volt_w_rtcr": {
+        "LongName": "VOLT Weighted Median Response Time for Correct Responses",
+        "Units": "ms"
+    },
+    "cnb_volt_er":{
+        "LongName": "VOLT Total Incorrect Responses"
+    },
+    "cnb_volt_rter": {
+        "LongName": "VOLT Median Response Time for Incorrect Responses",
+        "Units": "ms"
+    },
+    "cnb_volt_w_rter": {
+        "LongName": "VOLT Weighted Median Response Time for Incorrect Responses",
+        "Units": "ms"
+    },
+    "cnb_volt_rt": {
+        "LongName": "VOLT Median Response Time for All Responses",
+        "Units": "ms"
+    },
+    "cnb_volt_tp": {
+        "LongName": "VOLT True Positive Responses"
+    },
+    "cnb_volt_tn": {
+        "LongName": "VOLT True Negative Responses"
+    },
+    "cnb_volt_tprt": {
+        "LongName": "VOLT Median Response Time for True Positive Responses",
+        "Units": "ms"
+    },
+     "cnb_volt_tnrt": {
+        "LongName": "VOLT Median Response Time for True Negative Responses",
+        "Units": "ms"
+    },
+    "cnb_volt_fp": {
+        "LongName": "VOLT False Positive Responses"
+    },
+    "cnb_volt_fn": {
+        "LongName": "VOLT False Negative Responses"
+    },
+    "cnb_volt_fprt": {
+        "LongName": "VOLT Median Response Time for False Positive Responses",
+        "Units": "ms"
+    },
+    "cnb_volt_fnrt": {
+        "LongName": "VOLT Median Response Time for False Negative Responses",
+        "Units": "ms"
+    },
+    "cnb_volt_cnt_200": {
+        "LongName": "VOLT Total Count of Responses Under 200 milliseconds",
+        "Units": "ms"
+    },
+    "cnb_volt_lrsr": {
+        "LongName": "VOLT Longest Run of Same Responses"
+    },
+    "cnb_volt_valid_code": {
+        "LongName": "Validation Code for entire Short Visual Object Learning Test (VOLT)",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+  }

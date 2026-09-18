@@ -1,0 +1,35 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+        "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+    },
+    "participant_id":{
+        "Description": "participant identifier"
+    },
+    "session_id": {
+        "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+    },
+    "cnb_ddisc_tot": {
+        "LongName": "DDISC Count of total delay"
+    },
+    "cnb_ddisc_rt": {
+        "LongName": "DDISC Median Reaction Time",
+        "Units": "ms"
+    },
+    "cnb_ddisc_mrt": {
+        "LongName": "DDISC Mean Reaction Time",
+        "Units": "ms"
+    },
+    "cnb_ddisc_valid_code": {
+        "LongName": "Validation Code for entire Delay Discounting Task",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+}

@@ -1,0 +1,85 @@
+{
+    "MeasurementToolMetadata": {
+      "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+      "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+    },
+    "participant_id":{
+        "Description": "participant identifier"
+    },
+    "session_id": {
+        "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+    },
+    "cnb_cpw_cr": {
+        "LongName": "CPW Total Correct Responses"
+    },
+    "cnb_cpw_rtcr": {
+        "LongName": "CPW Median Response Time for Correct Responses",
+        "Units": "ms"
+    },
+    "cnb_cpw_w_rtcr": {
+        "LongName": "CPW Weighted Median Response Time for Correct Responses",
+        "Units": "ms"
+    },
+    "cnb_cpw_er": {
+        "LongName": "CPW Total Incorrect Responses"
+    },
+    "cnb_cpw_rter": {
+        "LongName": "CPW Median Response Time for Incorrect Responses",
+        "Units": "ms"
+    },
+    "cnb_cpw_w_rter": {
+        "LongName": "CPW Weighted Median Response Time for Incorrect Responses",
+        "Units": "ms"
+    },
+    "cnb_cpw_rt": {
+        "LongName": "CPW Median Response Time for All Responses",
+        "Units": "ms"
+    },
+    "cnb_cpw_tp": {
+        "LongName": "CPW True Positive Responses"
+    },
+    "cnb_cpw_tn": {
+        "LongName": "CPW True Negative Responses"
+    },
+    "cnb_cpw_tprt": {
+        "LongName": "CPW Median Response Time for True Positive Responses",
+        "Units": "ms"
+    },
+    "cnb_cpw_tnrt": {
+        "LongName": "CPW Median Response Time for True Negative Responses",
+        "Units": "ms"
+    },
+    "cnb_cpw_fp": {
+        "LongName": "CPW False Positive Responses"
+    },
+    "cnb_cpw_fn": {
+        "LongName": "CPW False Negative Responses"
+    },
+    "cnb_cpw_fprt": {
+        "LongName": "CPW Median Response Time for False Positive Responses",
+        "Units": "ms"
+    },
+    "cnb_cpw_fnrt": {
+        "LongName": "CPW Median Response Time for False Negative Responses",
+        "Units": "ms"
+    },
+    "cnb_cpw_cnt_200": {
+        "LongName": "CPW Total Count of Responses Under 200 milliseconds",
+        "Units": "ms"
+    },
+    "cnb_cpw_lrsr": {
+        "LongName": "CPW Longest Run of Same Responses"
+    },
+    "cnb_cpw_valid_code": {
+        "LongName": "Validation Code for entire Children's Penn Word Memory Test",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+}

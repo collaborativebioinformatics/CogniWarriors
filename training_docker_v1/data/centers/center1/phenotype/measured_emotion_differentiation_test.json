@@ -1,0 +1,118 @@
+{
+    "MeasurementToolMetadata": {
+      "Description": "The Penn Computerized Neurobehavioral Battery (CNB) is an online cognitive assessment consisting of a series of tasks that measure accuracy and speed of performance in major cognitive domains.",
+      "TermURL": "https://webcnp.med.upenn.edu/assessments.pl?start=1"
+    },
+    "participant_id":{
+      "Description": "participant identifier"
+    },
+    "session_id": {
+      "Description": "BIDS session label assigned chronologically via Flywheel created timestamp"
+    },
+    "cnb_medf_cr": {
+      "LongName": "MEDF Total Correct Responses"
+    },
+    "cnb_medf_pc": {
+      "LongName": "MEDF Percent Correct Responses"
+    },
+    "cnb_medf_rtcr": {
+      "LongName": "MEDF Median Response Time for Correct Responses",
+      "Units": "ms"
+    },
+    "cnb_medf_er": {
+      "LongName": "MEDF Total Incorrect Responses"
+    },
+    "cnb_medf_rter": {
+      "LongName": "MEDF Median Response Time for Incorrect Responses",
+      "Units": "ms"
+    },
+    "cnb_medf_ang_cr": {
+      "LongName": "MEDF Correct Anger Trial Responses"
+    },
+    "cnb_medf_ang_rtcr": {
+      "LongName": "MEDF Median Response Time for Correct Anger Trial Responses",
+      "Units": "ms"
+    },
+    "cnb_medf_ang_er": {
+      "LongName": "MEDF Incorrect Anger Trial Responses"
+    },
+    "cnb_medf_ang_rter": {
+      "LongName": "MEDF Median Response Time for Incorrect Anger Trial Responses",
+      "Units": "ms"
+    },
+    "cnb_medf_fear_cr": {
+      "LongName": "MEDF Correct Fear Trial Responses"
+    },
+    "cnb_medf_fear_rtcr": {
+      "LongName": "MEDF Median Response Time for Correct Fear Trial Responses",
+      "Units": "ms"
+    },
+    "cnb_medf_fear_er": {
+      "LongName": "MEDF Incorrect Fear Trial Responses"
+    },
+    "cnb_medf_fear_rter": {
+      "LongName": "MEDF Median Response Time for Incorrect Fear Trial Responses",
+      "Units": "ms"
+    },
+    "cnb_medf_female_cr": {
+      "LongName": "MEDF Correct Female Trial Responses"
+    },
+    "cnb_medf_female_rtcr": {
+      "LongName": "MEDF Median Response Time for Correct Female Trial Responses",
+      "Units": "ms"
+    },
+    "cnb_medf_hap_cr": {
+      "LongName": "MEDF Correct Happy Trial Responses"
+    },
+    "cnb_medf_hap_rtcr": {
+      "LongName": "MEDF Median Response Time for Correct Happy Trial Responses",
+      "Units": "ms"
+    },
+    "cnb_medf_hap_er": {
+      "LongName": "MEDF Incorrect Happy Trial Responses"
+    },
+    "cnb_medf_hap_rter": {
+      "LongName": "MEDF Median Response Time for Incorrect Happy Trial Responses",
+      "Units": "ms"
+    },
+    "cnb_medf_male_cr": {
+      "LongName": "MEDF Correct Male Trial Responses"
+    },
+    "cnb_medf_male_rtcr": {
+      "LongName": "MEDF Median Response Time for Correct Male Trial Responses",
+      "Units": "ms"
+    },
+    "cnb_medf_sad_cr": {
+      "LongName": "MEDF Correct Sad Trial Responses"
+    },
+    "cnb_medf_sad_rtcr": {
+      "LongName": "MEDF Median Response Time for Correct Sad Trial Responses",
+      "Units": "ms"
+    },
+    "cnb_medf_sad_er": {
+      "LongName": "MEDF Incorrect Sad Trial Responses"
+    },
+    "cnb_medf_sad_rter": {
+      "LongName": "MEDF Median Response Time for Incorrect Sad Trial Responses",
+      "Units": "ms"
+    },
+    "cnb_medf_cnt_200": {
+      "LongName": "MEDF Total Count of Responses Under 200 milliseconds",
+      "Units": "ms"
+    },
+    "cnb_medf_lrsr": {
+      "LongName": "MEDF Longest Run of Same Responses"
+    },
+    "cnb_medf_valid_code": {
+        "LongName": "Validation Code for entire Measured Emotion Differentiation Test",
+        "Levels": {
+        "V": "Valid",
+        "F": "Likely valid, problem occurred which affected performance for a limited number of responses/mild to moderate effect",
+        "0": "No autovalidation rule available",
+        "S": "Skipped",
+        "N": "Not Valid",
+        "C": "Assessor Comment",
+        "X": "Excluded"
+        }
+    }
+  }

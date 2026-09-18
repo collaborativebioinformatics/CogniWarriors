@@ -1,0 +1,193 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "Affective Lability Scale (ALS)",
+        "Instructions": "For each of the following items, please rate how generally true each statement is for you.",
+        "TermURL": "https://doi.org/10.3389/fpsyg.2018.00427"
+    },
+    "participant_id": {
+        "Description": "Participant ID Number"
+    },
+    "session_id": {
+        "Description": "Session ID Number"
+    },
+    "als_1": {
+        "Description": "At times I feel just as relaxed as everyone else and then within minutes I become so nervous that I feel light-headed and dizzy.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_2": {
+        "Description": "There are times when I have very little energy and then soon afterwards I have the same energy level as most people.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_3": {
+        "Description": "One minute I can be feeling OK and then the next minute I'm tense, jittery, and nervous.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_4": {
+        "Description": "I frequently switch frmo being able to control my temper very well to not being able to control it very well at all.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_5": {
+        "Description": "Many times I feel very nervous and tense and then suddenly feel very sad and down.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_6": {
+        "Description": "Sometimes I go from feeling extremely anxious about something to feeling very down about it.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_7": {
+        "Description": "I shift back and forth from feeling perfectly calm to feeling uptight and nervous.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_8": {
+        "Description": "There are times when I feel perfectly calm one minute and then the next minute the least little thing makes me furious.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_9": {
+        "Description": "Frequently, I will be feeling OK but then I suddenly get so mad that I could hit something.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_10": {
+        "Description": "Sometimes I can think clearly and concentrate well one minute and then the next minute I have a great deal of difficulty concentrating and thinking clearly.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_11": {
+        "Description": "There are times when I am so mad that I can barely stop yelling and other times shortly afterwards when I wouldn't think of yelling at all.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_12": {
+        "Description": "I switch back and forth between being extremely energetic and having so little energy that it's a huge effort just to get where I'm going.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_13": {
+        "Description": "There are times when I feel absolutely wonderful about myself but soon afterwards I often feel that I am just about the same as everyone else.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_14": {
+        "Description": "There are times when I'm so mad that my heart starts pounding and/or I start shaking and then shortly afterwards I feel quite relaxed.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_15": {
+        "Description": "I shift back and forth between being very unproductive and being just a productive as everyone else.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_16": {
+        "Description": "Sometimes I feel extremely energetic one minute and then the next minute I might have so little energy that I can barely do a thing.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_17": {
+        "Description": "There are times when I have more energy than usual and more than most people and then soon afterwards I have about the same energy level as everyone else.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "als_18": {
+        "Description": "At times I feel that I'm doing everything at a slow pace but then soon afterwards I feel that I'm no more slowed down than anyone else.",
+        "Levels": {
+            "0": "Very Uncharacteristic of Me/Extremely Undescriptive",
+            "1": "Rather Uncharacteristic of Me/Quite Undescriptive",
+            "2": "Rather Characteristic of Me/Quite Descriptive",
+            "3": "Very Characteristic of Me/Extremely Descriptive"
+        }
+    },
+    "affective_lability_scale_als18_complete": {
+        "Description": "Whether or not scale was completed",
+        "Levels": {
+            "0": "Incomplete",
+            "2": "Complete"
+        }
+    },
+    "als_total_score": {
+        "LongName": "als_total_score",
+        "Description": "Global score comprised of the sum of all items. n/a if any individual item is n/a.",
+        "Derivative": true
+    },
+    "als_avg_score": {
+        "LongName": "als_avg_score",
+        "Description": "Global score comprised of the average of all items. n/a if any individual item is n/a.",
+        "Derivative": true
+    }
+
+}

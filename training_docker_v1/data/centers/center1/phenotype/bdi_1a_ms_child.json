@@ -1,0 +1,184 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "Beck Depression Inventory - Child, Modified Suicide Version",
+        "Instructions": "On this questionnaire are groups of statements. Please read each group of statements carefully. Then select one statement in each group which best describes the way you have been feeling in the PAST WEEK, INCLUDING TODAY!",
+        "TermURL": "https://pubmed.ncbi.nlm.nih.gov/13688369/"
+    },
+     "participant_id": {
+        "Description": "Participant ID Number"
+    },
+    "session_id": {
+        "Description": "Session ID Number"
+    },
+    "bdi_ms_child_1": {
+        "Levels": {
+            "0": "I do not feel sad.",
+            "1": "I feel sad.",
+            "2": "I am sad all the time and I can't snap out of it.",
+            "3": "I am so sad or unhappy that I can't stand it."
+        }
+    },
+    "bdi_ms_child_2": {
+        "Levels": {
+            "0": "I am not particularly discouraged about the future.",
+            "1": "I feel discouraged about the future.",
+            "2": "I feel I have nothing to look forward to.",
+            "3": "I feel that the future is hopeless and that things cannot improve."
+        }
+    },
+    "bdi_ms_child_3": {
+        "Levels": {
+            "0": "I do not feel like a failure.",
+            "1": "I feel I have failed more than the average person.",
+            "2": "As I look back on my life, all I can see is a lot of failures.",
+            "3": "I feel I am a complete failure as a person."
+        }
+    },
+    "bdi_ms_child_4": {
+        "Levels": {
+            "0": "I get as much satisfaction out of things as I used to.",
+            "1": "I don't enjoy things the way I used to.",
+            "2": "I don't get real satisfaction out of anything anymore.",
+            "3": "I am dissatisfied or bored with everything."
+        }
+    },
+    "bdi_ms_child_5": {
+        "Levels": {
+            "0": "I don't feel particularly guilty.",
+            "1": "I feel guilty a good part of the time.",
+            "2": "I feel guilty most of the time.",
+            "3": "I feel guilty all of the time."
+        }
+    },
+    "bdi_ms_child_6": {
+        "Levels": {
+            "0": "I don't feel I am being punished.",
+            "1": "I feel I may be punished.",
+            "2": "I expect to be punished.",
+            "3": "I feel I am being punished."
+        }
+    },
+    "bdi_ms_child_7": {
+        "Levels": {
+            "0": "I don't feel disappointed in myself.",
+            "1": "I am disappointed in myself.",
+            "2": "I am disgusted with myself.",
+            "3": "I hate myself."
+        }
+    },
+    "bdi_ms_child_8": {
+        "Levels": {
+            "0": "I don't feel I am any worse than anybody else.",
+            "1": "I am critical of myself for my weaknesses and mistakes.",
+            "2": "I blame myself all the time for my faults.",
+            "3": "I blame myself for everything bad that happens."
+        }
+    },
+    "bdi_ms_child_10": {
+        "Levels": {
+            "0": "I don't cry any more than usual.",
+            "1": "I cry now more than I used to.",
+            "2": "I cry all the time now.",
+            "3": "I used to be able to cry, but now I can't even though I want to."
+        }
+    },
+    "bdi_ms_child_11": {
+        "Levels": {
+            "0": "I am no more irritated now than I ever am.",
+            "1": "I get annoyed or irritated more easily than I used to.",
+            "2": "I feel irritated all the time now.",
+            "3": "I don't get irritated at all by the things that used to irritate me."
+        }
+    },
+    "bdi_ms_child_12": {
+        "Levels": {
+            "0": "I have not lost interest in other people.",
+            "1": "I am less interested in other people than I used to be.",
+            "2": "I have lost most of my interest in other people.",
+            "3": "I have lost all of my interest in other people."
+        }
+    },
+    "bdi_ms_child_13": {
+        "Levels": {
+            "0": "I make decisions as well as I ever could.",
+            "1": "I put off making decisions more than I used to.",
+            "2": "I have greater difficulty in making decisions than before.",
+            "3": "I can't make decisions at all any more."
+        }
+    },
+    "bdi_ms_child_14": {
+        "Levels": {
+            "0": "I don't feel I look any worse than I used to.",
+            "1": "I am worried that I am looking old or unattractive.",
+            "2": "I feel that there are permanent changes in my appearance that make me look unattractive.",
+            "3": "I believe that I look ugly."
+        }
+    },
+    "bdi_ms_child_15": {
+        "Levels": {
+            "0": "I can work about as well as before.",
+            "1": "It takes an extra effort to get started at doing something.",
+            "2": "I have to push myself very hard to do anything.",
+            "3": "I can't do any work at all anymore."
+        }
+    },
+    "bdi_ms_child_16": {
+        "Levels": {
+            "0": "I can sleep as well as usual.",
+            "1": "I don't sleep as well as I used to.",
+            "2": "I wake up 1-2 hours earlier than usual and find it hard to get back to sleep.",
+            "3": "I wake up several hours earlier than I used to and cannot get back to sleep."
+        }
+    },
+    "bdi_ms_child_17": {
+        "Levels": {
+            "0": "I don't get more tired than usual.",
+            "1": "I get tired more easily than I used to.",
+            "2": "I get tired from doing almost anything.",
+            "3": "I am too tired to do anything."
+        }
+    },
+    "bdi_ms_child_18": {
+        "Levels": {
+            "0": "My appetite is no worse than usual.",
+            "1": "My appetite is not as good as it used to be.",
+            "2": "My appetite is much worse now.",
+            "3": "I have no appetite at all anymore."
+        }
+    },
+    "bdi_ms_child_19": {
+        "Levels": {
+            "0": "I haven't lost much weight, if any, lately.",
+            "1": "I have lost more than 5 pounds.",
+            "2": "I have lost more than 10 pounds.",
+            "3": "I have lost more than 15 pounds."
+        }
+    },
+    "bdi_ms_child_19a": {
+        "Description": "I am purposely trying to lose weight.",
+        "Levels": {
+            "0": "No",
+            "1": "Yes"
+        }
+    },
+    "bdi_ms_child_20": {
+        "Levels": {
+            "0": "I am no more worried about my health than usual.",
+            "1": "I am worried about physical problems such as aches or pains, upset stomachs, or constipation.",
+            "2": "I am very worried about physical problems and it's hard to think of much else.",
+            "3": "I am so worried about my physical problems that I cannot think about anything else."
+        }
+    },
+    "beck_depression_inventory_modified_suicide_child_b_complete": {
+        "Description": "Complete?",
+        "Levels": {
+            "0": "Incomplete",
+            "2": "Complete"
+        }
+    },
+    "bdi_1a_ms_child_total_score": {
+        "LongName": "bdi_1a_ms_child_total_score",
+        "Description": "Global score comprised of the sum of all items. n/a if any individual item is n/a.",
+        "Derivative": true
+    }
+}

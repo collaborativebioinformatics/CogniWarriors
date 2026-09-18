@@ -1,0 +1,129 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "Positive and Negative Affect Schedule (PANAS)",
+        "Instructions": "This scale includes a number of words that describe different feelings and emotions. Read each word and then select the answer that best describes how much you feel that emotion in general, that is, on average.",
+        "TermURL": "https://doi.org/10.1037/0022-3514.54.6.1063"
+    },
+     "participant_id": {
+        "Description": "Participant ID Number"
+    },
+    "session_id": {
+        "Description": "Session ID Number"
+    },
+    "panas_1": {
+        "Description": "Joyful",
+        "Levels": {
+            "1": "Very Slightly",
+            "2": "A Little",
+            "3": "Moderately",
+            "4": "Quite a Bit",
+            "5": "Extremely"
+        }
+    },
+    "panas_2": {
+        "Description": "Miserable",
+        "Levels": {
+            "1": "Very Slightly",
+            "2": "A Little",
+            "3": "Moderately",
+            "4": "Quite a Bit",
+            "5": "Extremely"
+        }
+    },
+    "panas_3": {
+        "Description": "Cheerful",
+        "Levels": {
+            "1": "Very Slightly",
+            "2": "A Little",
+            "3": "Moderately",
+            "4": "Quite a Bit",
+            "5": "Extremely"
+        }
+    },
+    "panas_4": {
+        "Description": "Mad",
+        "Levels": {
+            "1": "Very Slightly",
+            "2": "A Little",
+            "3": "Moderately",
+            "4": "Quite a Bit",
+            "5": "Extremely"
+        }
+    },
+    "panas_5": {
+        "Description": "Happy",
+        "Levels": {
+            "1": "Very Slightly",
+            "2": "A Little",
+            "3": "Moderately",
+            "4": "Quite a Bit",
+            "5": "Extremely"
+        }
+    },
+    "panas_6": {
+        "Description": "Afraid",
+        "Levels": {
+            "1": "Very Slightly",
+            "2": "A Little",
+            "3": "Moderately",
+            "4": "Quite a Bit",
+            "5": "Extremely"
+        }
+    },
+    "panas_7": {
+        "Description": "Lively",
+        "Levels": {
+            "1": "Very Slightly",
+            "2": "A Little",
+            "3": "Moderately",
+            "4": "Quite a Bit",
+            "5": "Extremely"
+        }
+    },
+    "panas_8": {
+        "Description": "Scared",
+        "Levels": {
+            "1": "Very Slightly",
+            "2": "A Little",
+            "3": "Moderately",
+            "4": "Quite a Bit",
+            "5": "Extremely"
+        }
+    },
+    "panas_9": {
+        "Description": "Proud",
+        "Levels": {
+            "1": "Very Slightly",
+            "2": "A Little",
+            "3": "Moderately",
+            "4": "Quite a Bit",
+            "5": "Extremely"
+        }
+    },
+    "panas_10": {
+        "Description": "Sad",
+        "Levels": {
+            "1": "Very Slightly",
+            "2": "A Little",
+            "3": "Moderately",
+            "4": "Quite a Bit",
+            "5": "Extremely"
+        }
+    },
+    "positive_and_negative_affect_schedule_child_panas_complete": {
+        "Description": "Whether or not the scale was completed",
+        "Levels": {
+            "0": "Incomplete",
+            "2": "Complete"
+        }
+    },
+    "panas_sum_pos": {
+        "LongName": "PANAS Positive Total Score",
+        "Description": "Sum of odd items to get positive affect summary score. n/a if any of the individual odd number items are n/a.",
+        "Derivative": true
+    },
+    "panas_sum_neg": {
+        "LongName": "PANAS Negative Total Score",
+        "Description": "Sum of even items to get negative affect summary score. n/a if any of the indidivudal even number items are n/a."
+    }
+}    
